@@ -37,7 +37,10 @@ public class UsuarioService {
     }
 
     public boolean validarEmail(String email) {
-        return email.contains("@") && email.endsWith(".com");
+        String regexRFC5322 = "^(?:[a-zA-Z0-9_'^&amp;/+-])+(?:\\." +
+                              "[a-zA-Z0-9_'^&amp;/+-]+)*@" +
+                              "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
+        return email != null && email.matches(regexRFC5322);
     }
 
     public boolean fazerLogin(String email, String senhaDigitada) {
