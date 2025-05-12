@@ -21,7 +21,7 @@
          <children>
             <ImageView fitHeight="816.0" fitWidth="1393.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/Group%201.png" />
+                  <Image url="@../../../../Downloads/TelaCadastro2.png" />
                </image>
             </ImageView>
             <TextField fx:id="txtEmail" layoutX="202.0" layoutY="450.0" prefHeight="49.0" prefWidth="355.0" promptText="Email" styleClass="logincadastro2-txtfield">
