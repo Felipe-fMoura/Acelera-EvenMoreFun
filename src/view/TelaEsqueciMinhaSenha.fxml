@@ -5,8 +5,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
@@ -18,11 +16,6 @@
       <Rectangle fx:id="retanguloFundoCadastro" arcHeight="20.0" arcWidth="20.0" fill="#2b2638" height="757.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1154.0" />
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  <AnchorPane fx:id="AnchorPane" styleClass="painel-central" StackPane.alignment="CENTER">  
          <children>
-            <ImageView fitHeight="816.0" fitWidth="1393.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/Frame%203.png" />
-               </image>
-            </ImageView>
             <TextField fx:id="txtEmail" layoutX="645.0" layoutY="409.0" prefHeight="56.0" prefWidth="475.0" promptText="Email" styleClass="logincadastro-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
@@ -66,14 +59,6 @@
                </font>
             </PasswordField>
             <Button fx:id="btnEntrar" layoutX="173.0" layoutY="585.0" mnemonicParsing="false" onAction="#onBtnEntrar" opacity="0.0" prefHeight="22.0" prefWidth="90.0" styleClass="logincadastro-btn" textFill="WHITE">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor>
-            </Button>
-            <Button fx:id="btnEsqueciMinhaSenha" layoutX="134.0" layoutY="664.0" mnemonicParsing="false" onAction="#onBtnEsqueciMinhaSenha" opacity="0.0" prefHeight="35.0" prefWidth="165.0" styleClass="logincadastro-btn" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
