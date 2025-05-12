@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
@@ -75,6 +76,7 @@
                </opaqueInsets>
             </TextField>
             <DatePicker fx:id="dataNasc" layoutX="163.0" layoutY="562.0" />
+            <ComboBox fx:id="comboBoxGenero" layoutX="464.0" layoutY="359.0" prefWidth="150.0" promptText="Gênero" />
          </children>
       </AnchorPane>
    </children>

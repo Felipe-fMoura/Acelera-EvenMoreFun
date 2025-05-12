@@ -11,7 +11,9 @@ public class Usuario {
     private String senha;
     private String telefone;
     private String CPF;
+    private String Genero;
     private LocalDate dataNascimento;
+    
 
     public Usuario(String username, String email, String senha) {
         this.username = username;
@@ -82,6 +84,14 @@ public class Usuario {
 
 	public void setCPF(String cPF) {
 		CPF = cPF;
+	}
+
+	public String getGenero() {
+		return Genero;
+	}
+
+	public void setGenero(String genero) {
+		Genero = genero;
 	}
     
     

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -21,6 +22,9 @@ public class TelaCadastro2Controller {
 	
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 	Alertas a = new Alertas();
+	
+	@FXML
+	private ComboBox<String> comboBoxGenero;
 
 	@FXML
 	private TextField txtNome;
@@ -37,8 +41,16 @@ public class TelaCadastro2Controller {
 	@FXML
 	private DatePicker dataNasc;
 	
-	private Usuario usuario;
+	  @FXML
+	    private void initialize() {
+	        // Adiciona os itens ao ComboBox
+	        comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro", "Prefiro não dizer","Geladeira","Maquina de combate","Tun Tun sahur");
+	    }
 
+
+	
+	private Usuario usuario;
+	
 	public void setUsuario(Usuario usuario) {
 	    this.usuario = usuario;
 	}
@@ -69,6 +81,7 @@ public class TelaCadastro2Controller {
 	            usuario.setTelefone(txtTelefone.getText());
 	            usuario.setCPF(txtCPF.getText());
 	            usuario.setDataNascimento(dataNasc.getValue());
+	            usuario.setGenero(comboBoxGenero.getValue());
 
 	            
 	            //imprimir no console, salvar em uma lista ou ir pra próxima tela
@@ -80,6 +93,7 @@ public class TelaCadastro2Controller {
 	            System.out.println("Telefone: " + usuario.getTelefone());
 	            System.out.println("CPF: " + usuario.getCPF());
 	            System.out.println("Nascimento: " + usuario.getDataNascimento().toString());
+	            System.out.println("Genêro: "+usuario.getGenero());
 	            
 
 	            
