@@ -10,6 +10,7 @@ public class Usuario {
     private String email;
     private String senha;
     private String telefone;
+    private String CPF;
     private LocalDate dataNascimento;
 
     public Usuario(String username, String email, String senha) {
@@ -74,4 +75,14 @@ public class Usuario {
     public void setDataNascimento(LocalDate dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
+
+	public String getCPF() {
+		return CPF;
+	}
+
+	public void setCPF(String cPF) {
+		CPF = cPF;
+	}
+    
+    
 }

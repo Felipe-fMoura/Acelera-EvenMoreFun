@@ -42,6 +42,33 @@ public class UsuarioService {
                               "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
         return email != null && email.matches(regexRFC5322);
     }
+    
+    public boolean validarTelefone(String telefone) {
+        return telefone.matches("\\d{10,11}");
+    }
+
+    public boolean validarCPF(String cpf) {
+        cpf = cpf.replaceAll("[^\\d]", "");
+        if (cpf.length() != 11 || cpf.matches("(\\d)\\1{10}")) return false;
+        try {
+            int soma = 0, peso = 10;
+            for (int i = 0; i < 9; i++) soma += (cpf.charAt(i) - '0') * peso--;
+            int dig1 = 11 - (soma % 11);
+            dig1 = (dig1 >= 10) ? 0 : dig1;
+
+            soma = 0; peso = 11;
+            for (int i = 0; i < 10; i++) soma += (cpf.charAt(i) - '0') * peso--;
+            int dig2 = 11 - (soma % 11);
+            dig2 = (dig2 >= 10) ? 0 : dig2;
+
+            return dig1 == (cpf.charAt(9) - '0') && dig2 == (cpf.charAt(10) - '0');
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    
+    
 
     public boolean fazerLogin(String email, String senhaDigitada) {
     for (Usuario u : listaUsuarios) {
