@@ -20,7 +20,7 @@
          <children>
             <ImageView fitHeight="816.0" fitWidth="1393.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../resources/Frame%203.png" />
+                  <Image url="@../../../../Downloads/TelaCadastro.png" />
                </image>
             </ImageView>
             <TextField fx:id="txtEmail" layoutX="645.0" layoutY="409.0" prefHeight="56.0" prefWidth="475.0" promptText="Email" styleClass="logincadastro-txtfield">
@@ -35,7 +35,7 @@
                   <Font name="MS Reference Sans Serif" size="40.0" />
                </font>
             </Text>
-            <Text fx:id="lblFazerLogin" fill="WHITE" layoutX="585.0" layoutY="166.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-clickavel" text="Já tem uma conta? Fazer login">
+            <Text fx:id="lblFazerLogin" fill="WHITE" layoutX="700.0" layoutY="277.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label-clickavel" text="Já tem uma conta? Fazer login">
                <font>
                   <Font name="MS Reference Sans Serif" size="18.0" />
                </font>
