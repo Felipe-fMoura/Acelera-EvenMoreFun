@@ -18,7 +18,7 @@
       <Rectangle fx:id="retanguloFundoCadastro" arcHeight="20.0" arcWidth="20.0" fill="#2b2638" height="757.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1154.0" />
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  <AnchorPane fx:id="AnchorPane" styleClass="painel-central" StackPane.alignment="CENTER">  
          <children>
-            <ImageView fitHeight="816.0" fitWidth="1393.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../Downloads/TelaCadastro.png" />
                </image>
