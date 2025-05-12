@@ -1,4 +1,4 @@
-module Acelera {
+module evenMoreFun{
     requires javafx.controls;
     requires javafx.fxml;
     requires jasypt;
