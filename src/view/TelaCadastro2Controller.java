@@ -44,7 +44,7 @@ public class TelaCadastro2Controller {
 	  @FXML
 	    private void initialize() {
 	        // Adiciona os itens ao ComboBox
-	        comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro", "Prefiro não dizer","Geladeira","Maquina de combate","Tun Tun sahur");
+	        comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro");
 	    }
 
 

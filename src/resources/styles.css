@@ -31,20 +31,22 @@
 }
 
 .date-picker .text-field {
-    -fx-background-color: #3B364C;
+    -fx-background-color: #E4E4E4;
     -fx-text-fill: white;
     -fx-font-size: 18px;
-    -fx-background-radius: 10;
+    -fx-background-radius: 16;
     -fx-border-color: transparent;
     -fx-prompt-text-fill: #cccccc; 
 }
 
 .date-picker .arrow-button {
-    -fx-background-color: #5A526F;
+    -fx-background-color: white;
 }
 
 .date-picker .arrow-button .arrow {
-    -fx-background-color: white;
+	-fx-pref-width: 20px;
+    -fx-pref-height: 20px;
+    -fx-background-color: gray;
 }
 .label-clickavel {
     -fx-cursor: hand;
@@ -57,7 +59,12 @@
     }
     
 .logincadastro2-txtfield {
+	-fx-background-radius: 16;
     -fx-background-color: #E4E4E4;  
+}
+
+.logincadastro2-combobox {
+	-fx-background-color: #E4E4E4;
 }
 
 .logincadastro2-btn{
