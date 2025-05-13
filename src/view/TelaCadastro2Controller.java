@@ -1,7 +1,9 @@
 package view;
 import service.*;
 
+import java.io.IOException;
 import java.time.LocalDate;
+
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -60,7 +62,7 @@ public class TelaCadastro2Controller {
 
 	  
 	 @FXML
-	    private void finalizarCadastro() {
+	    private void finalizarCadastro(ActionEvent event) {
 		 
 		    String telefone = txtTelefone.getText();
 		    String cpf = txtCPF.getText();
@@ -94,12 +96,27 @@ public class TelaCadastro2Controller {
 	            System.out.println("CPF: " + usuario.getCPF());
 	            System.out.println("Nascimento: " + usuario.getDataNascimento().toString());
 	            System.out.println("Genêro: "+usuario.getGenero());
-	            
-
-	            
+	            	            
 	            usuarioService.cadastrar(usuario);
 	            
-	            usuarioService.listarUsuarios();
+	            try {
+	                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
+	                Parent root = loader.load();
+	                
+	                TelaMenuController menuController = loader.getController();
+	                menuController.setUsuarioLogado(usuario); // Envia o usuário para o Menu
+	                
+	                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+	    			stage.setScene(new Scene(root));
+	    			stage.show();
+
+	                
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        
+	            
+
 
 	        }
 	    }

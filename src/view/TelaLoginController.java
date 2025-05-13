@@ -38,6 +38,10 @@ public class TelaLoginController {
 			System.out.println("Senha correta");//LOG
 			a.mostrarAlerta("Sucesso!!", "Usuario logado com sucesso");
 			
+			
+			
+			
+			
 		} else {
 			System.out.println("email digitado: "+email);//LOG
 			System.out.println("Senha digitada: "+senha);//LOG
@@ -45,6 +49,7 @@ public class TelaLoginController {
 			
 			System.out.println("Senha incorreta");//LOG
 			a.mostrarAlerta("Erro!!", "Senha incorreta ou email inexistente	");
+
 		}
 		
 		

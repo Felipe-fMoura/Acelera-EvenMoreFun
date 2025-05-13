@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" styleClass="painel-central" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaLoginController">
+   <children>
+      <AnchorPane prefHeight="1000.0" prefWidth="1980.0">
+         <children>
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="-134.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../Downloads/TelaLogin.png" />
+               </image>
+            </ImageView>
+            <Text fx:id="TxtUserName" layoutX="98.0" layoutY="203.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="106.13671875">
+               <font>
+                  <Font size="48.0" />
+               </font>
+            </Text>
+         </children>
+      </AnchorPane>
+   </children>
+</StackPane>
