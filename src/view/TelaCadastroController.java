@@ -58,12 +58,17 @@ public class TelaCadastroController {
 		String confirmarSenha = txtRepitirSenha.getText(); // ou txtRepitirSenha
 
 		Alertas a = new Alertas();
-
+		
+	if (!usuarioService.validarSenha(senha)) {
+		    a.mostrarAlerta("Senha fraca", "A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
+		    return;
+		}	
+	else {
 		if (!senha.equals(confirmarSenha)) {
 			a.mostrarAlerta("Erro de Cadastro", "As senhas não coincidem. Tente novamente.");
 			return;
 		}
-
+	}
 		boolean emailValido = usuarioService.validarEmail(email);
 		if (!emailValido) {
 			a.mostrarAlerta("Erro de Cadastro", "Email inválido. Tente novamente");

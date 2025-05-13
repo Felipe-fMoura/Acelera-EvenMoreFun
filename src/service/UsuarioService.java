@@ -67,6 +67,17 @@ public class UsuarioService {
         }
     }
     
+    public boolean validarSenha(String senha) {
+        if (senha == null || senha.length() < 8) return false;
+        
+        boolean temMaiuscula = senha.matches(".*[A-Z].*");
+        boolean temMinuscula = senha.matches(".*[a-z].*");
+        boolean temNumero = senha.matches(".*[0-9].*");
+        boolean temEspecial = senha.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>/?].*");
+
+        return temMaiuscula && temMinuscula && temNumero && temEspecial;
+    }
+
     
     
 
