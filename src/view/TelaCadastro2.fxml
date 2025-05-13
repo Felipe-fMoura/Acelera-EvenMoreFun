@@ -20,10 +20,10 @@
          <children>
             <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Downloads/TelaCadastro2.png" />
+                  <Image url="@../resources/TelaCadastro2.png" />
                </image>
             </ImageView>
-            <TextField fx:id="txtNome" layoutX="435.0" layoutY="342.0" prefHeight="49.0" prefWidth="221.0" promptText="Nome" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtNome" layoutX="435.0" layoutY="342.0" prefHeight="60.0" prefWidth="221.0" promptText="Nome" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <TextField fx:id="txtSobrenome" layoutX="698.0" layoutY="342.0" prefHeight="49.0" prefWidth="221.0" promptText="Sobrenome" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtSobrenome" layoutX="698.0" layoutY="342.0" prefHeight="60.0" prefWidth="221.0" promptText="Sobrenome" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -47,7 +47,7 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <TextField fx:id="txtTelefone" layoutX="435.0" layoutY="518.0" prefHeight="49.0" prefWidth="484.0" promptText="Telefone" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtTelefone" layoutX="435.0" layoutY="518.0" prefHeight="60.0" prefWidth="484.0" promptText="Telefone" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -55,7 +55,7 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <TextField fx:id="txtCPF" layoutX="435.0" layoutY="431.0" prefHeight="49.0" prefWidth="484.0" promptText="CPF" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtCPF" layoutX="435.0" layoutY="431.0" prefHeight="60.0" prefWidth="484.0" promptText="CPF" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -63,8 +63,8 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="701.0" prefHeight="49.0" prefWidth="484.0" />
-            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="606.0" prefHeight="49.0" prefWidth="484.0" promptText="Gênero" />
+            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="695.0" prefHeight="60.0" prefWidth="518.0" />
+            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" />
          </children>
       </AnchorPane>
    </children>

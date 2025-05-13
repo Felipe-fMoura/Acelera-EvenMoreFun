@@ -19,7 +19,7 @@
          <children>
             <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Downloads/TelaCadastro.png" />
+                  <Image url="@../resources/TelaCadastro.png" />
                </image>
             </ImageView>
             <TextField fx:id="txtEmail" layoutX="966.0" layoutY="513.0" prefHeight="63.0" prefWidth="475.0" promptText="Email" styleClass="logincadastro-txtfield">

@@ -12,9 +12,9 @@
    <children>
       <AnchorPane prefHeight="1000.0" prefWidth="1980.0">
          <children>
-            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="-134.0" layoutY="-38.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../../../../Downloads/TelaLogin.png" />
+                  <Image url="@../resources/TelaLogin.png" />
                </image>
             </ImageView>
             <TextField fx:id="txtUsuarioLogin" layoutX="339.0" layoutY="161.0" />
