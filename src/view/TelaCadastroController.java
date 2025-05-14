@@ -83,28 +83,27 @@ public class TelaCadastroController {
 			}
 		}
 
-		// Cria o objeto usuário com os dados da primeira tela
-		Usuario novo = new Usuario(userName, email, senha);
+		 Usuario novo = usuarioService.iniciarCadastro(userName, email, senha);
+		    if (novo == null) {
+		        a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
+		        return;
+		    }
 
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro2.fxml"));
-			Parent root = loader.load();
+		    try {
+		        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro2.fxml"));
+		        Parent root = loader.load();
 
-			// Pega o controller da segunda tela
-			TelaCadastro2Controller controller = loader.getController();
+		        TelaCadastro2Controller controller = loader.getController();
+		        controller.setUsuario(novo); // Já com ID atribuído
 
-			// Envia o usuário para a próxima tela
-			controller.setUsuario(novo);
-
-			// Troca de tela
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setScene(new Scene(root));
-			stage.show();
-
-		} catch (IOException e) {
-			e.printStackTrace();
+		        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		        stage.setScene(new Scene(root));
+		        stage.show();
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
 		}
-	}
+
 
 	@FXML
 	private void onBtnEntrar(ActionEvent event) {

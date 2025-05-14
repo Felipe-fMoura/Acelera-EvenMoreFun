@@ -6,7 +6,9 @@ import org.jasypt.util.password.BasicPasswordEncryptor;
 import model.Usuario;
 
 public class UsuarioService {
+	
 
+    private int proximoId = 1;
     private static UsuarioService instancia;
     private static final BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
     private List<Usuario> listaUsuarios = new ArrayList<>();
@@ -23,15 +25,46 @@ public class UsuarioService {
         return instancia;
     }
 
+    public Usuario iniciarCadastro(String username, String email, String senha) {
+        // Validações
+        if (!validarEmail(email) || !validarSenha(senha)) {
+            return null;
+        }
+        
+        // Verifica email existente
+        if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
+            return null;
+        }
+        
+        // Cria usuário com ID provisional
+        Usuario novo = new Usuario(username, email, senha);
+        novo.setId(proximoId++); // Reserva o ID
+        return novo;
+    }
+    
+    public boolean completarCadastro(Usuario usuario) {
+        // Criptografa senha
+        String hash = passwordEncryptor.encryptPassword(usuario.getSenha());
+        usuario.setSenha(hash);
+        
+        // Adiciona à lista
+        listaUsuarios.add(usuario);
+        return true;
+    }
+    
     public boolean cadastrar(Usuario usuario) {
+
+    	
         for (Usuario u : listaUsuarios) {
             if (u.getEmail().equalsIgnoreCase(usuario.getEmail())) {
                 return false;
             }
         }
+        
         String hash = passwordEncryptor.encryptPassword(usuario.getSenha());
         usuario.setSenha(hash);
         listaUsuarios.add(usuario);
+   	 usuario.setId(proximoId++);
         return true;
     }
 
@@ -96,12 +129,27 @@ public class UsuarioService {
             System.out.println("Nenhum usuário cadastrado.");
             return;
         }
-        System.out.println("Lista de usuários cadastrados:");
+        System.out.println("\n============ USUÁRIOS CADASTRADOS ============");
+        System.out.println("Total de usuários: " + listaUsuarios.size());
+        System.out.println("--------------------------------------------");
+
         for (Usuario u : listaUsuarios) {
-            System.out.println("Nome: " + u.getNome() +
-                               " | Email: " + u.getEmail() +
-                               " | Hash: " + u.getSenha());
+            System.out.println("┌──────────────────────────────────────┐");
+            System.out.printf("│ ID: %-34d │\n", u.getId());
+            System.out.println("├──────────────────────────────────────┤");
+            System.out.printf("│ %-20s: %-15s │\n", "Username", u.getUsername());
+            System.out.printf("│ %-20s: %-15s │\n", "Email", u.getEmail());
+            System.out.printf("│ %-20s: %-15s │\n", "Nome", u.getNome());
+            System.out.printf("│ %-20s: %-15s │\n", "Sobrenome", u.getSobrenome());
+            System.out.printf("│ %-20s: %-15s │\n", "Telefone", u.getTelefone());
+            System.out.printf("│ %-20s: %-15s │\n", "CPF", u.getCPF());
+            System.out.printf("│ %-20s: %-15s │\n", "Nascimento", u.getDataNascimento());
+            System.out.printf("│ %-20s: %-15s │\n", "Gênero", u.getGenero());
+            System.out.println("└──────────────────────────────────────┘");
+            System.out.println();
         }
+
+        System.out.println("============ FIM DA LISTA ============\n");
     }
 
     public void carregarUsuariosDeTeste() {

@@ -86,6 +86,8 @@ public class TelaCadastro2Controller {
 	            usuario.setGenero(comboBoxGenero.getValue());
 
 	            
+	            if (usuarioService.completarCadastro(usuario)) {
+	                     
 	            //imprimir no console, salvar em uma lista ou ir pra próxima tela
 	            System.out.println("Usuário completo:");
 	            System.out.println("Username: " + usuario.getUsername());
@@ -96,7 +98,8 @@ public class TelaCadastro2Controller {
 	            System.out.println("CPF: " + usuario.getCPF());
 	            System.out.println("Nascimento: " + usuario.getDataNascimento().toString());
 	            System.out.println("Genêro: "+usuario.getGenero());
-	            	            
+	            System.out.println("Id: "+usuario.getId())	;            
+	            
 	            usuarioService.cadastrar(usuario);
 	            
 	            try {
@@ -123,3 +126,4 @@ public class TelaCadastro2Controller {
 	
 
 }
+	 }

@@ -3,3 +3,7 @@
 /TelaLoginController.class
 /TelaPerfilController.class
 /TelaMenuController.class
+/MainApp.class
+/TelaOTPController.class
+/TelaRedefinirSenhaController.class
+/TelaValidarOTPController.class
