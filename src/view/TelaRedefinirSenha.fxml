@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaValidarOTPController">
+    <children>
+        <Label text="Digite sua nova senha:" layoutX="50" layoutY="50"/>
+        <PasswordField fx:id="novaSenhaField" layoutX="50" layoutY="80" prefWidth="300"/>
+        <Button text="Redefinir Senha" layoutX="50" layoutY="120" onAction="#redefinirSenha"/>
+    </children>
+</AnchorPane>

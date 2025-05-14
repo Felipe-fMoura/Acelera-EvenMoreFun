@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaValidarOTPController">
+    <children>
+        <Label text="Digite o código OTP recebido:" layoutX="50" layoutY="50"/>
+        <TextField fx:id="otpField" layoutX="50" layoutY="80" prefWidth="300"/>
+        <Button text="Validar OTP" layoutX="50" layoutY="120" onAction="#validarOTP"/>
+    </children>
+</AnchorPane>

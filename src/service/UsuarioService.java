@@ -2,9 +2,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.jasypt.util.password.BasicPasswordEncryptor;
-
 import model.Usuario;
 
 public class UsuarioService {
@@ -12,6 +10,9 @@ public class UsuarioService {
     private static UsuarioService instancia;
     private static final BasicPasswordEncryptor passwordEncryptor = new BasicPasswordEncryptor();
     private List<Usuario> listaUsuarios = new ArrayList<>();
+
+    private Usuario usuarioTemporario;
+    private String otpTemporario;
 
     private UsuarioService() { }
 
@@ -23,13 +24,11 @@ public class UsuarioService {
     }
 
     public boolean cadastrar(Usuario usuario) {
-        // Verifica duplicidade de email
         for (Usuario u : listaUsuarios) {
             if (u.getEmail().equalsIgnoreCase(usuario.getEmail())) {
                 return false;
             }
         }
-        // Criptografa a senha antes de armazenar
         String hash = passwordEncryptor.encryptPassword(usuario.getSenha());
         usuario.setSenha(hash);
         listaUsuarios.add(usuario);
@@ -78,19 +77,15 @@ public class UsuarioService {
         return temMaiuscula && temMinuscula && temNumero && temEspecial;
     }
 
-    
-    
-
     public boolean fazerLogin(String email, String senhaDigitada) {
-    for (Usuario u : listaUsuarios) {
-        if (u.getEmail().equalsIgnoreCase(email)
-            && passwordEncryptor.checkPassword(senhaDigitada, u.getSenha())) {
-            return true;
+        for (Usuario u : listaUsuarios) {
+            if (u.getEmail().equalsIgnoreCase(email)
+                && passwordEncryptor.checkPassword(senhaDigitada, u.getSenha())) {
+                return true;
+            }
         }
+        return false;
     }
-    return false;
-}
-
 
     public List<Usuario> getUsuarios() {
         return listaUsuarios;
@@ -108,16 +103,48 @@ public class UsuarioService {
                                " | Hash: " + u.getSenha());
         }
     }
-    
-    // user teste do Caetano picudo.
+
     public void carregarUsuariosDeTeste() {
         Usuario joazin = new Usuario();
         joazin.setNome("Joazin Teste");
         joazin.setEmail("joazin1012123987@gmail.com");
-        joazin.setSenha("Broxa@123"); // será criptografada no cadastrar()
-
+        joazin.setSenha("Broxa@123");
         this.cadastrar(joazin);
     }
-    
-    
+
+    // OTP - fluxo de redefinição de senha
+
+    public Usuario getUsuarioPorEmail(String email) {
+        for (Usuario u : listaUsuarios) {
+            if (u.getEmail().equalsIgnoreCase(email)) {
+                return u;
+            }
+        }
+        return null;
+    }
+
+    public void setUsuarioTemporario(Usuario usuario) {
+        this.usuarioTemporario = usuario;
+    }
+
+    public Usuario getUsuarioTemporario() {
+        return this.usuarioTemporario;
+    }
+
+    public void setOtpTemporario(String otp) {
+        this.otpTemporario = otp;
+    }
+
+    public String getOtpTemporario() {
+        return this.otpTemporario;
+    }
+
+    public boolean atualizarSenha(String email, String novaSenha) {
+        Usuario usuario = getUsuarioPorEmail(email);
+        if (usuario == null) return false;
+
+        String hash = passwordEncryptor.encryptPassword(novaSenha);
+        usuario.setSenha(hash);
+        return true;
+    }
 }

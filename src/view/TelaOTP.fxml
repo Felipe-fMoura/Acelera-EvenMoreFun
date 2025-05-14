@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaOTPController">
+    <children>
+        <Label text="Digite seu E-mail:" layoutX="50" layoutY="50"/>
+        <TextField fx:id="emailField" layoutX="50" layoutY="80" prefWidth="300"/>
+        <Button text="Enviar OTP" layoutX="50" layoutY="120" onAction="#enviarOTP"/>
+    </children>
+</AnchorPane>
