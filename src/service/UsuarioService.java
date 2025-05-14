@@ -109,7 +109,15 @@ public class UsuarioService {
         }
     }
     
-    
+    // user teste do Caetano picudo.
+    public void carregarUsuariosDeTeste() {
+        Usuario joazin = new Usuario();
+        joazin.setNome("Joazin Teste");
+        joazin.setEmail("joazin1012123987@gmail.com");
+        joazin.setSenha("Broxa@123"); // será criptografada no cadastrar()
+
+        this.cadastrar(joazin);
+    }
     
     
 }

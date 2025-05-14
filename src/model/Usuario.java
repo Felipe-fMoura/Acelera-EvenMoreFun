@@ -14,6 +14,7 @@ public class Usuario {
     private String Genero;
     private LocalDate dataNascimento;
     
+    public Usuario() {} // add Construtor padrão!
 
     public Usuario(String username, String email, String senha) {
         this.username = username;
