@@ -58,17 +58,17 @@ public class TelaCadastroController {
 		String confirmarSenha = txtRepitirSenha.getText(); // ou txtRepitirSenha
 
 		Alertas a = new Alertas();
-		
-	if (!usuarioService.validarSenha(senha)) {
-		    a.mostrarAlerta("Senha fraca", "A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
-		    return;
-		}	
-	else {
-		if (!senha.equals(confirmarSenha)) {
-			a.mostrarAlerta("Erro de Cadastro", "As senhas não coincidem. Tente novamente.");
+
+		if (!usuarioService.validarSenha(senha)) {
+			a.mostrarAlerta("Senha fraca",
+					"A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
 			return;
+		} else {
+			if (!senha.equals(confirmarSenha)) {
+				a.mostrarAlerta("Erro de Cadastro", "As senhas não coincidem. Tente novamente.");
+				return;
+			}
 		}
-	}
 		boolean emailValido = usuarioService.validarEmail(email);
 		if (!emailValido) {
 			a.mostrarAlerta("Erro de Cadastro", "Email inválido. Tente novamente");
@@ -82,28 +82,28 @@ public class TelaCadastroController {
 				return;
 			}
 		}
+		// TRANSAÇÃO ENTRE USUARIOS
 
-		 Usuario novo = usuarioService.iniciarCadastro(userName, email, senha);
-		    if (novo == null) {
-		        a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
-		        return;
-		    }
-
-		    try {
-		        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro2.fxml"));
-		        Parent root = loader.load();
-
-		        TelaCadastro2Controller controller = loader.getController();
-		        controller.setUsuario(novo); // Já com ID atribuído
-
-		        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		        stage.setScene(new Scene(root));
-		        stage.show();
-		    } catch (IOException e) {
-		        e.printStackTrace();
-		    }
+		Usuario novo = usuarioService.iniciarCadastro(userName, email, senha);
+		if (novo == null) {
+			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
+			return;
 		}
 
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro2.fxml"));
+			Parent root = loader.load();
+
+			TelaCadastro2Controller controller = loader.getController();
+			controller.setUsuario(novo); // Já com ID atribuído
+
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			stage.setScene(new Scene(root));
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@FXML
 	private void onBtnEntrar(ActionEvent event) {
