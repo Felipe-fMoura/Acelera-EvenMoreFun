@@ -1,12 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaOTPController">
-    <children>
-        <Label text="Digite seu E-mail:" layoutX="50" layoutY="50"/>
-        <TextField fx:id="emailField" layoutX="50" layoutY="80" prefWidth="300"/>
-        <Button text="Enviar OTP" layoutX="50" layoutY="120" onAction="#enviarOTP"/>
-    </children>
-</AnchorPane>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="telaOTP" layoutX="6.0" layoutY="2.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaOTPController">
+   <children>
+     
+      <Rectangle fx:id="retanguloFundoOTP" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="1080.0" layoutX="6.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" width="1920.0" />
+     
+      <AnchorPane fx:id="AnchorPane" layoutX="6.0" layoutY="2.0" prefHeight="1080.0" prefWidth="1920.0">
+          <children>
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../resources/TelaResetSenha.png" />
+               </image>
+            </ImageView>
+             
+              <TextField fx:id="emailField" layoutX="757.0" layoutY="613.0" prefHeight="61.0" prefWidth="419.0" promptText="Insira seu email" styleClass="telaotp-txtfield">
+              
+               <font>
+                  <Font name="Segoe UI" size="18.0" />
+               </font>
+            </TextField>         
+              <Button fx:id="enviarOTPButton" layoutX="872.0" layoutY="768.0" onAction="#enviarOTP" opacity="0.0" prefHeight="61.0" prefWidth="180.0" styleClass="telaotp-btn">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+           
+            <Button fx:id="btnEntrar" layoutX="1327.0" layoutY="963.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="284.0" styleClass="telaotp-btn">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+          </children>
+      </AnchorPane>
+   </children>
+</StackPane>

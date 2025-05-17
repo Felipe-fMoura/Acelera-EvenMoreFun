@@ -18,7 +18,7 @@
                </image>
             </ImageView>
             <TextField fx:id="txtUsuarioLogin" layoutX="339.0" layoutY="161.0" />
-            <PasswordField fx:id="txtSenhaLogin" layoutX="340.0" layoutY="223.0" />
+            <PasswordField fx:id="txtSenhaLogin" layoutX="1118.0" layoutY="530.0" />
             <Button fx:id="btnLogar" layoutX="389.0" layoutY="283.0" mnemonicParsing="false" onAction="#onBtnLogar" text="Button" />
          </children>
       </AnchorPane>

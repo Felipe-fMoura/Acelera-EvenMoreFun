@@ -14,7 +14,7 @@
 
 <StackPane fx:id="telaCadastro" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" stylesheets="@../resources/styles.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCadastroController">
    <children>
-      <Rectangle fx:id="retanguloFundoCadastro" arcHeight="20.0" arcWidth="20.0" fill="#2b2638" height="757.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1154.0" />
+      <Rectangle fx:id="retanguloFundoCadastro" arcHeight="20.0" arcWidth="20.0" fill="#2b2638" height="1080.0" layoutX="6.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="1920.0" />
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  <AnchorPane fx:id="AnchorPane" styleClass="painel-central" StackPane.alignment="CENTER">  
          <children>
             <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">

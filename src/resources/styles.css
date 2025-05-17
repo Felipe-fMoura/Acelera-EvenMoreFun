@@ -3,8 +3,8 @@
     
 }
 .logincadastro-txtfield {
-    -fx-background-radius: 10;
-    -fx-background-color: linear-gradient(to right, #9400D3, #4B0082);
+    -fx-background-radius: 16;
+    -fx-background-color: #E4E4E4; 
     
      /* Define a cor de fundo */
     -fx-prompt-text-fill: #cccccc; 
@@ -72,3 +72,39 @@
     -fx-background-color: linear-gradient(to right, #9400D3, #4B0082);
 	-fx-text-fill: white; 
 }
+
+
+#telaRedefinirSenha {
+    -fx-background-color: #625D73;
+    
+    }
+    
+.telaredefinirsenha-passwordfield{
+	-fx-background-radius: 16;
+    -fx-background-color: white;  
+}
+
+.telaredefinirsenha-btn{
+    -fx-background-radius: 10;
+    -fx-background-color: linear-gradient(to right, #9400D3, #4B0082);
+	-fx-text-fill: white; 
+}
+
+#telaOTP {
+    -fx-background-color: #625D73;
+    
+    }
+
+.telaotp-txtfield {
+	-fx-background-radius: 16;
+    -fx-background-color: white; 
+	
+}
+
+.telaotp-btn{
+    -fx-background-radius: 10;
+    -fx-background-color: linear-gradient(to right, #9400D3, #4B0082);
+	-fx-text-fill: white; 
+}
+
+

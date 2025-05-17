@@ -8,8 +8,12 @@ import service.UsuarioService;
 
 public class TelaRedefinirSenhaController {
 
-    @FXML private PasswordField novaSenhaField;
-
+    @FXML 
+    private PasswordField novaSenhaField;
+    
+    @FXML 
+    private PasswordField repetirSenhaField;
+    
     private final UsuarioService usuarioService = UsuarioService.getInstance();
 
     @FXML

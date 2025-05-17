@@ -1,12 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.geometry.Pos?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaValidarOTPController">
-    <children>
-        <Label text="Digite sua nova senha:" layoutX="50" layoutY="50"/>
-        <PasswordField fx:id="novaSenhaField" layoutX="50" layoutY="80" prefWidth="300"/>
-        <Button text="Redefinir Senha" layoutX="50" layoutY="120" onAction="#redefinirSenha"/>
-    </children>
-</AnchorPane>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="telaRedefinirSenha" layoutX="6.0" layoutY="2.0" prefHeight="1080.0" prefWidth="1920.0" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaValidarOTPController">
+   <children>
+      
+      <Rectangle fx:id="retanguloFundoRedefinirSenha" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="1080.0" layoutX="6.0" layoutY="2.0" stroke="BLACK" strokeType="INSIDE" styleClass="telaredefinirsenha-passwordfield" width="1920.0" />
+      
+      <AnchorPane fx:id="AnchorPane" layoutX="6.0" layoutY="2.0" prefHeight="1080.0" prefWidth="1920.0">
+          <children>
+        
+            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutX="6.0" layoutY="2.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+        
+                  <Image url="@../resources/TelaCriarNovaSenha.png" />
+               </image>
+            </ImageView>
+        
+              <PasswordField fx:id="novaSenhaField" layoutX="763.0" layoutY="431.0" prefHeight="63.0" prefWidth="401.0" promptText="Digite sua nova senha" styleClass="telaredefinirsenha-passwordfield">
+               <font>
+                  <Font name="Segoe UI" size="18.0" />
+               </font></PasswordField>
+        
+            <PasswordField fx:id="repetirSenhaField" layoutX="763.0" layoutY="620.0" prefHeight="63.0" prefWidth="401.0" promptText="Repita sua senha" styleClass="telaredefinirsenha-passwordfield">
+               <font>
+                  <Font name="Segoe UI" size="18.0" />
+               </font></PasswordField>
+        
+              <Button fx:id="btnRedefinir" layoutX="872.0" layoutY="731.0" onAction="#redefinirSenha" opacity="0.0" prefHeight="63.0" prefWidth="188.0" styleClass="telaredefinirsenha-btn">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+          </children>
+      </AnchorPane>
+   </children>
+</StackPane>
