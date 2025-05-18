@@ -144,7 +144,7 @@ public class UsuarioService {
 			System.out.printf("│ %-20s: %-15s │\n", "Nome", u.getNome());
 			System.out.printf("│ %-20s: %-15s │\n", "Sobrenome", u.getSobrenome());
 			System.out.printf("│ %-20s: %-15s │\n", "Telefone", u.getTelefone());
-			System.out.printf("│ %-20s: %-15s │\n", "CPF", u.getCPF());
+			System.out.printf("│ %-20s: %-15s │\n", "CPF", u.getClass());
 			System.out.printf("│ %-20s: %-15s │\n", "Nascimento", u.getDataNascimento());
 			System.out.printf("│ %-20s: %-15s │\n", "Gênero", u.getGenero());
 			System.out.println("└──────────────────────────────────────┘");

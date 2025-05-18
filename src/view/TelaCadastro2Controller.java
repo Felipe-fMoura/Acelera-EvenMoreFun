@@ -72,7 +72,7 @@ public class TelaCadastro2Controller {
 			usuario.setNome(txtNome.getText());
 			usuario.setSobrenome(txtSobrenome.getText());
 			usuario.setTelefone(txtTelefone.getText());
-			usuario.setCPF(txtCPF.getText());
+			usuario.setCpf(txtCPF.getText());
 			usuario.setDataNascimento(dataNasc.getValue());
 			usuario.setGenero(comboBoxGenero.getValue());
 
@@ -85,7 +85,7 @@ public class TelaCadastro2Controller {
 				System.out.println("Nome: " + usuario.getNome());
 				System.out.println("Sobrenome: " + usuario.getSobrenome());
 				System.out.println("Telefone: " + usuario.getTelefone());
-				System.out.println("CPF: " + usuario.getCPF());
+				System.out.println("CPF: " + usuario.getCpf());
 				System.out.println("Nascimento: " + usuario.getDataNascimento().toString());
 				System.out.println("Genêro: " + usuario.getGenero());
 				System.out.println("Id: " + usuario.getId());
