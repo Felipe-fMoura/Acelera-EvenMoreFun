@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -57,6 +58,7 @@ public class TelaCadastro2Controller {
 
 		String telefone = txtTelefone.getText();
 		String cpf = txtCPF.getText();
+		LocalDate dataNascimento = dataNasc.getValue();
 
 		if (!usuarioService.validarTelefone(telefone)) {
 			a.mostrarAlerta("Telefone inválido", "Digite apenas números com DDD (10 ou 11 dígitos).");
@@ -65,6 +67,11 @@ public class TelaCadastro2Controller {
 
 		if (!usuarioService.validarCPF(cpf)) {
 			a.mostrarAlerta("CPF inválido", "Verifique o número e tente novamente.");
+			return;
+		}
+		
+		if (!usuarioService.validarDataNascimento(dataNascimento)) {
+			a.mostrarAlerta("Idade inferior ao permitido" , "Usuário não atende ao requisito mínimo de idade (14 anos).");
 			return;
 		}
 

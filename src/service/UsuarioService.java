@@ -1,5 +1,6 @@
 package service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.jasypt.util.password.BasicPasswordEncryptor;
@@ -67,6 +68,24 @@ public class UsuarioService {
 		return true;
 	}
 
+	/**
+	 * Verifica se a data de nascimento corresponde a uma pessoa com 14 anos ou mais.
+	 *
+	 * @param dataNascimento a data de nascimento a ser validada
+	 * @return true se a pessoa tiver 14 anos ou mais, false caso contrário
+	 */
+	
+	public boolean validarDataNascimento(LocalDate dataNascimento) {
+	    if (dataNascimento == null) {
+	        return false;
+	    }
+
+	    LocalDate hoje = LocalDate.now();
+	    LocalDate limite = hoje.minusYears(14);
+
+	    return dataNascimento.isBefore(limite) || dataNascimento.isEqual(limite);
+	}
+	
 	public boolean validarEmail(String email) {
 		String regexRFC5322 = "^(?:[a-zA-Z0-9_'^&amp;/+-])+(?:\\." + "[a-zA-Z0-9_'^&amp;/+-]+)*@"
 				+ "(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
@@ -125,7 +144,7 @@ public class UsuarioService {
 	public List<Usuario> getUsuarios() {
 		return listaUsuarios;
 	}
-
+	
 	public void listarUsuarios() {
 		if (listaUsuarios.isEmpty()) {
 			System.out.println("Nenhum usuário cadastrado.");
