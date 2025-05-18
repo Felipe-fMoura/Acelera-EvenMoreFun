@@ -3,6 +3,7 @@ package model;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Evento {
     private int id;
@@ -127,5 +128,76 @@ public class Evento {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    // Métodos auxiliares
+    
+    /**
+     * Adiciona um participante ao evento caso ele não esteja já cadastrado.
+     * 
+     * @param usuario Objeto Usuario a ser adicionado como participante
+     * @return true se o participante foi adicionado com sucesso,
+     *         false se o usuário já estava na lista de participantes
+     * @throws NullPointerException se o parâmetro usuario for nulo
+     */
+    public boolean adicionarParticipante(Usuario usuario) {
+        if (usuario == null) {
+            throw new NullPointerException("Usuário não pode ser nulo");
+        }
+        
+        if (!participantes.contains(usuario)) {
+            participantes.add(usuario);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Remove um participante da lista de participantes do evento.
+     * 
+     * @param usuario Objeto Usuario a ser removido (não pode ser nulo)
+     * @return true se o participante foi encontrado e removido com sucesso,
+     *         false se o usuário não estava na lista de participantes
+     * @throws NullPointerException se o parâmetro usuario for nulo
+     * @see #adicionarParticipante(Usuario) Método relacionado para adicionar participantes
+     */
+    public boolean removerParticipante(Usuario usuario) {
+        Objects.requireNonNull(usuario, "O parâmetro 'usuario' não pode ser nulo");
+        return participantes.remove(usuario);
+    }
+
+    
+    /**
+     * Retorna a quantidade de participantes do evento.
+     * 
+     * @return número inteiro representando a quantidade de participantes (0 se a lista estiver vazia)
+     * @throws IllegalStateException se a lista de participantes não foi inicializada
+     */
+    public int getQuantidadeParticipantes() {
+        if (participantes == null) {
+            throw new IllegalStateException("Lista de participantes não inicializada");
+        }
+        return participantes.size();
+    }
+    
+
+    /**
+     * Retorna os principais atributos do evento em formato string.
+     * @return String no formato: Evento[id=1, titulo='Festa', ..., participantes=5]
+     */
+    @Override
+    public String toString() {
+        return String.format(
+            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador=%s, participantes=%d]",
+            id,
+            titulo != null ? titulo : "",
+            data != null ? data : "null",
+            local != null ? local : "",
+            organizador != null ? organizador.getNome() : "null",
+            getQuantidadeParticipantes()
+        );
+    }
+    
+    
+    
     
 }
