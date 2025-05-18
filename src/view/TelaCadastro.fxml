@@ -41,7 +41,7 @@
                <font>
                   <Font size="18.0" />
                </font></PasswordField>
-            <Button fx:id="btnConfirma" layoutX="1083.0" layoutY="839.0" mnemonicParsing="false" onAction="#onBtCadastrarUsuario" opacity="0.0" prefHeight="84.0" prefWidth="250.0" styleClass="logincadastro-btn" textFill="WHITE">
+            <Button fx:id="btnConfirma" layoutX="1085.0" layoutY="836.0" mnemonicParsing="false" onAction="#onBtCadastrarUsuario" opacity="0.0" prefHeight="84.0" prefWidth="250.0" styleClass="logincadastro-btn" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>

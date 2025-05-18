@@ -63,8 +63,8 @@
                   <Insets />
                </opaqueInsets>
             </TextField>
-            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="695.0" prefHeight="60.0" prefWidth="518.0" />
-            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" />
+            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="695.0" prefHeight="60.0" prefWidth="518.0" promptText="Data de Nascimento" />
+            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" styleClass="logincadastro2-txtfield" />
          </children>
       </AnchorPane>
    </children>
