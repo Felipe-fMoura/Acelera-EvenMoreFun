@@ -1,4 +1,5 @@
 package application;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,26 +11,25 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-        	
-            // Carregar o arquivo FXML
-        	
+            // Carregar o FXML da tela de login
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro.fxml"));
-            Parent root = loader.load();  // Carrega o layout definido no FXML
+            Parent root = loader.load();
 
-            
-            // Configurar a cena com o layout FXML
-            Scene scene = new Scene(root, 400, 400);
+            // Criar a cena
+            Scene scene = new Scene(root);
+
+            // Configurar o palco
             primaryStage.setScene(scene);
             primaryStage.setTitle("EvenMoreFun");
-            primaryStage.setMaximized(true);
+            primaryStage.setMaximized(true); // Abre em modo maximizado
             primaryStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-    	
         launch(args);
     }
 }

@@ -9,41 +9,78 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.Group?>
 
-<StackPane fx:id="telaLgin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaLoginController">
+<StackPane fx:id="telaLogin" stylesheets="@../resources/styles.css"
+           xmlns="http://javafx.com/javafx/23.0.1"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="view.TelaLoginController">
+
    <children>
-      <AnchorPane prefHeight="1000.0" prefWidth="1980.0">
-         <children>
-            <ImageView fitHeight="1080.0" fitWidth="1920.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../resources/TelaLogin.png" />
-               </image>
-            </ImageView>
-            <TextField fx:id="txtUsuarioLogin" layoutX="1118.0" layoutY="432.0" prefHeight="55.0" prefWidth="355.0" promptText="Digite seu nome de Usuário" styleClass="login-txtfield">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font></TextField>
+      <!-- Imagem de fundo -->
+      <ImageView fx:id="backgroundImage" preserveRatio="false">
+        
+         <image>
+            <Image url="@../resources/TelaLogin.png" />
+         </image>
+     
+      </ImageView>
+
+      <!-- Agrupamento dos elementos com escala -->
+      <Group fx:id="grupoCampos">
+        
+         <AnchorPane fx:id="contentPane" prefWidth="1920" prefHeight="1080">
+           
+            <children>
+             
+               <TextField fx:id="txtUsuarioLogin" layoutX="1118.0" layoutY="432.0"
+                          prefHeight="55.0" prefWidth="355.0"
+                          promptText="Digite seu nome de Usuário" styleClass="login-txtfield">
+                  <font>
+                     <Font name="Segoe UI" size="18.0" />
+                  </font>
+              
+               </TextField>
+
+               <PasswordField fx:id="txtSenhaLogin" layoutX="1118.0" layoutY="519.0"
+                              prefHeight="55.0" prefWidth="355.0"
+                              promptText="Digite sua Senha" styleClass="login-passwordfield">
+                  <font>
+                     <Font name="Segoe UI" size="18.0" />
+                  </font>
+               </PasswordField>
+
+               <Button fx:id="btnLogar" layoutX="1359.0" layoutY="587.0"
+                       mnemonicParsing="false" onAction="#onBtnLogar"
+                       opacity="0.0" prefHeight="58.0" prefWidth="178.0">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+             
+               </Button>
+
+               <Button fx:id="btnEsqueciSenha" layoutX="1078.0" layoutY="604.0"
+                       mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="114.0">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+              
+               </Button>
+
+               <Button fx:id="btnCadastro" layoutX="1465.0" layoutY="952.0"
+                       mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="143.0">
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
+                  
+               </Button>
+               
+            </children>
+            
+         </AnchorPane>
          
-            <PasswordField fx:id="txtSenhaLogin" layoutX="1118.0" layoutY="519.0" prefHeight="55.0" prefWidth="355.0" promptText="Digite sua Senha" styleClass="login-passwordfield">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font></PasswordField>
-         
-            <Button fx:id="btnLogar" layoutX="1359.0" layoutY="587.0" mnemonicParsing="false" onAction="#onBtnLogar" opacity="0.0" prefHeight="58.0" prefWidth="178.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-          
-            <Button fx:id="btnEsqueciSenha" layoutX="1078.0" layoutY="604.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="114.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-          
-            <Button fx:id="btnCadastro" layoutX="1465.0" layoutY="952.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="143.0">
-               <cursor>
-                  <Cursor fx:constant="HAND" />
-               </cursor></Button>
-         </children>
-      </AnchorPane>
+      </Group>
+      
    </children>
+   
 </StackPane>
