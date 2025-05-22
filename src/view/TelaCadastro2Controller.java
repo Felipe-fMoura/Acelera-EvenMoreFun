@@ -6,12 +6,16 @@ import java.time.LocalDate;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import model.Usuario;
 import service.Alertas;
@@ -39,9 +43,34 @@ public class TelaCadastro2Controller {
 
 	@FXML
 	private DatePicker dataNasc;
+	
+    @FXML 
+    private ImageView backgroundImage;
+    
+    @FXML 
+    private StackPane telaCadastro2;
+    
+    @FXML 
+    private AnchorPane contentPane;
+    
+    @FXML 
+    private Group grupoCampos;
 
 	@FXML
 	private void initialize() {
+		// Redimensionar imagem de fundo
+        backgroundImage.fitWidthProperty().bind(telaCadastro2.widthProperty());
+        backgroundImage.fitHeightProperty().bind(telaCadastro2.heightProperty());
+        
+     // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
+        grupoCampos.scaleXProperty().bind(
+        		telaCadastro2.widthProperty().divide(1920.0)
+        );
+        
+        grupoCampos.scaleYProperty().bind(
+        		telaCadastro2.heightProperty().divide(1080.0)
+            );
+		
 		// Adiciona os itens ao ComboBox
 		comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro");
 	}

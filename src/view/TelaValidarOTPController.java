@@ -3,9 +3,13 @@ package view;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import service.UsuarioService;
 
@@ -14,6 +18,33 @@ public class TelaValidarOTPController {
     @FXML private TextField otpField;
 
     private final UsuarioService usuarioService = UsuarioService.getInstance();
+    
+    @FXML 
+    private ImageView backgroundImage;
+    
+    @FXML 
+    private StackPane telaOTPValidation;
+    
+    @FXML 
+    private AnchorPane contentPane;
+    
+    @FXML 
+    private Group grupoCampos;
+
+    @FXML
+    public void initialize() {
+        // Redimensionar imagem de fundo
+        backgroundImage.fitWidthProperty().bind(telaOTPValidation.widthProperty());
+        backgroundImage.fitHeightProperty().bind(telaOTPValidation.heightProperty());
+
+        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
+        grupoCampos.scaleXProperty().bind(
+        		telaOTPValidation.widthProperty().divide(1920.0)
+        );
+        grupoCampos.scaleYProperty().bind(
+        		telaOTPValidation.heightProperty().divide(1080.0)
+        );
+    }
     
     @FXML
     private void redefinirSenha() {

@@ -11,7 +11,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         try {
-            // Carregar o FXML da tela de login
+            // Carregar o FXML da tela de cadastro
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro.fxml"));
             Parent root = loader.load();
 

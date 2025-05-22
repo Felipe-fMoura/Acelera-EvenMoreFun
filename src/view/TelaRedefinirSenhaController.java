@@ -1,8 +1,12 @@
 package view;
 
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import model.Usuario;
 import service.UsuarioService;
 
@@ -15,6 +19,33 @@ public class TelaRedefinirSenhaController {
     private PasswordField repetirSenhaField;
     
     private final UsuarioService usuarioService = UsuarioService.getInstance();
+    
+    @FXML 
+    private ImageView backgroundImage;
+    
+    @FXML 
+    private StackPane telaRedefinirSenha;
+    
+    @FXML 
+    private AnchorPane contentPane;
+    
+    @FXML 
+    private Group grupoCampos;
+
+    @FXML
+    public void initialize() {
+        // Redimensionar imagem de fundo
+        backgroundImage.fitWidthProperty().bind(telaRedefinirSenha.widthProperty());
+        backgroundImage.fitHeightProperty().bind(telaRedefinirSenha.heightProperty());
+
+        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
+        grupoCampos.scaleXProperty().bind(
+        		telaRedefinirSenha.widthProperty().divide(1920.0)
+        );
+        grupoCampos.scaleYProperty().bind(
+        		telaRedefinirSenha.heightProperty().divide(1080.0)
+        );
+    }
 
     @FXML
     private void redefinirSenha() {
