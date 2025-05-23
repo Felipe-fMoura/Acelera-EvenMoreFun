@@ -10,7 +10,11 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <StackPane fx:id="telaRedefinirSenha" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaRedefinirSenha">
+=======
+<StackPane fx:id="telaRedefinirSenha" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaRedefinirSenhaController">
+>>>>>>> branch 'main' of https://github.com/Felipe-fMoura/Acelera-EvenMoreFun.git
    <children>
         
             <ImageView fx:id="backgroundImage" preserveRatio="false">
