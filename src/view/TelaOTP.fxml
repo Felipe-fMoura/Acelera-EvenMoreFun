@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.Group?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaOTP" stylesheets="@../resources/styles.css" 
-           xmlns="http://javafx.com/javafx/23.0.1" 
-           xmlns:fx="http://javafx.com/fxml/1" 
-           fx:controller="view.TelaOTPController">
+<StackPane fx:id="telaOTP" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaOTPController">
    <children>
           
             <ImageView fx:id="backgroundImage" preserveRatio="false">
@@ -24,14 +21,11 @@
             
             <Group fx:id="grupoCampos">
             
-            <AnchorPane fx:id="contentPane" prefWidth="1920" prefHeight="1080">
+            <AnchorPane fx:id="contentPane" prefHeight="1080" prefWidth="1920">
             
             <children>
              
-              <TextField fx:id="emailField" layoutX="757.0" layoutY="613.0" 
-                         prefHeight="61.0" prefWidth="419.0" 
-                         promptText="Insira seu email" 
-                         styleClass="telaotp-txtfield">
+              <TextField fx:id="emailField" layoutX="757.0" layoutY="613.0" prefHeight="61.0" prefWidth="419.0" promptText="Insira seu email" styleClass="telaotp-txtfield">
               
                <font>
                   <Font name="Segoe UI" size="18.0" />
@@ -39,19 +33,13 @@
                
             </TextField> 
                     
-              <Button fx:id="enviarOTPButton" layoutX="872.0" layoutY="768.0" 
-                      onAction="#enviarOTP" opacity="0.0" 
-                      prefHeight="61.0" prefWidth="180.0" 
-                      styleClass="telaotp-btn">
+              <Button fx:id="enviarOTPButton" layoutX="872.0" layoutY="768.0" onAction="#enviarOTP" opacity="0.0" prefHeight="61.0" prefWidth="180.0" styleClass="telaotp-btn">
                       
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
            
-            <Button fx:id="btnEntrar" layoutX="1327.0" layoutY="963.0" 
-                    mnemonicParsing="false" opacity="0.0" 
-                    prefHeight="25.0" prefWidth="284.0" 
-                    styleClass="telaotp-btn">
+            <Button fx:id="btnEntrar" layoutX="1319.0" layoutY="963.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="284.0" styleClass="telaotp-btn">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

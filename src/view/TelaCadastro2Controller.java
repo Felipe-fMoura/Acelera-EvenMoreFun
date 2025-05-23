@@ -136,7 +136,7 @@ public class TelaCadastro2Controller {
 					menuController.setUsuarioLogado(usuario); // Envia o usuário para o Menu
 
 					Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-					stage.setScene(new Scene(root));
+					stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
 					stage.show();
 
 				} catch (IOException e) {

@@ -22,6 +22,12 @@ public class TelaLoginController {
     
     @FXML
     private Button btnLogar;
+    
+    @FXML
+    private Button btnCadastro;
+    
+    @FXML
+    private Button btnEsqueciSenha;
 
     @FXML 
     private ImageView backgroundImage;
