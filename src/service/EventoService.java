@@ -165,7 +165,35 @@ public class EventoService {
 				 .collect(Collectors.toList());
 	 }
 	 
-	
+	 /**
+	  * Pesquisa eventos que ocorrem na data especificada e são visíveis para o usuário.
+	  *
+	  * @param data data a ser buscada
+	  * @param usuarioLogado usuário que está realizando a busca
+	  * @return lista de eventos na data informada e acessíveis ao usuário
+	  */
+	 public List<Evento> pesquisarEventosPorData(LocalDate data, Usuario usuarioLogado) {
+	        return eventos.stream()
+	                .filter(e -> e.getData().toLocalDate().equals(data))
+	                .filter(e -> isVisivelParaUsuario(e, usuarioLogado))
+	                .sorted(Comparator.comparing(Evento::getData))
+	                .collect(Collectors.toList());
+	    }
+
+	 /**
+	  * Pesquisa eventos da categoria especificada que são visíveis para o usuário.
+	  *
+	  * @param categoria categoria a ser buscada
+	  * @param usuarioLogado usuário que está realizando a busca
+	  * @return lista de eventos da categoria informada e acessíveis ao usuário
+	  */
+	 public List<Evento> pesquisarEventosPorCategoria(String categoria, Usuario usuarioLogado) {
+	        return eventos.stream()
+	                .filter(e -> e.getCategoria() != null && e.getCategoria().equalsIgnoreCase(categoria))
+	                .filter(e -> isVisivelParaUsuario(e, usuarioLogado))
+	                .sorted(Comparator.comparing(Evento::getData))
+	                .collect(Collectors.toList());
+	    }
 	 
 	 
 	 // Métodos auxiliares
