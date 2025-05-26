@@ -181,6 +181,22 @@ public class UsuarioService {
 		this.cadastrar(joazin);
 	}
 
+	// MÉTODOS AUXILIARES ADICIONADOS
+	
+	/**
+	 * Busca e retorna um usuário com base no seu ID.
+	 *
+	 * @param id o ID do usuário a ser buscado
+	 * @return o usuário correspondente, ou null se não for encontrado
+	 */
+    public Usuario buscarPorId(int id) {
+        return listaUsuarios.stream()
+                .filter(u -> u.getId() == id)
+                .findFirst()
+                .orElse(null);
+    }
+	
+	
 	// OTP - fluxo de redefinição de senha
 
 	public Usuario getUsuarioPorEmail(String email) {

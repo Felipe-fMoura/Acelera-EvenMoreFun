@@ -247,30 +247,45 @@ public class EventoService {
 	 
 	 	 
 	 /**
-	  * Adiciona um participante a um evento específico, se o evento for encontrado.
+	  * Adiciona um usuário como participante de um evento.
 	  *
-	  * @param idEvento ID do evento onde o participante será adicionado
-	  * @param usuario usuário a ser adicionado como participante
+	  * @param eventoId ID do evento
+	  * @param usuarioId ID do usuário a ser adicionado
+	  * @return true se o usuário foi adicionado com sucesso, false caso contrário
 	  */
-	 public void adicionarParticipante(int idEvento, Usuario usuario) {
-		 Evento evento = buscarEventoPorId(idEvento);
-		 if(evento != null) {
-			 evento.adicionarParticipante(usuario);
-		 }
-	 }
+	 public boolean adicionarParticipante(int eventoId, int usuarioId) {
+	        Evento evento = buscarEventoPorId(eventoId);
+	        Usuario usuario = UsuarioService.getInstance().buscarPorId(usuarioId);
+	        
+	        if (evento != null && usuario != null) {
+	            // Atualiza no evento
+	            boolean addedToEvent = evento.adicionarParticipante(usuario);
+	            // Atualiza no usuário
+	            if (addedToEvent) {
+	                usuario.participarEvento(evento);
+	            }
+	            return addedToEvent;
+	        }
+	        return false;
+	    }
 	 
+	
 	 /**
-	  * Remove um participante de um evento específico, se o evento for encontrado.
+	  * Remove um usuário da lista de participantes de um evento.
 	  *
-	  * @param idEvento ID do evento de onde o participante será removido
-	  * @param usuario usuário a ser removido do evento
-	  */ 
-	 public void removerParticipante(int idEvento, Usuario usuario) {
-		 Evento evento = buscarEventoPorId(idEvento);
-		 if(evento != null) {
-			 evento.removerParticipante(usuario);				 
-		}
-	 }
+	  * @param eventoId ID do evento
+	  * @param usuarioId ID do usuário a ser removido
+	  * @return true se o usuário foi removido com sucesso, false caso contrário
+	  */
+	 public boolean removerParticipante(int eventoId, int usuarioId) {
+	        Evento evento = buscarEventoPorId(eventoId);
+	        Usuario usuario = UsuarioService.getInstance().buscarPorId(usuarioId);
+	        
+	        if (evento != null && usuario != null) {
+	            return evento.removerParticipante(usuario);
+	        }
+	        return false;
+	    }
 	 
 	 
 	 // Métodos para estátistica
