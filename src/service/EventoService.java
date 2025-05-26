@@ -242,7 +242,35 @@ public class EventoService {
 	               (evento.getCategoria() != null && evento.getCategoria().toLowerCase().contains(termoLower));
 	    }
 	 
+	 
 	 // Métodos de participação
+	 
+	 	 
+	 /**
+	  * Adiciona um participante a um evento específico, se o evento for encontrado.
+	  *
+	  * @param idEvento ID do evento onde o participante será adicionado
+	  * @param usuario usuário a ser adicionado como participante
+	  */
+	 public void adicionarParticipante(int idEvento, Usuario usuario) {
+		 Evento evento = buscarEventoPorId(idEvento);
+		 if(evento != null) {
+			 evento.adicionarParticipante(usuario);
+		 }
+	 }
+	 
+	 /**
+	  * Remove um participante de um evento específico, se o evento for encontrado.
+	  *
+	  * @param idEvento ID do evento de onde o participante será removido
+	  * @param usuario usuário a ser removido do evento
+	  */ 
+	 public void removerParticipante(int idEvento, Usuario usuario) {
+		 Evento evento = buscarEventoPorId(idEvento);
+		 if(evento != null) {
+			 evento.removerParticipante(usuario);				 
+		}
+	 }
 	 
 	 
 }
