@@ -2,8 +2,11 @@ package service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.jasypt.util.password.BasicPasswordEncryptor;
+
+import model.Evento;
 import model.Usuario;
 
 public class UsuarioService {
@@ -196,7 +199,87 @@ public class UsuarioService {
                 .orElse(null);
     }
 	
+    
+    // MÉTODOS DE INTEGRAÇÃO COM EVENTOS
+    
+    
+    /**
+     * Permite que um usuário participe de um evento.
+     * Adiciona o evento à lista de eventos do usuário e o usuário à lista de participantes do evento.
+     *
+     * @param usuarioId ID do usuário que deseja participar
+     * @param evento evento ao qual o usuário deseja se juntar
+     * @return true se a participação foi bem-sucedida, false caso contrário
+     */
+    public boolean registrarParticipacaoUsuario(int usuarioId, Evento evento) {
+    	Usuario usuario = buscarPorId(usuarioId);
+    	if(usuario != null && evento != null) {
+    		boolean participou = usuario.participarEvento(evento);
+    		if (participou) {
+    			EventoService.getInstance().adicionarParticipante(evento.getId(), usuarioId);
+    		}
+    		return participou;
+    	}
+    	return false;
+    }
+    
 	
+    /**
+     * Cancela a participação de um usuário em um evento.
+     *
+     * @param usuarioId ID do usuário que deseja cancelar a participação
+     * @param evento Evento do qual o usuário deseja se remover
+     * @return true se a operação foi realizada com sucesso, false caso contrário
+     */
+    public boolean removerParticipacaoUsuario(int usuarioId, Evento evento) {
+        Usuario usuario = buscarPorId(usuarioId);
+        if (usuario != null && evento != null) {
+            usuario.cancelarParticipacao(evento);
+            return true;
+        }
+        return false;
+    }
+    
+    
+    /**
+     * Retorna uma lista dos eventos em que o usuário está participando.
+     *
+     * @param usuarioId ID do usuário
+     * @return Lista de eventos que o usuário está participando ou uma lista vazia se o usuário não for encontrado
+     */
+
+    public List<Evento> getEventosParticipandoUsuario(int usuarioId){
+    	System.out.println("[DEBUG] Buscando eventos para o usuário ID: "+ usuarioId);
+    	
+    	Usuario usuario = buscarPorId(usuarioId);
+    	if(usuario==null) {
+    		System.out.println("[DEBUG] Usuário não encontrado");
+    		return Collections.emptyList();
+    	}
+    	
+    	List<Evento> eventos = usuario.getEventosParticipando();
+    	System.out.println("[DEBUG] Eventos encontrados: "+ eventos.size());
+    	eventos.forEach(e -> System.out.println(" - " + e.getTitulo()));
+    	
+    	return new ArrayList<>(eventos);
+    }
+      
+    
+    /**
+     * Retorna uma lista de eventos organizados pelo usuário.
+     *
+     * @param usuarioId ID do usuário
+     * @return Lista de eventos organizados pelo usuário ou uma lista vazia se o usuário não for encontrado
+     */
+
+    public List<Evento> getEventosOrganizandoUsuario(int usuarioId) {
+        Usuario usuario = buscarPorId(usuarioId);
+        return usuario != null ? usuario.getEventosOrganizados() : new ArrayList<>();
+        // operador ternário >> condição ? valor_se_verdadeiro : valor_se_falso;
+    }
+    
+    
+    
 	// OTP - fluxo de redefinição de senha
 
 	public Usuario getUsuarioPorEmail(String email) {
