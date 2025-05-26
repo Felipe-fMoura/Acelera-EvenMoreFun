@@ -273,4 +273,34 @@ public class EventoService {
 	 }
 	 
 	 
+	 // Métodos para estátistica
+	 
+	 
+	 /**
+	  * Conta quantos eventos foram organizados por um determinado usuário.
+	  *
+	  * @param usuarioId ID do usuário organizador
+	  * @return número de eventos organizados pelo usuário
+	  */
+	 public int contarEventosOrganizadosPorUsuario(int usuarioId) {
+	        return (int) eventos.stream()
+	                .filter(e -> e.getOrganizador().getId() == usuarioId)
+	                .count();
+	    }
+	 
+	 
+	 /**
+	  * Conta quantos eventos um determinado usuário participa.
+	  *
+	  * @param usuarioId ID do usuário participante
+	  * @return número de eventos em que o usuário participa
+	  */
+	  public int contarParticipacoesUsuario(int usuarioId) {
+	        return (int) eventos.stream()
+	                .filter(e -> e.getParticipantes().stream().anyMatch(u -> u.getId() == usuarioId))
+	                .count();
+	    }
+	 
+
+	  
 }
