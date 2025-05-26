@@ -105,5 +105,42 @@ public class EventoService {
                 .orElse(null);
     }
 	
+	// Métodos de listagem
 	
+	
+	/**
+	 * Retorna uma cópia da lista com todos os eventos cadastrados.
+	 *
+	 * @return lista de eventos
+	 */
+	public List<Evento> listarTodosEventos(){
+		return new ArrayList<>(eventos);
+	}
+	
+	/**
+	 * Retorna uma lista de eventos públicos, ordenados por data.
+	 *
+	 * @return lista de eventos não privados em ordem crescente de data
+	 */
+	 public List<Evento> listarEventosPublicos() {
+	        return eventos.stream()
+	                .filter(e -> !e.isPrivado())
+	                .sorted(Comparator.comparing(Evento::getData))
+	                .collect(Collectors.toList());
+	    }
+	
+	 /**
+	  * Retorna uma lista de eventos que ainda vão acontecer, ordenados por data.
+	  *
+	  * @return lista de eventos com data futura em ordem crescente
+	  */
+	 public List<Evento> listarProximosEventos() {
+	        return eventos.stream()
+	                .filter(e -> e.getData().isAfter(LocalDateTime.now()))
+	                .sorted(Comparator.comparing(Evento::getData))
+	                .collect(Collectors.toList());
+	    }
+	 
+	 
+	 
 }
