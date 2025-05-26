@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Text?>
+
+<VBox fx:id="cardRoot" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CardEventoController">
+    
+    <!-- Cabeçalho com organizador e data -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <StackPane>
+            <Circle fill="#e4e6eb" radius="20" />
+            <Text fill="#1877f2" style="-fx-font-weight: bold;" text="U" />
+        </StackPane>
+        <VBox spacing="2">
+            <Text fx:id="txtNomeOrganizador" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+            <Text fx:id="txtDataEvento" style="-fx-font-size: 12px; -fx-fill: #65676b;" />
+        </VBox>
+    </HBox>
+    
+    <!-- Título do evento -->
+    <Text fx:id="txtTituloEvento" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 5px 0;" />
+    
+    <!-- Imagem do evento -->
+    <ImageView fx:id="imgEvento" fitHeight="280" fitWidth="500" pickOnBounds="true" preserveRatio="true">
+        <image>
+            <Image url="@../images/system/images.png" />
+        </image>
+    </ImageView>
+    
+    <!-- Descrição do evento -->
+    <Text fx:id="txtDescricaoEvento" style="-fx-padding: 5px 0; -fx-font-size: 14px;" wrappingWidth="500" />
+    
+    <!-- Informações adicionais -->
+    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 5px 0;">
+        <Label fx:id="lblParticipantes" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #65676b;">
+            <graphic>
+                <ImageView fitHeight="14" fitWidth="14">
+                    <image>
+                        <Image url="@../images/system/images.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+        <Label fx:id="lblLocal" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #65676b;">
+            <graphic>
+                <ImageView fitHeight="14" fitWidth="14">
+                    <image>
+                        <Image url="@../images/system/images.png" />
+                    </image>
+                </ImageView>
+            </graphic>
+        </Label>
+    </HBox>
+    
+    <Separator style="-fx-padding: 5px 0;" />
+    
+    <!-- Botões de ação -->
+    <HBox alignment="CENTER" spacing="10" style="-fx-padding: 5px 0;">
+        <Button fx:id="btnParticipar" onAction="#handleParticipar" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Participar" />
+        
+        <Button fx:id="btnCompartilhar" onAction="#handleCompartilhar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Compartilhar" />
+    </HBox>
+</VBox>

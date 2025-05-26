@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="view.TelaCriarEventoController" style="-fx-padding: 20;">
+    <Label text="Criar Novo Evento" style="-fx-font-size: 20; -fx-font-weight: bold;"/>
+    
+    <GridPane hgap="10" vgap="10">
+        <Label text="Título:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtTitulo" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+        
+        <Label text="Descrição:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+        <TextArea fx:id="txtDescricao" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+        
+        <Label text="Data:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+        <HBox spacing="5" GridPane.rowIndex="2" GridPane.columnIndex="1">
+            <DatePicker fx:id="dateData"/>
+            <TextField fx:id="txtHora" promptText="HH:mm" style="-fx-pref-width: 80;"/>
+        </HBox>
+        
+        <Label text="Local:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtLocal" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+        
+        <Label text="Categoria:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+        <ComboBox fx:id="cbCategoria" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+        
+        <Label text="Imagem (URL):" GridPane.rowIndex="5" GridPane.columnIndex="0"/>
+        <TextField fx:id="txtImagem" GridPane.rowIndex="5" GridPane.columnIndex="1"/>
+        
+        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.rowIndex="6" GridPane.columnIndex="1"/>
+    </GridPane>
+    
+    <Button text="Criar Evento" onAction="#handleCriarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;"/>
+</VBox>

@@ -315,7 +315,13 @@ public class EventoService {
 	                .filter(e -> e.getParticipantes().stream().anyMatch(u -> u.getId() == usuarioId))
 	                .count();
 	    }
-	 
+	  
+	   public boolean isParticipante(int eventoId, int usuarioId) {
+	        Evento evento = buscarEventoPorId(eventoId);
+	        return evento.getParticipantes().stream()
+	                .anyMatch(u -> u.getId() == usuarioId);
+	    }
+	    
 
 	  
 }
