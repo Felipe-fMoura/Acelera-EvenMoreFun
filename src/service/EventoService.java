@@ -141,6 +141,80 @@ public class EventoService {
 	                .collect(Collectors.toList());
 	    }
 	 
+	 // Métodos de pesquisa
+	 
+	 
+	 /**
+	  * Pesquisa eventos que correspondem a um termo e são visíveis para o usuário.
+	  * Se o termo for vazio, retorna todos os eventos visíveis para o usuário.
+	  *
+	  * @param termo texto para busca nos eventos
+	  * @param usuarioLogado usuário que está consultando os eventos
+	  * @return lista de eventos que correspondem ao termo e são acessíveis ao usuário
+	  */
+	 public List<Evento> pesquisarEventos(String termo, Usuario usuarioLogado){
+		 if (termo == null || termo.trim().isEmpty()) {
+			 return listarEventosParaUsuario(usuarioLogado);
+		 }
+		 
+		 String termoLower = termo.toLowerCase();
+		 return eventos.stream()
+				 .filter(e -> correspondeTermo(e, termoLower))
+				 .filter(e -> isVisivelParaUsuario(e, usuarioLogado))
+				 .sorted(Comparator.comparing(Evento::getData))
+				 .collect(Collectors.toList());
+	 }
+	 
+	
+	 
+	 
+	 // Métodos auxiliares
+	 
+	 
+	 /**
+	  * Retorna a lista de eventos visíveis para um dado usuário, ordenados por data.
+	  *
+	  * @param usuario usuário para quem os eventos devem ser visíveis
+	  * @return lista de eventos acessíveis ao usuário
+	  */
+	 public List<Evento> listarEventosParaUsuario(Usuario usuario) {
+	        return eventos.stream()
+	                .filter(e -> isVisivelParaUsuario(e, usuario))
+	                .sorted(Comparator.comparing(Evento::getData))
+	                .collect(Collectors.toList());
+	    }
+	 
+	 /**
+	  * Verifica se um evento é visível para o usuário informado.
+	  * Um evento é visível se for público ou se o usuário for organizador ou participante.
+	  *
+	  * @param evento evento a ser verificado
+	  * @param usuario usuário para checar permissão
+	  * @return true se o evento é visível para o usuário, false caso contrário
+	  */
+	 private boolean isVisivelParaUsuario(Evento evento, Usuario usuario) {
+	        return !evento.isPrivado() || 
+	               (usuario != null && 
+	                (evento.getOrganizador().equals(usuario) || 
+	                 evento.getParticipantes().contains(usuario)));
+	    }
+	
+	 /**
+	  * Verifica se o termo está presente em algum campo relevante do evento.
+	  * Busca é feita em título, descrição, local e categoria (se existir).
+	  *
+	  * @param evento evento onde será feita a busca
+	  * @param termoLower termo de busca em minúsculas
+	  * @return true se algum campo contém o termo, false caso contrário
+	  */
+	 private boolean correspondeTermo(Evento evento, String termoLower) {
+	        return (evento.getTitulo().toLowerCase().contains(termoLower)) ||
+	               (evento.getDescricao() != null && evento.getDescricao().toLowerCase().contains(termoLower)) ||
+	               (evento.getLocal().toLowerCase().contains(termoLower)) ||
+	               (evento.getCategoria() != null && evento.getCategoria().toLowerCase().contains(termoLower));
+	    }
+	 
+	 // Métodos de participação
 	 
 	 
 }
