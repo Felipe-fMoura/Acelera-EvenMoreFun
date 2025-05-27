@@ -1,5 +1,6 @@
 package view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -11,11 +12,16 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import model.Usuario;
+import service.Redimensionamento;
 import service.UsuarioService;
 import otp.EmailSender;
 import otp.OTPGenerator;
+
+import java.io.IOException;
+
 import jakarta.mail.MessagingException;
 
 public class TelaOTPController {
@@ -43,16 +49,7 @@ public class TelaOTPController {
     @FXML
     public void initialize() {
         // Redimensionar imagem de fundo
-        backgroundImage.fitWidthProperty().bind(telaOTP.widthProperty());
-        backgroundImage.fitHeightProperty().bind(telaOTP.heightProperty());
-
-        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
-        grupoCampos.scaleXProperty().bind(
-        		telaOTP.widthProperty().divide(1920.0)
-        );
-        grupoCampos.scaleYProperty().bind(
-        		telaOTP.heightProperty().divide(1080.0)
-        );
+    	Redimensionamento.aplicarRedimensionamento(telaOTP, backgroundImage, grupoCampos);
     }
 
     @FXML
@@ -89,4 +86,23 @@ public class TelaOTPController {
             new Alert(Alert.AlertType.ERROR, "Erro ao carregar a próxima tela.").show();
         }
     }
+    
+    @FXML
+	private void onBtnEntrar(ActionEvent event) {
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+	        Parent root = loader.load();
+
+	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+	        // Herda o tamanho atual da janela
+	        Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
+
+	        stage.setScene(newScene);
+	        stage.show();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // Você pode exibir uma mensagem de erro aqui, se quiser
+	    }
+	}
 }

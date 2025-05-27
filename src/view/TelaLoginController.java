@@ -2,13 +2,19 @@ package view;
 
 import service.*;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.scene.Group;
-import javafx.beans.binding.Bindings;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import java.io.IOException;
+import javafx.event.ActionEvent;
 
 public class TelaLoginController {
 
@@ -44,16 +50,7 @@ public class TelaLoginController {
     @FXML
     public void initialize() {
         // Redimensionar imagem de fundo
-        backgroundImage.fitWidthProperty().bind(telaLogin.widthProperty());
-        backgroundImage.fitHeightProperty().bind(telaLogin.heightProperty());
-
-        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
-        grupoCampos.scaleXProperty().bind(
-            telaLogin.widthProperty().divide(1920.0)
-        );
-        grupoCampos.scaleYProperty().bind(
-            telaLogin.heightProperty().divide(1080.0)
-        );
+    	Redimensionamento.aplicarRedimensionamento(telaLogin, backgroundImage, grupoCampos);
     }
 
     @FXML
@@ -68,4 +65,42 @@ public class TelaLoginController {
             a.mostrarAlerta("Erro!!", "Senha incorreta ou email inexistente");
         }
     }
+    
+    @FXML
+	private void onBtnCadastro(ActionEvent event) {
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro.fxml"));
+	        Parent root = loader.load();
+
+	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+	        // Herda o tamanho atual da janela
+
+	        stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+			stage.show();
+			
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // Você pode exibir uma mensagem de erro aqui, se quiser
+	    }
+	}
+    
+    @FXML
+	private void onBtnEsqueciSenha(ActionEvent event) {
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaOTP.fxml"));
+	        Parent root = loader.load();
+
+	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+	        // Herda o tamanho atual da janela
+
+	        stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+			stage.show();
+			
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        // Você pode exibir uma mensagem de erro aqui, se quiser
+	    }
+	}
 }

@@ -9,11 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaOTPValidation" 
-           stylesheets="@../resources/styles.css" 
-           xmlns="http://javafx.com/javafx/23.0.1" 
-           xmlns:fx="http://javafx.com/fxml/1" 
-           fx:controller="view.TelaValidarOTPController">
+<StackPane fx:id="telaOTPValidation" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaValidarOTPController">
            
    <children>
    
@@ -31,12 +27,12 @@
       
       <children>
               
-              <TextField fx:id="otpField" layoutX="649.0" layoutY="478.0" prefHeight="91.0" prefWidth="623.0" promptText="Digite o código" styleClass="telaotp-txtfield">
+              <TextField fx:id="otpField" layoutX="760.0" layoutY="513.0" prefHeight="53.0" prefWidth="400.0" promptText="Digite o código" styleClass="telaotp-txtfield">
                   <font>
                      <Font name="Segoe UI" size="18.0" />
                   </font></TextField>
               
-              <Button fx:id="btnConfirmarSenha" layoutX="736.0" layoutY="593.0" onAction="#validarOTP" opacity="0.0" prefHeight="91.0" prefWidth="447.0" />
+              <Button fx:id="btnConfirmarSenha" layoutX="822.0" layoutY="585.0" onAction="#validarOTP" opacity="0.0" prefHeight="60.0" prefWidth="278.0" />
               
           </children>
           

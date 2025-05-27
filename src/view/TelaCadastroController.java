@@ -15,12 +15,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.Group;
-import javafx.beans.binding.Bindings;
 import javafx.stage.Stage;
 import model.Usuario;
 import service.Alertas;
 import service.UsuarioService;
-
+import service.Redimensionamento;
 
 public class TelaCadastroController {
 
@@ -71,16 +70,7 @@ public class TelaCadastroController {
 	@FXML
     public void initialize() {
         // Redimensionar imagem de fundo
-        backgroundImage.fitWidthProperty().bind(telaCadastro.widthProperty());
-        backgroundImage.fitHeightProperty().bind(telaCadastro.heightProperty());
-
-        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
-        grupoCampos.scaleXProperty().bind(
-            telaCadastro.widthProperty().divide(1920.0)
-        );
-        grupoCampos.scaleYProperty().bind(
-            telaCadastro.heightProperty().divide(1080.0)
-        );
+		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
     }
 	
 	@FXML
@@ -155,22 +145,6 @@ public class TelaCadastroController {
 	        e.printStackTrace();
 	        // Você pode exibir uma mensagem de erro aqui, se quiser
 	    }
-	}
-
-
-	@FXML
-	private void onBtnEsqueciMinhaSenha(ActionEvent event) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEsqueciMinhaSenha.fxml"));
-			Parent root = loader.load();
-
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setScene(new Scene(root));
-			stage.show();
-		} catch (IOException e) {
-			e.printStackTrace();
-			// Você pode exibir uma mensagem de erro aqui, se quiser
-		}
 	}
 
 	// tirar

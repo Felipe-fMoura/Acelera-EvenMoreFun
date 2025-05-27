@@ -20,6 +20,7 @@ import javafx.stage.Stage;
 import model.Usuario;
 import service.Alertas;
 import service.UsuarioService;
+import service.Redimensionamento;
 
 public class TelaCadastro2Controller {
 
@@ -59,17 +60,8 @@ public class TelaCadastro2Controller {
 	@FXML
 	private void initialize() {
 		// Redimensionar imagem de fundo
-        backgroundImage.fitWidthProperty().bind(telaCadastro2.widthProperty());
-        backgroundImage.fitHeightProperty().bind(telaCadastro2.heightProperty());
-        
-     // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
-        grupoCampos.scaleXProperty().bind(
-        		telaCadastro2.widthProperty().divide(1920.0)
-        );
-        
-        grupoCampos.scaleYProperty().bind(
-        		telaCadastro2.heightProperty().divide(1080.0)
-            );
+		Redimensionamento.aplicarRedimensionamento(telaCadastro2, backgroundImage, grupoCampos);
+
 		
 		// Adiciona os itens ao ComboBox
 		comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro");

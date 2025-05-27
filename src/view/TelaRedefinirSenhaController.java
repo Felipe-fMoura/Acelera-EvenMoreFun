@@ -8,6 +8,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import model.Usuario;
+import service.Redimensionamento;
 import service.UsuarioService;
 
 public class TelaRedefinirSenhaController {
@@ -35,16 +36,7 @@ public class TelaRedefinirSenhaController {
     @FXML
     public void initialize() {
         // Redimensionar imagem de fundo
-        backgroundImage.fitWidthProperty().bind(telaRedefinirSenha.widthProperty());
-        backgroundImage.fitHeightProperty().bind(telaRedefinirSenha.heightProperty());
-
-        // Escalar proporcionalmente o grupo de campos (base: 1920x1080)
-        grupoCampos.scaleXProperty().bind(
-        		telaRedefinirSenha.widthProperty().divide(1920.0)
-        );
-        grupoCampos.scaleYProperty().bind(
-        		telaRedefinirSenha.heightProperty().divide(1080.0)
-        );
+    	Redimensionamento.aplicarRedimensionamento(telaRedefinirSenha, backgroundImage, grupoCampos);
     }
 
     @FXML

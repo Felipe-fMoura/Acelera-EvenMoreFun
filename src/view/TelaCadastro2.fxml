@@ -57,7 +57,7 @@
                
             </TextField>
                         
-            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" styleClass="logincadastro2-txtfield">
+            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" styleClass="logincadastro2-combobox">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor></ComboBox>

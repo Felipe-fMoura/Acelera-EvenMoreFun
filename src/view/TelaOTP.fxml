@@ -10,7 +10,10 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaOTP" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaOTPController">
+<StackPane fx:id="telaOTP" stylesheets="@../resources/styles.css" 
+           xmlns="http://javafx.com/javafx/23.0.1" 
+           xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="view.TelaOTPController">
    <children>
           
             <ImageView fx:id="backgroundImage" preserveRatio="false">
@@ -39,7 +42,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor></Button>
            
-            <Button fx:id="btnEntrar" layoutX="1319.0" layoutY="963.0" mnemonicParsing="false" opacity="0.0" prefHeight="25.0" prefWidth="284.0" styleClass="telaotp-btn">
+            <Button fx:id="btnEntrar" layoutX="1319.0" layoutY="963.0" mnemonicParsing="false" onAction="#onBtnEntrar" opacity="0.0" prefHeight="25.0" prefWidth="284.0" styleClass="telaotp-btn">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

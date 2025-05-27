@@ -19,7 +19,8 @@
    <children>
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  
          
-            <ImageView fx:id="backgroundImage" preserveRatio="false">
+            <ImageView fx:id="backgroundImage" 
+                       preserveRatio="false">
             
                <image>
                   <Image url="@../resources/TelaCadastro.png" />

@@ -64,13 +64,8 @@ public class TelaValidarOTPController {
         if (otpCorreto != null && inputOtp.equals(otpCorreto)) {
             // Redireciona para tela de redefinir senha
             try {
-            	
-            	
-            
-            	
-            
-              
-                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaRedefinirSenha.fxml"));
+            	                       
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaRedefinirSenha.fxml"));
                 Parent root = loader.load();
                 
                 Stage stage = (Stage) otpField.getScene().getWindow();

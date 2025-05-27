@@ -68,6 +68,15 @@
 
 .logincadastro2-combobox {
 	-fx-background-color: #E4E4E4;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 18px; 
+    -fx-background-radius: 16;
+    
+}
+
+.logincadastro2-combobox .text {
+    -fx-fill: #cccccc;
+     
 }
 
 .logincadastro2-btn{
