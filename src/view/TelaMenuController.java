@@ -58,8 +58,8 @@ public class TelaMenuController {
 
     private void atualizarInterfaceUsuario() {
         if (usuarioLogado != null) {
-            txtUserName.setText("Olá, " + usuarioLogado.getNome());
-            btnPerfil.setText(usuarioLogado.getNome().split(" ")[0]); // Mostra apenas o primeiro nome
+            txtUserName.setText("Olá, " + usuarioLogado.getUsername());
+            btnPerfil.setText(usuarioLogado.getUsername().split(" ")[0]); 
         }
     }
 
@@ -120,26 +120,24 @@ public class TelaMenuController {
         }
     }
 
-    @FXML
-    private void handleAbrirPerfil(ActionEvent event) {
+    
+    @FXML private void handleAbrirPerfil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaPerfil.fxml"));
             Parent subTelaPerfil = loader.load();
-            
+
             TelaPerfilController controller = loader.getController();
             controller.setUsuario(usuarioLogado);
-            
-            testeVbox.getChildren().clear(); // Limpa conteúdo anterior, se necessário
+            testeVbox.getChildren().clear();
             testeVbox.getChildren().add(subTelaPerfil);
-            
-            
-           
-            
+
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir perfil");
         }
     }
+
+
 
     @FXML
     private void handlePesquisarEventos() {

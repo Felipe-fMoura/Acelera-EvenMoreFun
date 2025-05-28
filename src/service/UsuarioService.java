@@ -29,7 +29,7 @@ public class UsuarioService {
 		return instancia;
 	}
 
-	public Usuario iniciarCadastro(String username, String email, String senha) {
+	public Usuario iniciarCadastro(String nome, String sobrenome,String username, String email, String senha) {
 		// Validações
 		if (!validarEmail(email) || !validarSenha(senha)) {
 			return null;
@@ -41,7 +41,8 @@ public class UsuarioService {
 		}
 
 		// Cria usuário com ID provisional
-		Usuario novo = new Usuario(username, email, senha);
+		Usuario novo = new Usuario(nome,sobrenome,username, email, senha);
+		listaUsuarios.add(novo);
 		novo.setId(proximoId++); // Reserva o ID
 		return novo;
 	}
@@ -177,13 +178,29 @@ public class UsuarioService {
 	}
 
 	public void carregarUsuariosDeTeste() {
-		Usuario joazin = new Usuario();
-		joazin.setNome("Joazin Teste");
-		joazin.setEmail("joazin1012123987@gmail.com");
-		joazin.setSenha("Broxa@123");
-		this.cadastrar(joazin);
+		Usuario Tester = new Usuario();
+		Tester.setNome("Usuario Teste");
+		Tester.setUsername("Tester");
+		Tester.setEmail("fmouraschool@gmail.com");
+		Tester.setSenha("Teste@123");
+		this.cadastrar(Tester);
 	}
 
+	
+	public boolean dadosCompletosCadastrados(Usuario usuario) {
+		
+		if (usuario.getCpf() == null || usuario.getGenero() == null || 
+				usuario.getTelefone() == null || usuario.getDataNascimento() == null) {
+		    // Algum dos campos está nulo
+			System.out.println("[DEBUG] Os Dados não estão completamente cadastrados");
+			return false;
+		}
+
+		
+		return true;
+	}
+	
+	
 	// MÉTODOS AUXILIARES ADICIONADOS
 	
 	/**

@@ -11,16 +11,12 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaCadastro" stylesheets="@../resources/styles.css" 
-           xmlns="http://javafx.com/javafx/23.0.1" 
-           xmlns:fx="http://javafx.com/fxml/1" 
-           fx:controller="view.TelaCadastroController">
+<StackPane fx:id="telaCadastro" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCadastroController">
            
    <children>
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  
          
-            <ImageView fx:id="backgroundImage" 
-                       preserveRatio="false">
+            <ImageView fx:id="backgroundImage" preserveRatio="false">
             
                <image>
                   <Image url="@../resources/TelaCadastro.png" />
@@ -33,51 +29,34 @@
             
             <children>
                
-            <TextField fx:id="txtUsername" layoutX="966.0" layoutY="399.0" 
-                       prefHeight="63.0" prefWidth="475.0" 
-                       promptText="Usuário" 
-                       styleClass="logincadastro-txtfield">
+            <TextField fx:id="txtUsername" layoutX="966.0" layoutY="451.0" prefHeight="63.0" prefWidth="475.0" promptText="Nome de Usuário" styleClass="logincadastro-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
 
             </TextField>
             
-            <TextField fx:id="txtEmail" layoutX="966.0" layoutY="513.0" 
-                       prefHeight="63.0" prefWidth="475.0" 
-                       promptText="Email" 
-                       styleClass="logincadastro-txtfield">
+            <TextField fx:id="txtEmail" layoutX="966.0" layoutY="551.0" prefHeight="63.0" prefWidth="475.0" promptText="Email" styleClass="logincadastro-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font> 
                
                </TextField>
             
-            <PasswordField fx:id="txtSenha" layoutX="966.0" layoutY="626.0" 
-                           prefHeight="63.0" prefWidth="475.0" 
-                           promptText="Digite sua senha" 
-                           styleClass="logincadastro-txtfield">
+            <PasswordField fx:id="txtSenha" layoutX="966.0" layoutY="651.0" prefHeight="63.0" prefWidth="475.0" promptText="Digite sua senha" styleClass="logincadastro-txtfield">
                <font>
                   <Font size="18.0" />
                </font>
               
                </PasswordField>
             
-            <PasswordField fx:id="txtRepitirSenha" layoutX="966.0" layoutY="738.0" 
-                           prefHeight="63.0" prefWidth="475.0" 
-                           promptText="Repita sua senha" 
-                           styleClass="logincadastro-txtfield">
+            <PasswordField fx:id="txtRepitirSenha" layoutX="966.0" layoutY="750.0" prefHeight="63.0" prefWidth="475.0" promptText="Repita sua senha" styleClass="logincadastro-txtfield">
                <font>
                   <Font size="18.0" />
                </font>
             </PasswordField>
                
-            <Button fx:id="btnConfirma" layoutX="1085.0" layoutY="836.0" 
-                    mnemonicParsing="false" onAction="#onBtCadastrarUsuario" 
-                    opacity="0.0" 
-                    prefHeight="84.0" prefWidth="250.0" 
-                    styleClass="logincadastro-btn" 
-                    textFill="WHITE">
+            <Button fx:id="btnConfirma" layoutX="1085.0" layoutY="837.0" mnemonicParsing="false" onAction="#onBtCadastrarUsuario" opacity="0.0" prefHeight="84.0" prefWidth="250.0" styleClass="logincadastro-btn" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -87,12 +66,7 @@
                </cursor>
             </Button>
             
-            <Button fx:id="btnEntrar" layoutX="371.0" layoutY="731.0" 
-                    mnemonicParsing="false" onAction="#onBtnEntrar" 
-                    opacity="0.0" 
-                    prefHeight="84.0" prefWidth="256.0" 
-                    styleClass="logincadastro-btn" 
-                    textFill="WHITE">
+            <Button fx:id="btnEntrar" layoutX="371.0" layoutY="731.0" mnemonicParsing="false" onAction="#onBtnEntrar" opacity="0.0" prefHeight="84.0" prefWidth="256.0" styleClass="logincadastro-btn" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
@@ -103,6 +77,16 @@
                </cursor>
            
             </Button>
+               <TextField fx:id="txtNome" layoutX="966.0" layoutY="351.0" prefHeight="63.0" prefWidth="231.0" promptText="Nome" styleClass="logincadastro-txtfield">
+                  <font>
+                     <Font name="Segoe UI" size="18.0" />
+                  </font>
+               </TextField>
+               <TextField fx:id="txtSobrenome" layoutX="1210.0" layoutY="351.0" prefHeight="63.0" prefWidth="231.0" promptText="Sobrenome" styleClass="logincadastro-txtfield">
+                  <font>
+                     <Font name="Segoe UI" size="18.0" />
+                  </font>
+               </TextField>
         
          </children>
      

@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.Usuario;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -53,14 +54,36 @@ public class TelaLoginController {
     	Redimensionamento.aplicarRedimensionamento(telaLogin, backgroundImage, grupoCampos);
     }
 
+    
+    
     @FXML
-    private void onBtnLogar() {
+    private void onBtnLogar(ActionEvent event) {
         Alertas a = new Alertas();
         String email = txtUsuarioLogin.getText();
         String senha = txtSenhaLogin.getText();
 
         if (usuarioService.fazerLogin(email, senha)) {
             a.mostrarAlerta("Sucesso!!", "Usuário logado com sucesso");
+
+            
+            try {
+            	
+            	Usuario usuario = usuarioService.getUsuarioPorEmail(email);            	
+            	
+    			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
+    			Parent root = loader.load();
+
+    			TelaMenuController controller = loader.getController();
+    			controller.setUsuarioLogado(usuario); // Já com ID atribuído
+
+    			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+    			stage.show();
+    		} catch (IOException e) {
+    			e.printStackTrace();
+    		}
+
+            
         } else {
             a.mostrarAlerta("Erro!!", "Senha incorreta ou email inexistente");
         }

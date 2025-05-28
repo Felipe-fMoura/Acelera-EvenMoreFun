@@ -10,6 +10,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Usuario;
@@ -27,9 +29,12 @@ public class TelaPerfilController {
     @FXML private ImageView imgPerfil;
     @FXML private ListView<Evento> listEventosParticipando;
     @FXML private ListView<Evento> listEventosOrganizados;
-    @FXML private Button btnVoltar;
+    @FXML private Button btnFechar;
     
     private UsuarioService usuarioService = UsuarioService.getInstance();
+    
+    Usuario usuarioLogado;
+
 
     public void setUsuario(Usuario usuario) {
         if (usuario != null) {
@@ -50,7 +55,11 @@ public class TelaPerfilController {
             
             // Configura como os eventos serão exibidos na lista
             configurarCelulasListView();
+            
+            usuarioLogado = usuario;
         }
+        
+        usuarioService.dadosCompletosCadastrados(usuario);
     }
 
     private void configurarCelulasListView() {
@@ -58,21 +67,28 @@ public class TelaPerfilController {
         listEventosOrganizados.setCellFactory(lv -> new EventoListCell());
     }
     
+    
     @FXML
-    private void onBtVoltar(ActionEvent event) {
-    	try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro.fxml"));
-			Parent root = loader.load();
+    private void handleFecharPerfil(ActionEvent event) {
+    
+	try {
+	
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
+		Parent root = loader.load();
 
-			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setScene(new Scene(root));
-			stage.show();
+		TelaMenuController controller = loader.getController();
+		controller.setUsuarioLogado(usuarioLogado); // Já com ID atribuído
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+		stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+		stage.show();
+	} catch (IOException e) {
+		e.printStackTrace();
 	}
+        
+        
+    }
+
     
     
     

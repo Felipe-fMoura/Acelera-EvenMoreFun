@@ -29,6 +29,9 @@ public class TelaCadastroController {
 	private TextField txtUsername;
 
 	@FXML
+	private TextField txtNome;
+	
+	@FXML
 	private TextField txtSobrenome;
 
 	@FXML
@@ -41,13 +44,7 @@ public class TelaCadastroController {
 	private TextField txtVerificarSenha;
 
 	@FXML
-	private DatePicker txtDataNascimento;
-
-	@FXML
 	private Button btnConfirma;
-
-	@FXML
-	private Button btListaUsuarios;
 
 	@FXML
 	private TextField txtRepitirSenha;
@@ -71,10 +68,19 @@ public class TelaCadastroController {
     public void initialize() {
         // Redimensionar imagem de fundo
 		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
+		// APAGAR
+				usuarioService.carregarUsuariosDeTeste();
     }
+	
 	
 	@FXML
 	private void onBtCadastrarUsuario(ActionEvent event) {
+		
+		
+		
+		
+		String nome = txtNome.getText();
+		String sobrenome = txtSobrenome.getText();
 		String userName = txtUsername.getText();
 		String email = txtEmail.getText();
 		String senha = txtSenha.getText();
@@ -107,18 +113,18 @@ public class TelaCadastroController {
 		}
 		// TRANSAÇÃO ENTRE USUARIOS
 
-		Usuario novo = usuarioService.iniciarCadastro(userName, email, senha);
+		Usuario novo = usuarioService.iniciarCadastro(nome ,sobrenome ,userName, email, senha);	
 		if (novo == null) {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;
 		}
 
 		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCadastro2.fxml"));
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
 			Parent root = loader.load();
 
-			TelaCadastro2Controller controller = loader.getController();
-			controller.setUsuario(novo); // Já com ID atribuído
+			TelaMenuController controller = loader.getController();
+			controller.setUsuarioLogado(novo); // Já com ID atribuído
 
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));

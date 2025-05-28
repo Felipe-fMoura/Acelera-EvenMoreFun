@@ -44,11 +44,17 @@ public class Usuario {
      * @param senha Senha do usuário (não pode ser nula)
      * @throws NullPointerException se qualquer parâmetro obrigatório for nulo
      */
-    public Usuario(String username, String email, String senha) {
+    public Usuario(String nome, String sobrenome,String username, String email, String senha) {
         this();
+        
+        this.nome = Objects.requireNonNull(nome, "Nome não pode ser nulo");
+        this.sobrenome = Objects.requireNonNull(sobrenome, "Sobrenome não pode ser nulo");       
         this.username = Objects.requireNonNull(username, "Username não pode ser nulo");
         this.email = Objects.requireNonNull(email, "Email não pode ser nulo");
         this.senha = Objects.requireNonNull(senha, "Senha não pode ser nula");
+        
+        
+        
     }
 
 	// Getters e Setters
