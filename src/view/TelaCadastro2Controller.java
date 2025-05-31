@@ -31,12 +31,6 @@ public class TelaCadastro2Controller {
 	private ComboBox<String> comboBoxGenero;
 
 	@FXML
-	private TextField txtNome;
-
-	@FXML
-	private TextField txtSobrenome;
-
-	@FXML
 	private TextField txtCPF;
 
 	@FXML
@@ -97,8 +91,6 @@ public class TelaCadastro2Controller {
 		}
 
 		if (usuario != null) {
-			usuario.setNome(txtNome.getText());
-			usuario.setSobrenome(txtSobrenome.getText());
 			usuario.setTelefone(txtTelefone.getText());
 			usuario.setCpf(txtCPF.getText());
 			usuario.setDataNascimento(dataNasc.getValue());
@@ -111,7 +103,6 @@ public class TelaCadastro2Controller {
 				System.out.println("Username: " + usuario.getUsername());
 				System.out.println("Email: " + usuario.getEmail());
 				System.out.println("Nome: " + usuario.getNome());
-				System.out.println("Sobrenome: " + usuario.getSobrenome());
 				System.out.println("Telefone: " + usuario.getTelefone());
 				System.out.println("CPF: " + usuario.getCpf());
 				System.out.println("Nascimento: " + usuario.getDataNascimento().toString());

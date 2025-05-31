@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCriarEventoController">
+    <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Editar Evento" />
+    
+    <GridPane hgap="10" vgap="10">
+        <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <TextField fx:id="txtTitulo" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        
+        <Label text="Descrição:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <TextArea fx:id="txtDescricao" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        
+        <Label text="Data:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <DatePicker fx:id="dateData" />
+            <TextField fx:id="txtHora" promptText="HH:mm" style="-fx-pref-width: 80;" />
+        </HBox>
+        
+        <Label text="Local:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <TextField fx:id="txtLocal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+        
+        <Label text="Categoria:" GridPane.columnIndex="0" GridPane.rowIndex="4" />
+        <ComboBox fx:id="cbCategoria" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+        
+        <Label text="Imagem:" GridPane.rowIndex="6" />
+        <TextField fx:id="txtPalestrante" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        
+        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <TextField fx:id="txtImagem" GridPane.columnIndex="1" GridPane.rowIndex="6" />
+      <Label text="Palestrante:" GridPane.rowIndex="5" />
+      <columnConstraints>
+         <ColumnConstraints />
+         <ColumnConstraints />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+         <RowConstraints />
+      </rowConstraints>
+    </GridPane>
+    
+    <Button onAction="#handleCriarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="Criar Evento" />
+</VBox>

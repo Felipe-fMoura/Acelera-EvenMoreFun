@@ -29,20 +29,6 @@
             
             <children>
             
-            <TextField fx:id="txtNome" layoutX="435.0" layoutY="342.0" prefHeight="60.0" prefWidth="221.0" promptText="Nome" styleClass="logincadastro2-txtfield">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-            
-            </TextField>
-            
-            <TextField fx:id="txtSobrenome" layoutX="698.0" layoutY="342.0" prefHeight="60.0" prefWidth="221.0" promptText="Sobrenome" styleClass="logincadastro2-txtfield">
-               <font>
-                  <Font name="Segoe UI" size="18.0" />
-               </font>
-               
-            </TextField>
-            
             <TextField fx:id="txtCPF" layoutX="435.0" layoutY="431.0" prefHeight="60.0" prefWidth="484.0" promptText="CPF" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />

@@ -12,6 +12,11 @@
 <?import javafx.scene.text.Text?>
 
 <VBox fx:id="cardRoot" spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CardEventoController">
+   <HBox alignment="TOP_RIGHT" fillHeight="false" prefHeight="25.0" prefWidth="129.0">
+      <children>
+         <Button fx:id="btnEditar" mnemonicParsing="false" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 50;" text="Editar" />
+      </children>
+   </HBox>
     
     <!-- Cabeçalho com organizador e data -->
     <HBox alignment="CENTER_LEFT" spacing="10">
