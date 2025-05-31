@@ -16,6 +16,7 @@ public class TelaCriarEventoController {
     @FXML private TextField txtImagem;
     @FXML private ComboBox<String> cbCategoria;
     @FXML private CheckBox checkPrivado;
+    @FXML private TextField txtPalestrante;
     
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
@@ -40,8 +41,9 @@ public class TelaCriarEventoController {
             txtTitulo.getText(),
             txtDescricao.getText(),
             dataHora,
-            txtLocal.getText(),
-            usuarioLogado
+            txtLocal.getText(),       
+            usuarioLogado,
+            txtPalestrante.getText()
         );
         
         evento.setCategoria(cbCategoria.getValue());

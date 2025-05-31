@@ -16,6 +16,7 @@ public class Evento {
     private String local;
     private String imagem;
     private String categoria;
+    private String palestrante;
 
     private LocalDateTime data;
     private LocalDateTime dataCriacao;
@@ -31,12 +32,13 @@ public class Evento {
         this.dataCriacao = LocalDateTime.now();
     }
 
-    public Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador) {
+    public Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador, String palestrante) {
         this();
         this.titulo = titulo;
         this.descricao = descricao;
         this.data = data;
         this.local = local;
+        this.palestrante = palestrante;
         this.organizador = organizador;
     }
 
@@ -128,10 +130,21 @@ public class Evento {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+    
+    public String getPalestrante() {
+		return palestrante;
+	}
+
+	public void setPalestrante(String palestrante) {
+		this.palestrante = palestrante;
+	}
+    
 
     // Métodos auxiliares
     
-    /**
+   
+
+	/**
      * Adiciona um participante ao evento caso ele não esteja já cadastrado.
      * 
      * @param usuario Objeto Usuario a ser adicionado como participante
@@ -187,12 +200,13 @@ public class Evento {
     @Override
     public String toString() {
         return String.format(
-            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador=%s, participantes=%d]",
+            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador=%s, participantes=%d], palestrante='%s'",
             id,
             titulo != null ? titulo : "",
             data != null ? data : "null",
             local != null ? local : "",
             organizador != null ? organizador.getNome() : "null",
+            palestrante != null ? palestrante : "",
             getQuantidadeParticipantes()
         );
     }

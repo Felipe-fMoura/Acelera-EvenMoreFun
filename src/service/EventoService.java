@@ -41,10 +41,10 @@ public class EventoService {
     	org2.setNome("Ciclano Ciclone");
     	
     	criarEvento(new Evento("Festa de Aniversário", "Venha comemorar conosco!",
-    			LocalDateTime.now().plusDays(5),"Casa do João",org1));
+    			LocalDateTime.now().plusDays(5),"Casa do João",org1,"Mãe do Jõao"));
     
     	 criarEvento(new Evento("Workshop de JavaFX", "Aprenda a criar interfaces incríveis", 
-                 LocalDateTime.now().plusDays(10), "Sala 101", org2));
+                 LocalDateTime.now().plusDays(10), "Sala 101", org2, "Prof. Eduardo Enari"));
     }
     
     //Crud básico
@@ -239,6 +239,7 @@ public class EventoService {
 	        return (evento.getTitulo().toLowerCase().contains(termoLower)) ||
 	               (evento.getDescricao() != null && evento.getDescricao().toLowerCase().contains(termoLower)) ||
 	               (evento.getLocal().toLowerCase().contains(termoLower)) ||
+	               (evento.getPalestrante().toLowerCase().contains(termoLower)) ||
 	               (evento.getCategoria() != null && evento.getCategoria().toLowerCase().contains(termoLower));
 	    }
 	 

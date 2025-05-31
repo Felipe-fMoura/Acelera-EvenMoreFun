@@ -20,6 +20,7 @@ public class CardEventoController {
     @FXML private Label lblParticipantes;
     @FXML private Label lblLocal;
     @FXML private ImageView imgEvento;
+    @FXML private Label lblPalestrante;
     
     // Novos elementos
     @FXML private Button btnParticipar;
@@ -40,6 +41,7 @@ public class CardEventoController {
         txtDataEvento.setText(evento.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
         lblLocal.setText(evento.getLocal());
+        lblPalestrante.setText(evento.getPalestrante());
         
         // Configuração da imagem
         if (evento.getImagem() != null && !evento.getImagem().isEmpty()) {
