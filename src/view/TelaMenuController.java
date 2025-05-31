@@ -16,8 +16,15 @@ import service.EventoService;
 import service.UsuarioService;
 import javafx.event.ActionEvent;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class TelaMenuController {
     private UsuarioService usuarioService = UsuarioService.getInstance();
@@ -41,16 +48,51 @@ public class TelaMenuController {
     
     @FXML
     private VBox testeVbox;
+    
+    @FXML
+    private Text txtRandom;
 
     @FXML
     public void initialize() {
+    	
+    	try {
+    	    // Carrega o arquivo de recursos
+    	    InputStream inputStream = getClass().getResourceAsStream("/resources/Frases.txt");
+    	    if (inputStream != null) {
+    	        List<String> frases = new BufferedReader(new InputStreamReader(inputStream))
+    	                                .lines()
+    	                                .collect(Collectors.toList());
+    	        
+    	        String fraseAleatoria = selecionarFraseAleatoria(frases);
+    	        txtRandom.setText(fraseAleatoria);
+    	    } else {
+    	        txtRandom.setText("Bem-vindo ao software!");
+    	        System.err.println("Arquivo Frases.txt não encontrado nos recursos");
+    	    }
+    	} catch (Exception e) {
+    	    System.err.println("Erro ao ler o arquivo de frases: " + e.getMessage());
+    	    txtRandom.setText("Bem-vindo ao software!");
+    	}
+    	
+    	
+    	
+    	
         // Configura o campo de pesquisa para buscar ao pressionar Enter
         campoPesquisa.setOnAction(event -> handlePesquisarEventos());
         
         // Carrega os eventos quando a tela é inicializada
         carregarEventos();
+              
     }
-
+    
+    private String selecionarFraseAleatoria(List<String> frases) {
+        if (frases == null || frases.isEmpty()) {
+            return "Bem-vindo ao software!";
+        }
+        Random random = new Random();
+        return frases.get(random.nextInt(frases.size()));
+    }
+    
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         atualizarInterfaceUsuario();
