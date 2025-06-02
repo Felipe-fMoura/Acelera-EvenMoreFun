@@ -9,7 +9,6 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -18,6 +17,7 @@ import javafx.scene.Group;
 import javafx.stage.Stage;
 import model.Usuario;
 import service.Alertas;
+import service.EmailConfirmationService;
 import service.UsuarioService;
 import service.Redimensionamento;
 
@@ -69,22 +69,18 @@ public class TelaCadastroController {
         // Redimensionar imagem de fundo
 		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
 		// APAGAR
-				usuarioService.carregarUsuariosDeTeste();
+		usuarioService.carregarUsuariosDeTeste();
     }
 	
 	
 	@FXML
 	private void onBtCadastrarUsuario(ActionEvent event) {
-		
-		
-		
-		
 		String nome = txtNome.getText();
 		String sobrenome = txtSobrenome.getText();
 		String userName = txtUsername.getText();
 		String email = txtEmail.getText();
 		String senha = txtSenha.getText();
-		String confirmarSenha = txtRepitirSenha.getText(); // ou txtRepitirSenha
+		String confirmarSenha = txtRepitirSenha.getText();
 
 		Alertas a = new Alertas();
 
@@ -92,39 +88,47 @@ public class TelaCadastroController {
 			a.mostrarAlerta("Senha fraca",
 					"A senha deve conter pelo menos 8 caracteres, incluindo letras maiúsculas, minúsculas, números e caracteres especiais.");
 			return;
-		} else {
-			if (!senha.equals(confirmarSenha)) {
-				a.mostrarAlerta("Erro de Cadastro", "As senhas não coincidem. Tente novamente.");
-				return;
-			}
+		} else if (!senha.equals(confirmarSenha)) {
+			a.mostrarAlerta("Erro de Cadastro", "As senhas não coincidem. Tente novamente.");
+			return;
 		}
-		boolean emailValido = usuarioService.validarEmail(email);
-		if (!emailValido) {
+
+		if (!usuarioService.validarEmail(email)) {
 			a.mostrarAlerta("Erro de Cadastro", "Email inválido. Tente novamente");
 			return;
 		}
 
-		// Verifica se já existe email
 		for (Usuario u : usuarioService.getUsuarios()) {
 			if (u.getEmail().equalsIgnoreCase(email)) {
 				a.mostrarAlerta("Erro de Cadastro", "Email já cadastrado. Tente novamente");
 				return;
 			}
 		}
-		// TRANSAÇÃO ENTRE USUARIOS
 
-		Usuario novo = usuarioService.iniciarCadastro(nome ,sobrenome ,userName, email, senha);	
+		Usuario novo = usuarioService.iniciarCadastro(nome, sobrenome, userName, email, senha);
 		if (novo == null) {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;
 		}
 
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
-			Parent root = loader.load();
+		// DEBUG
+		System.out.println("Usuário cadastrado:");
+		System.out.println("Nome: " + novo.getNome());
+		System.out.println("Sobrenome: " + novo.getSobrenome());
+		System.out.println("Username: " + novo.getUsername());
+		System.out.println("Email: " + novo.getEmail());
+		System.out.println("Senha (criptografada): " + novo.getSenha());
+		System.out.println("Status: aguardando confirmação de e-mail");
 
-			TelaMenuController controller = loader.getController();
-			controller.setUsuarioLogado(novo); // Já com ID atribuído
+		//e-mail de confirmação
+		EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);
+		a.mostrarAlerta("Cadastro efetuado", "Um e-mail de confirmação foi enviado para " + email + 
+			". Por favor, confirme seu e-mail antes de acessar o sistema.");
+
+		// Voltar para tela de login após cadastro
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+			Parent root = loader.load();
 
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
@@ -142,25 +146,20 @@ public class TelaCadastroController {
 
 	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-	        // Herda o tamanho atual da janela
 	        Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
 
 	        stage.setScene(newScene);
 	        stage.show();
 	    } catch (IOException e) {
 	        e.printStackTrace();
-	        // Você pode exibir uma mensagem de erro aqui, se quiser
 	    }
 	}
 
-	// tirar
 	@FXML
 	public void onBtListaUsuarios() {
-
 		for (Usuario u : usuarioService.getUsuarios()) {
 			System.out.println("Nome: " + u.getNome() + " | E-mail: " + u.getEmail() + " | Senha: " + u.getSenha()
 					+ " | Data de nascimento: " + u.getDataNascimento());
 		}
 	}
-
 }

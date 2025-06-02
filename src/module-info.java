@@ -5,7 +5,8 @@ module evenMoreFun{
 	requires javafx.graphics;
 	requires jakarta.mail;
     requires jakarta.activation;
-	
+	requires jdk.httpserver;
+    
     opens application to javafx.graphics, javafx.fxml;
     opens view to javafx.fxml;
 
