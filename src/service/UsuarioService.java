@@ -181,7 +181,7 @@ public class UsuarioService {
 		Usuario Tester = new Usuario();
 		Tester.setNome("Usuario Teste");
 		Tester.setUsername("Tester");
-		Tester.setEmail("fmouraschool@gmail.com");
+		Tester.setEmail("thiago.oliveiramotta@gmail.com");
 		Tester.setSenha("Teste@123");
 		this.cadastrar(Tester);
 	}
@@ -195,7 +195,6 @@ public class UsuarioService {
 			System.out.println("[DEBUG] Os Dados não estão completamente cadastrados");
 			return false;
 		}
-
 		
 		return true;
 	}
