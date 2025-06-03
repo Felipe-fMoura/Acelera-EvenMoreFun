@@ -189,13 +189,8 @@ public class UsuarioService {
 		Usuario Tester = new Usuario();
 		Tester.setNome("Usuario Teste");
 		Tester.setUsername("Tester");
-<<<<<<< HEAD
-		Tester.setEmail("thiago.oliveiramotta@gmail.com");
 		Tester.setSenha("Teste@123");
-=======
 		Tester.setEmail("fmouraschool@gmail.com");
-		Tester.setSenha("123");
->>>>>>> branch 'main' of https://github.com/Felipe-fMoura/Acelera-EvenMoreFun.git
 		this.cadastrar(Tester);
 	}
 
