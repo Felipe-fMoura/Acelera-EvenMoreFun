@@ -1,12 +1,17 @@
 package view;
 
+import java.io.IOException;
 import java.time.format.DateTimeFormatter;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import model.Evento;
 import model.Usuario;
 import service.EventoService;
@@ -20,6 +25,7 @@ public class CardEventoController {
     @FXML private Label lblParticipantes;
     @FXML private Label lblLocal;
     @FXML private ImageView imgEvento;
+    @FXML private Label lblPalestrante;
     
     // Novos elementos
     @FXML private Button btnParticipar;
@@ -40,6 +46,7 @@ public class CardEventoController {
         txtDataEvento.setText(evento.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
         lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
         lblLocal.setText(evento.getLocal());
+        lblPalestrante.setText(evento.getPalestrante());
         
         // Configuração da imagem
         if (evento.getImagem() != null && !evento.getImagem().isEmpty()) {
@@ -112,4 +119,6 @@ public class CardEventoController {
         return "https://eventmorefun.com/eventos/" + evento.getId() + 
                "?nome=" + evento.getTitulo().replace(" ", "+");
     }
+    
+  
 }

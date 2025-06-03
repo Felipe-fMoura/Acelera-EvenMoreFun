@@ -7,7 +7,7 @@ import model.Usuario;
 import service.EventoService;
 import java.time.LocalDateTime;
 
-public class TelaCriarEventoController {
+public class TelaEditarEventoController {
     @FXML private TextField txtTitulo;
     @FXML private TextArea txtDescricao;
     @FXML private DatePicker dateData;
@@ -30,6 +30,9 @@ public class TelaCriarEventoController {
         cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
     }
 
+    
+    
+    
     @FXML
     private void handleCriarEvento() {
         LocalDateTime dataHora = LocalDateTime.of(

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jasypt.util.password.BasicPasswordEncryptor;
+import service.EmailConfirmationService;
 
 import model.Evento;
 import model.Usuario;
@@ -39,9 +40,11 @@ public class UsuarioService {
 		if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
 			return null;
 		}
+		
+		String senhaHash = passwordEncryptor.encryptPassword(senha);
 
 		// Cria usuário com ID provisional
-		Usuario novo = new Usuario(nome,sobrenome,username, email, senha);
+		Usuario novo = new Usuario(nome,sobrenome,username, email, senhaHash);
 		listaUsuarios.add(novo);
 		novo.setId(proximoId++); // Reserva o ID
 		return novo;
@@ -70,6 +73,11 @@ public class UsuarioService {
 		listaUsuarios.add(usuario);
 		usuario.setId(proximoId++);
 		return true;
+	}
+	
+	public void cadastrarUsuario(String nome, String email, String senha) {
+	    // ... cadastro no sistema
+	    EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);
 	}
 
 	/**
@@ -181,8 +189,13 @@ public class UsuarioService {
 		Usuario Tester = new Usuario();
 		Tester.setNome("Usuario Teste");
 		Tester.setUsername("Tester");
+<<<<<<< HEAD
 		Tester.setEmail("thiago.oliveiramotta@gmail.com");
 		Tester.setSenha("Teste@123");
+=======
+		Tester.setEmail("fmouraschool@gmail.com");
+		Tester.setSenha("123");
+>>>>>>> branch 'main' of https://github.com/Felipe-fMoura/Acelera-EvenMoreFun.git
 		this.cadastrar(Tester);
 	}
 

@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCriarEventoController">
-    <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Criar Novo Evento" />
+    <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Editar Evento" />
     
     <GridPane hgap="10" vgap="10">
         <Label text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />

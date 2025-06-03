@@ -2,3 +2,5 @@
 /UsuarioService.class
 /EventoService.class
 /Redimensionamento.class
+/EmailTokenStore.class
+/EmailConfirmationService.class
