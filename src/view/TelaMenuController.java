@@ -105,7 +105,7 @@ public class TelaMenuController {
         }
     }
 
-    private void carregarEventos() {
+    public void carregarEventos() {
         containerEventos.getChildren().clear();
         
         List<Evento> eventos = eventoService.listarEventosParaUsuario(usuarioLogado);
@@ -126,13 +126,15 @@ public class TelaMenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CardEvento.fxml"));
             Node card = loader.load();
             CardEventoController controller = loader.getController();
-            controller.setEvento(evento, usuarioLogado); // Agora passando o usuário logado
+            controller.setEvento(evento, usuarioLogado); // Passa o evento e o usuário logado
+            controller.setTelaMenuController(this); // Passa a referência da própria TelaMenuController
             return card;
         } catch (IOException e) {
             e.printStackTrace();
             return criarCardErro(evento.getTitulo());
         }
     }
+
 
     private Node criarCardErro(String tituloEvento) {
         Text txtErro = new Text("Erro ao carregar evento: " + tituloEvento);

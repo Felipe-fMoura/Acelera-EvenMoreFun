@@ -2,6 +2,8 @@ package view;
 
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -121,4 +123,53 @@ public class CardEventoController {
     }
     
   
+    @FXML
+    private void editarEvento(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEditarEvento.fxml"));
+            Parent root = loader.load();
+
+            TelaEditarEventoController controller = loader.getController();
+            controller.setUsuarioLogado(usuarioLogado);
+            controller.carregarEvento(evento);
+            
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Editar Evento");
+            stage.show();
+            
+            
+            stage.setOnHiding(e -> {
+                if (telaMenuController != null) {
+                    telaMenuController.carregarEventos();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao abrir tela de edição de evento");
+        
+        }
+    }
+    
+    private void mostrarAlerta(String mensagem) {
+        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+            javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setTitle("Aviso");
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
+    }
+    
+    
+    private TelaMenuController telaMenuController;
+    public void setTelaMenuController(TelaMenuController controller) {
+        this.telaMenuController = controller;
+    }
+    
+    
+    
+    
 }
+    
+    

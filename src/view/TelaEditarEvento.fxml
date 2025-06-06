@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCriarEventoController">
+<VBox spacing="10" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEditarEventoController">
     <Label style="-fx-font-size: 20; -fx-font-weight: bold;" text="Editar Evento" />
     
     <GridPane hgap="10" vgap="10">
@@ -57,5 +57,5 @@
       </rowConstraints>
     </GridPane>
     
-    <Button onAction="#handleCriarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="Criar Evento" />
+    <Button onAction="#handleEditarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="Criar Evento" />
 </VBox>
