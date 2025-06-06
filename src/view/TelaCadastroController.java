@@ -111,15 +111,6 @@ public class TelaCadastroController {
 			return;
 		}
 
-		// DEBUG
-		System.out.println("Usuário cadastrado:");
-		System.out.println("Nome: " + novo.getNome());
-		System.out.println("Sobrenome: " + novo.getSobrenome());
-		System.out.println("Username: " + novo.getUsername());
-		System.out.println("Email: " + novo.getEmail());
-		System.out.println("Senha (criptografada): " + novo.getSenha());
-		System.out.println("Status: aguardando confirmação de e-mail");
-
 		//e-mail de confirmação
 		EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);
 		a.mostrarAlerta("Cadastro efetuado", "Um e-mail de confirmação foi enviado para " + email + 

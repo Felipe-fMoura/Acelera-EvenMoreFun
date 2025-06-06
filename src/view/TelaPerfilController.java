@@ -135,7 +135,7 @@ public class TelaPerfilController {
 
 			// Troca de tela
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-			stage.setScene(new Scene(root));
+			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
 			stage.show();
 
 		} catch (IOException e) {

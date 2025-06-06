@@ -29,31 +29,31 @@
             
             <children>
             
-            <TextField fx:id="txtCPF" layoutX="435.0" layoutY="431.0" prefHeight="60.0" prefWidth="484.0" promptText="CPF" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtCPF" layoutX="435.0" layoutY="332.0" prefHeight="60.0" prefWidth="449.0" promptText="CPF" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
                
             </TextField>
             
-            <TextField fx:id="txtTelefone" layoutX="435.0" layoutY="518.0" prefHeight="60.0" prefWidth="484.0" promptText="Telefone" styleClass="logincadastro2-txtfield">
+            <TextField fx:id="txtTelefone" layoutX="434.0" layoutY="439.0" prefHeight="60.0" prefWidth="450.0" promptText="Telefone" styleClass="logincadastro2-txtfield">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
                
             </TextField>
                         
-            <ComboBox fx:id="comboBoxGenero" layoutX="435.0" layoutY="608.0" prefHeight="60.0" prefWidth="484.0" promptText="Gênero" styleClass="logincadastro2-combobox">
+            <ComboBox fx:id="comboBoxGenero" layoutX="434.0" layoutY="561.0" prefHeight="60.0" prefWidth="450.0" promptText="Gênero" styleClass="logincadastro2-combobox">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor></ComboBox>
             
-            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="695.0" prefHeight="60.0" prefWidth="518.0" promptText="Data de Nascimento">
+            <DatePicker fx:id="dataNasc" layoutX="435.0" layoutY="679.0" prefHeight="60.0" prefWidth="486.0" promptText="Data de Nascimento">
                   <cursor>
                      <Cursor fx:constant="HAND" />
                   </cursor></DatePicker>
             
-            <Button fx:id="btnConfirma" layoutX="553.0" layoutY="807.0" mnemonicParsing="false" onAction="#finalizarCadastro" opacity="0.0" prefHeight="66.0" prefWidth="176.0" styleClass="logincadastro2-btn" textFill="WHITE">
+            <Button fx:id="btnConfirma" layoutX="552.0" layoutY="806.0" mnemonicParsing="false" onAction="#finalizarCadastro" opacity="0.0" prefHeight="67.0" prefWidth="178.0" styleClass="logincadastro2-btn" textFill="WHITE">
                <font>
                   <Font name="Segoe UI" size="18.0" />
                </font>
