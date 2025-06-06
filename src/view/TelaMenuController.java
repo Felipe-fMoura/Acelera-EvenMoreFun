@@ -15,7 +15,6 @@ import model.Usuario;
 import service.EventoService;
 import service.UsuarioService;
 import javafx.event.ActionEvent;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
