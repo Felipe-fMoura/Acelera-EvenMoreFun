@@ -33,7 +33,7 @@ public class EventoService {
     
     private void inicializarDadosExemplo() {
     	Usuario org1 = new Usuario();
-    	org1.setId(1);
+    	org1.setId(3);
     	org1.setNome("Fulano Fulanesis");
     	
     	Usuario org2= new Usuario();

@@ -18,7 +18,7 @@ import javafx.stage.Stage;
 import model.Usuario;
 import model.Evento;
 import service.UsuarioService;
-
+import session.SessaoUsuario;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
@@ -31,6 +31,7 @@ public class TelaPerfilController {
     @FXML private Text lblGenero;
     @FXML private Text lblTelefone;
     @FXML private Text lblDataNascimento;
+    @FXML private Text lblId;
     @FXML private ImageView imgPerfil;
     @FXML private ListView<Evento> listEventosParticipando;
     @FXML private ListView<Evento> listEventosOrganizados;
@@ -38,62 +39,55 @@ public class TelaPerfilController {
     @FXML private Label txtCompletarCadastro;
     
     private UsuarioService usuarioService = UsuarioService.getInstance();
-    private Usuario usuarioLogado;
+    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
  
-    public void setUsuario(Usuario usuario) {
+
+    public void carregarUsuario() {
+        Usuario usuario = SessaoUsuario.getInstance().getUsuario();
+        
         if (usuario != null) {
             // Informações básicas
             lblNome.setText(usuario.getNome());
             lblUsername.setText("@" + usuario.getUsername());
             lblEmail.setText(usuario.getEmail());
-            if (usuario.getDataNascimento()==null) {
-            	  lblCpf.setText("Dados incompletos");
-                  lblGenero.setText("Dados incompletos");
-                  lblTelefone.setText("Dados incompletos");
-                  lblDataNascimento.setText("Dados incompletos");
+            
+            if (usuario.getDataNascimento() == null) {
+            	lblId.setText(String.valueOf(usuario.getId()));
+                lblCpf.setText("Dados incompletos");
+                lblGenero.setText("Dados incompletos");
+                lblTelefone.setText("Dados incompletos");
+                lblDataNascimento.setText("Dados incompletos");
+            } else {
+                lblCpf.setText(usuario.getCpf());
+                lblGenero.setText(usuario.getGenero());
+                lblTelefone.setText(usuario.getTelefone());
+                lblDataNascimento.setText(usuario.getDataNascimento().toString());
             }
-            else {
-            	  lblCpf.setText(usuario.getCpf());
-                  lblGenero.setText(usuario.getGenero());
-                  lblTelefone.setText(usuario.getTelefone());
-                  lblDataNascimento.setText(usuario.getDataNascimento().toString());
-            }
-            
-            
-            
-            usuarioLogado = usuarioService.getUsuarioPorEmail(usuario.getEmail());
+
             // Carrega eventos participando
             listEventosParticipando.getItems().setAll(
                 usuarioService.getEventosParticipandoUsuario(usuario.getId())
             );
-            
+
             // Carrega eventos organizados
             listEventosOrganizados.getItems().setAll(
                 usuarioService.getEventosOrganizandoUsuario(usuario.getId())
             );
-            
-            // Configura como os eventos serão exibidos na lista
-            configurarCelulasListView();
-            
-        }
-        
-        if (usuarioService.dadosCompletosCadastrados(usuario)){
-        	txtCompletarCadastro.setText("Cadastro completo:");
-        	
-        }
-        else {
-        	txtCompletarCadastro.setText("Cadastro incompleto. Clique aqui para completar");
 
+            configurarCelulasListView();
+
+            if (usuarioService.dadosCompletosCadastrados(usuario)) {
+                txtCompletarCadastro.setText("Cadastro completo:");
+            } else {
+                txtCompletarCadastro.setText("Cadastro incompleto. Clique aqui para completar");
+            }
         }
-        
-        
     }
 
     private void configurarCelulasListView() {
         listEventosParticipando.setCellFactory(lv -> new EventoListCell());
         listEventosOrganizados.setCellFactory(lv -> new EventoListCell());
     }
-    
     
     @FXML
     private void handleFecharPerfil(ActionEvent event) {

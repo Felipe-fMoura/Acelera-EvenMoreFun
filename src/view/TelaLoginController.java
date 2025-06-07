@@ -1,6 +1,7 @@
 package view;
 
 import service.*;
+import session.SessaoUsuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -77,6 +78,7 @@ public class TelaLoginController {
 
     			TelaMenuController controller = loader.getController();
     			controller.setUsuarioLogado(usuario);
+    	        SessaoUsuario.getInstance().setUsuario(usuario);
 
     			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
@@ -88,6 +90,9 @@ public class TelaLoginController {
         } else {
             a.mostrarAlerta("Erro!!", "Senha incorreta ou email inexistente");
         }
+        
+
+        
     }
     
     @FXML

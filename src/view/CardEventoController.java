@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import model.Evento;
 import model.Usuario;
 import service.EventoService;
+import session.SessaoUsuario;
 
 public class CardEventoController {
     // Elementos existentes
@@ -34,7 +35,7 @@ public class CardEventoController {
     @FXML private Button btnCompartilhar;
     
     private Evento evento;
-    private Usuario usuarioLogado;
+    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
     private EventoService eventoService = EventoService.getInstance();
 
     public void setEvento(Evento evento, Usuario usuarioLogado) {
@@ -125,6 +126,11 @@ public class CardEventoController {
   
     @FXML
     private void editarEvento(ActionEvent event) {
+        if (evento.getOrganizador().getId() != usuarioLogado.getId()) {
+            mostrarAlerta("Você não tem permissão para editar este evento.");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEditarEvento.fxml"));
             Parent root = loader.load();
@@ -132,13 +138,13 @@ public class CardEventoController {
             TelaEditarEventoController controller = loader.getController();
             controller.setUsuarioLogado(usuarioLogado);
             controller.carregarEvento(evento);
-            
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Editar Evento");
             stage.show();
-            
-            
+
+            // Atualiza os eventos na tela principal ao fechar
             stage.setOnHiding(e -> {
                 if (telaMenuController != null) {
                     telaMenuController.carregarEventos();
@@ -148,9 +154,9 @@ public class CardEventoController {
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir tela de edição de evento");
-        
         }
     }
+
     
     private void mostrarAlerta(String mensagem) {
         javafx.scene.control.Alert alert = new javafx.scene.control.Alert(

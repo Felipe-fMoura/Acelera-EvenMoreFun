@@ -187,6 +187,7 @@ public class UsuarioService {
 
 	public void carregarUsuariosDeTeste() {
 		Usuario Tester = new Usuario();
+		Tester.setId(3);
 		Tester.setNome("Usuario Teste");
 		Tester.setUsername("Tester");
 		Tester.setSenha("Teste@123");

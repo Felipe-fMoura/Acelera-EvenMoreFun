@@ -38,6 +38,7 @@ public class TelaCriarEventoController {
         );
         
         Evento evento = new Evento(
+        		
             txtTitulo.getText(),
             txtDescricao.getText(),
             dataHora,
@@ -46,6 +47,7 @@ public class TelaCriarEventoController {
             txtPalestrante.getText()
         );
         
+        evento.setOrganizador(usuarioLogado);
         evento.setCategoria(cbCategoria.getValue());
         evento.setPrivado(checkPrivado.isSelected());
         evento.setImagem(txtImagem.getText());

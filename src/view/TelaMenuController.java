@@ -14,6 +14,7 @@ import model.Evento;
 import model.Usuario;
 import service.EventoService;
 import service.UsuarioService;
+import session.SessaoUsuario;
 import javafx.event.ActionEvent;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -50,6 +51,9 @@ public class TelaMenuController {
     
     @FXML
     private Text txtRandom;
+    
+    @FXML
+    private Button btnLogout;
 
     @FXML
     public void initialize() {
@@ -170,7 +174,7 @@ public class TelaMenuController {
             Parent subTelaPerfil = loader.load();
 
             TelaPerfilController controller = loader.getController();
-            controller.setUsuario(usuarioLogado);
+            controller.carregarUsuario();
             testeVbox.getChildren().clear();
             testeVbox.getChildren().add(subTelaPerfil);
 
@@ -210,4 +214,24 @@ public class TelaMenuController {
         alert.setContentText(mensagem);
         alert.showAndWait();
     }
+    
+    @FXML
+    private void onBtnLogout(ActionEvent event) {
+    	    try {
+    	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+    	        Parent root = loader.load();
+
+    	        Stage stage = new Stage();
+    	        stage.setScene(new Scene(root));
+    	        stage.setTitle("Login");
+    	        stage.show();
+
+    	        Stage telaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    	        telaAtual.close();
+
+    	    } catch (IOException e) {
+    	        e.printStackTrace();   	       
+    	    }
+    	}
+
 }

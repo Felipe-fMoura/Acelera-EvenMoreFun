@@ -43,17 +43,20 @@
     <!-- Informações completas do usuário -->
     <GridPane hgap="15" maxWidth="600" style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;" vgap="10">
         <Label text="CPF:" GridPane.rowIndex="1" />
-        <Text fx:id="lblCpf" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+        <Text fx:id="lblCpf" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
         <Label text="Gênero:" GridPane.rowIndex="2" />
-        <Text fx:id="lblGenero" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+        <Text fx:id="lblGenero" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
         <Label text="Telefone:" GridPane.rowIndex="3" />
-        <Text fx:id="lblTelefone" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+        <Text fx:id="lblTelefone" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
         <Label text="Data de Nascimento:" GridPane.rowIndex="4" />
-        <Text fx:id="lblDataNascimento" GridPane.columnIndex="2" GridPane.rowIndex="4" />
+        <Text fx:id="lblDataNascimento" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+      <Label text="ID:" />
+      <Text fx:id="lblId" GridPane.columnIndex="3" />
       <columnConstraints>
+         <ColumnConstraints />
          <ColumnConstraints />
          <ColumnConstraints />
          <ColumnConstraints />

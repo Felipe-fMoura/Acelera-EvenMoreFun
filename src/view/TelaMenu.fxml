@@ -45,11 +45,11 @@
                 </graphic>
             </Button>
             
-            <Button style="-fx-background-color: transparent;">
+            <Button fx:id="btnLogout" onAction="#onBtnLogout" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24">
                         <image>
-                            <Image url="@../images/system/Erro.png" />
+                            <Image url="@logout.png" />
                         </image>
                     </ImageView>
                 </graphic>
