@@ -34,22 +34,11 @@
             
             <Region HBox.hgrow="ALWAYS" />
             
-            <!-- Ícones de Navegação -->
-            <Button style="-fx-background-color: transparent;">
-                <graphic>
-                    <ImageView fitHeight="24" fitWidth="24">
-                        <image>
-                            <Image url="@../images/system/Erro.png" />
-                        </image>
-                    </ImageView>
-                </graphic>
-            </Button>
-            
             <Button fx:id="btnLogout" onAction="#onBtnLogout" style="-fx-background-color: transparent;">
                 <graphic>
                     <ImageView fitHeight="24" fitWidth="24">
                         <image>
-                            <Image url="@logout.png" />
+                            <Image url="@../resources/logout.png" />
                         </image>
                     </ImageView>
                 </graphic>

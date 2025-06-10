@@ -26,7 +26,7 @@
         <Label text="Data:" GridPane.columnIndex="0" GridPane.rowIndex="2" />
         <HBox spacing="5" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <DatePicker fx:id="dateData" />
-            <TextField fx:id="txtHora" promptText="HH:mm" style="-fx-pref-width: 80;" />
+            <TextField fx:id="txtHora" promptText="--:--" style="-fx-pref-width: 80;" />
         </HBox>
         
         <Label text="Local:" GridPane.columnIndex="0" GridPane.rowIndex="3" />
