@@ -30,7 +30,7 @@
            
             <children>
              
-               <TextField fx:id="txtUsuarioLogin" layoutX="1118.0" layoutY="432.0" prefHeight="55.0" prefWidth="355.0" promptText="Digite seu nome de Usuário" styleClass="login-txtfield">
+               <TextField fx:id="txtUsuarioLogin" layoutX="1118.0" layoutY="432.0" prefHeight="55.0" prefWidth="355.0" promptText="Digite seu endereço de Email" styleClass="login-txtfield">
                   <font>
                      <Font name="Segoe UI" size="18.0" />
                   </font>

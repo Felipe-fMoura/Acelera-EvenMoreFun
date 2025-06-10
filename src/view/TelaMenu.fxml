@@ -20,14 +20,14 @@
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #46295A; -fx-padding: 10px 20px;">
             <!-- Logo -->
-            <ImageView fitHeight="40" fitWidth="40" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="66.0" preserveRatio="true">
                 <image>
-                    <Image url="@../images/system/Erro.png" />
+                    <Image url="@../resources/LogoEvenMoreFunAlternativa.png" />
                 </image>
             </ImageView>
             
             <!-- Campo de Pesquisa -->
-            <TextField fx:id="campoPesquisa" onAction="#handlePesquisarEventos" promptText="Pesquisar eventos..." style="-fx-background-radius: 20; -fx-pref-width: 300px;" />
+            <TextField fx:id="campoPesquisa" onAction="#handlePesquisarEventos" prefHeight="44.0" promptText="Pesquisar eventos..." style="-fx-background-radius: 20; -fx-pref-width: 300px;" />
             
             <!-- Nome do Usuário -->
             <Text fx:id="txtUserName" fill="WHITE" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
