@@ -233,5 +233,9 @@ public class TelaMenuController {
     	        e.printStackTrace();   	       
     	    }
     	}
-
+    
+    @FXML
+    private void handleRefresh(ActionEvent event) {
+        carregarEventos();
+    }
 }

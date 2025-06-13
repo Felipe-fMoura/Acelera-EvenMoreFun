@@ -31,6 +31,16 @@
             <!-- Nome do Usuário -->
             <Text fx:id="txtUserName" fill="WHITE" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
             
+         <Button fx:id="btnRefresh" layoutX="883.0" layoutY="36.0" onAction="#handleRefresh" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="24" fitWidth="24">
+                  <image>
+                     <Image url="@../resources/refresh.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+            
             <Region HBox.hgrow="ALWAYS" />
             
             <Button fx:id="btnLogout" onAction="#onBtnLogout" style="-fx-background-color: transparent;">

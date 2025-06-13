@@ -193,6 +193,14 @@ public class UsuarioService {
 		Tester.setSenha("Teste@123");
 		Tester.setEmail("fmouraschool@gmail.com");
 		this.cadastrar(Tester);
+		
+		Usuario Tester2 = new Usuario();
+		Tester2.setId(3);
+		Tester2.setNome("Usuario Teste2");
+		Tester2.setUsername("Brazino");
+		Tester2.setSenha("Teste@123");
+		Tester2.setEmail("brazino@gmail.com");
+		this.cadastrar(Tester2);
 	}
 
 	

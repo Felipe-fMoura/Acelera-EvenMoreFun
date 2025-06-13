@@ -126,4 +126,20 @@ public class TelaLoginController {
 	        e.printStackTrace();
 	    }
 	}
+    
+    @FXML
+    private void onBtnNovaSessao(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+            Parent root = loader.load();
+
+            Stage novaJanela = new Stage();
+            novaJanela.setTitle("EvenMoreFun");
+            novaJanela.setScene(new Scene(root));
+            novaJanela.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
