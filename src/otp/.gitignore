@@ -2,3 +2,7 @@
 /OTPGenerator.class
 /OTPValidation.class
 /EmailSender$1.class
+/QRCodeGenerator.class
+/ByteArrayDataSourceCustom.class
+/EmailSender$2.class
+/EmailSender$ByteArrayDataSourceCustom.class

@@ -3,6 +3,12 @@ package otp;
 import java.util.Properties;
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
 
 public class EmailSender {
 
@@ -34,6 +40,82 @@ public class EmailSender {
         message.setText(body);
 
         Transport.send(message);
+    }
+
+    public static void sendEmailWithAttachment(String toEmail, String subject, String body, byte[] attachmentBytes, String filename) throws MessagingException {
+        final String fromEmail = "emf2k25@gmail.com";
+        final String password = "xxtf riyg srdr xuve";
+
+        Properties props = new Properties();
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+        Session session = Session.getInstance(props, new Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(fromEmail, password);
+            }
+        });
+
+        Message message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(fromEmail));
+        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+        message.setSubject(subject);
+
+        // Parte de texto
+        MimeBodyPart textPart = new MimeBodyPart();
+        textPart.setText(body);
+
+        // Parte do anexo (imagem, PDF, etc.)
+        MimeBodyPart attachmentPart = new MimeBodyPart();
+        DataSource dataSource = new ByteArrayDataSourceCustom(attachmentBytes, "application/octet-stream");
+        attachmentPart.setDataHandler(new DataHandler(dataSource));
+        attachmentPart.setFileName(filename);
+
+        // Juntar tudo no corpo do e-mail
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(textPart);
+        multipart.addBodyPart(attachmentPart);
+
+        message.setContent(multipart);
+
+        Transport.send(message);
+    }
+
+    // Classe custom para substituir ByteArrayDataSource externo
+    public static class ByteArrayDataSourceCustom implements DataSource {
+
+        private byte[] data;
+        private String type;
+        private String name = "ByteArrayDataSourceCustom";
+
+        public ByteArrayDataSourceCustom(byte[] data, String type) {
+            this.data = data;
+            this.type = type;
+        }
+
+        @Override
+        public InputStream getInputStream() throws IOException {
+            if (data == null) throw new IOException("No data");
+            return new ByteArrayInputStream(data);
+        }
+
+        @Override
+        public OutputStream getOutputStream() throws IOException {
+            throw new IOException("Not Supported");
+        }
+
+        @Override
+        public String getContentType() {
+            return type;
+        }
+
+        @Override
+        public String getName() {
+            return name;
+        }
     }
 }
 
