@@ -2,14 +2,20 @@ package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+
 import model.Usuario;
 import model.Evento;
 import session.SessaoUsuario;
+import service.ChatService;
+
+import java.util.List;
 
 public class TelaEventoAoVivoController {
 
@@ -24,10 +30,16 @@ public class TelaEventoAoVivoController {
 
     public void setEvento(Evento evento) {
         this.evento = evento;
-        this.usuario = SessaoUsuario.getInstance().getUsuario();  // Ajuste aqui
+        this.usuario = SessaoUsuario.getInstance().getUsuario();
         nomeUsuario.setText("Você está assistindo como " + usuario.getNome());
 
-        // Apenas exibir vídeo se for organizador e vídeo estiver disponível
+        // Carrega mensagens anteriores do ChatService
+        List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
+        for (String msg : mensagens) {
+            adicionarMensagemNaInterface(msg);
+        }
+
+        // Exibe o vídeo se for o organizador e houver link
         if (usuario.equals(evento.getOrganizador()) && evento.getUrlVideo() != null && !evento.getUrlVideo().isEmpty()) {
             Media media = new Media(evento.getUrlVideo());
             MediaPlayer player = new MediaPlayer(media);
@@ -43,15 +55,48 @@ public class TelaEventoAoVivoController {
     private void handleEnviarMensagem() {
         String msg = campoMensagem.getText().trim();
         if (!msg.isEmpty()) {
-            Text txt = new Text(usuario.getNome() + ": " + msg);
-            mensagensContainer.getChildren().add(txt);
+            String mensagemFormatada = usuario.getNome() + ": " + msg;
+
+            // Adiciona na interface e na memória
+            adicionarMensagemNaInterface(mensagemFormatada);
+            ChatService.getInstancia().adicionarMensagem(evento, mensagemFormatada);
+
             campoMensagem.clear();
         }
     }
 
+    private void adicionarMensagemNaInterface(String mensagem) {
+        HBox linhaMensagem = new HBox();
+        linhaMensagem.setSpacing(10);
+        linhaMensagem.setAlignment(Pos.CENTER_LEFT);
+        linhaMensagem.setPadding(new Insets(5));
+
+        Text txtMensagem = new Text(mensagem);
+        linhaMensagem.getChildren().add(txtMensagem);
+
+        // Só o organizador pode excluir mensagens
+        if (usuario.equals(evento.getOrganizador())) {
+            Button btnExcluir = new Button("🗑");
+            btnExcluir.setStyle(
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: #888;" +
+                "-fx-font-size: 10px;" +
+                "-fx-padding: 2 4 2 4;" +
+                "-fx-cursor: hand;"
+            );
+            btnExcluir.setTooltip(new Tooltip("Excluir mensagem"));
+            btnExcluir.setOnAction(e -> {
+                mensagensContainer.getChildren().remove(linhaMensagem);
+                ChatService.getInstancia().removerMensagem(evento, mensagem);
+            });
+            linhaMensagem.getChildren().add(btnExcluir);
+        }
+
+        mensagensContainer.getChildren().add(linhaMensagem);
+    }
+
     @FXML
     private void handleSairEvento() {
-        // fechar janela
         mediaView.getScene().getWindow().hide();
     }
 
