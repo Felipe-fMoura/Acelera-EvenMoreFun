@@ -61,7 +61,7 @@
             <graphic>
                <ImageView fitHeight="24" fitWidth="24">
                   <image>
-                     <Image url="@../resources/dup.jpg" />
+                     <Image url="@../resources/duplicate.png" />
                   </image>
                </ImageView>
             </graphic>

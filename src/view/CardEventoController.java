@@ -21,7 +21,6 @@ import otp.QRCodeGenerator;
 import otp.EmailSender;
 
 public class CardEventoController {
-    // Elementos existentes
     @FXML private Text txtTituloEvento;
     @FXML private Text txtDescricaoEvento;
     @FXML private Text txtNomeOrganizador;
@@ -31,17 +30,19 @@ public class CardEventoController {
     @FXML private ImageView imgEvento;
     @FXML private Label lblPalestrante;
 
-    // Botões
     @FXML private Button btnParticipar;
     @FXML private Button btnCompartilhar;
+    @FXML private Button btnLista;
+    @FXML private Button btnEditar;
+
 
     private Evento evento;
-    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+    private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
 
     public void setEvento(Evento evento, Usuario usuarioLogado) {
         this.evento = evento;
-        this.usuarioLogado = usuarioLogado;
+        this.usuarioLogado = usuarioLogado != null ? usuarioLogado : SessaoUsuario.getInstance().getUsuario();
 
         txtTituloEvento.setText(evento.getTitulo());
         txtDescricaoEvento.setText(evento.getDescricao());
@@ -59,12 +60,36 @@ public class CardEventoController {
             }
         }
 
+     // Ocultar btn Lista only organizador
+        if (evento.getOrganizador() != null && usuarioLogado != null &&
+            evento.getOrganizador().getId() == usuarioLogado.getId()) {
+            btnLista.setVisible(true);
+            btnLista.setManaged(true);
+        } else {
+            btnLista.setVisible(false);
+            btnLista.setManaged(false);
+        }
+        
+     // Ocultar btn Editar only organizador
+        if (evento.getOrganizador() != null && usuarioLogado != null &&
+            evento.getOrganizador().getId() == usuarioLogado.getId()) {
+            btnEditar.setVisible(true);
+            btnEditar.setManaged(true);
+        } else {
+            btnEditar.setVisible(false);
+            btnEditar.setManaged(false);
+        }
+
         atualizarEstadoParticipacao();
     }
 
     @FXML
     private void handleParticipar() {
-        if (usuarioLogado == null) return;
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+        if (usuarioLogado == null) {
+            mostrarAlerta("Você precisa estar logado para participar de um evento.");
+            return;
+        }
 
         try {
             if (eventoService.isParticipante(evento.getId(), usuarioLogado.getId())) {
@@ -72,7 +97,6 @@ public class CardEventoController {
             } else {
                 eventoService.adicionarParticipante(evento.getId(), usuarioLogado.getId());
 
-                // ✅ Abrir popup para confirmar o e-mail
                 TextInputDialog dialog = new TextInputDialog(usuarioLogado.getEmail());
                 dialog.setTitle("Confirmação de Participação");
                 dialog.setHeaderText("Confirmação de E-mail");
@@ -131,6 +155,7 @@ public class CardEventoController {
     }
 
     private void atualizarEstadoParticipacao() {
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
         if (usuarioLogado != null) {
             boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
             btnParticipar.setText(isParticipante ? "Cancelar" : "Participar");
@@ -154,7 +179,6 @@ public class CardEventoController {
         alert.showAndWait();
     }
 
-    // Conexão com tela principal
     private TelaMenuController telaMenuController;
     public void setTelaMenuController(TelaMenuController controller) {
         this.telaMenuController = controller;
@@ -162,7 +186,9 @@ public class CardEventoController {
 
     @FXML
     private void editarEvento(ActionEvent event) {
-        if (evento.getOrganizador().getId() != usuarioLogado.getId()) {
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+        if (evento.getOrganizador() == null || usuarioLogado == null ||
+            evento.getOrganizador().getId() != usuarioLogado.getId()) {
             mostrarAlerta("Você não tem permissão para editar este evento.");
             return;
         }
@@ -190,5 +216,25 @@ public class CardEventoController {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir tela de edição de evento");
         }
+    }
+
+    @FXML
+    private void handleLista(ActionEvent event) {
+        if (evento == null) return;
+
+        StringBuilder lista = new StringBuilder();
+        if (evento.getParticipantes().isEmpty()) {
+            lista.append("Nenhum participante no momento.");
+        } else {
+            for (Usuario u : evento.getParticipantes()) {
+                lista.append("- ").append(u.getNome()).append(" (").append(u.getEmail()).append(")\n");
+            }
+        }
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Participantes do Evento");
+        alert.setHeaderText("Lista de Participantes");
+        alert.setContentText(lista.toString());
+        alert.showAndWait();
     }
 }

@@ -74,6 +74,6 @@
         <Button fx:id="btnCompartilhar" onAction="#handleCompartilhar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Curtir" />
         <Button fx:id="btnParticipar" onAction="#handleParticipar" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Participar" />
       <Button fx:id="btnCompartilhar1" layoutX="265.0" layoutY="15.0" onAction="#handleCompartilhar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Compartilhar" />
-      <Button fx:id="btnCompartilhar11" layoutX="330.0" layoutY="15.0" onAction="#handleCompartilhar" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Compartilhar" />
+      <Button fx:id="btnLista" layoutX="330.0" layoutY="15.0" onAction="#handleLista" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 120;" text="Lista" />
     </HBox>
 </VBox>
