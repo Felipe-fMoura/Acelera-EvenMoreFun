@@ -235,4 +235,27 @@ public class CardEventoController {
             e.printStackTrace();
         }
 }
+    @FXML
+    private void handleEntrar(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("TelaEventoAoVivo.fxml"));
+            Parent root = loader.load();
+
+            // Passa o evento para a próxima tela
+            TelaEventoAoVivoController controller = loader.getController();
+            controller.setEvento(this.evento); // Supondo que você tenha o atributo "evento" no Card
+
+            Stage stage = new Stage();
+            stage.setTitle("Sala do Evento");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+            // Fecha a janela atual se necessário:
+            // ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

@@ -8,6 +8,7 @@ module evenMoreFun{
 	requires jdk.httpserver;
 	requires com.google.zxing;
     requires com.google.zxing.javase;
+    requires javafx.media;
     
     opens application to javafx.graphics, javafx.fxml;
     opens view to javafx.fxml;

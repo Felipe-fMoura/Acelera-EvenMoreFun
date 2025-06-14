@@ -223,5 +223,14 @@ public class Evento {
     public boolean getPresenca(int usuarioId) {
         return presencas.getOrDefault(usuarioId, false);
     }
+    private String urlVideo;
+
+    public String getUrlVideo() {
+        return urlVideo;
+    }
+
+    public void setUrlVideo(String urlVideo) {
+        this.urlVideo = urlVideo;
+    }
 
 }

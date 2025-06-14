@@ -26,4 +26,8 @@ public class SessaoUsuario {
     public void limparSessao() {
         usuarioLogado = null;
     }
+ // facilitar chamadas diretas
+    public static Usuario getUsuarioLogado() {
+        return getInstance().getUsuario();
+    }
 }
