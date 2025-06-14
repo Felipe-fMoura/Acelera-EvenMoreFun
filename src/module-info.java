@@ -9,6 +9,7 @@ module evenMoreFun{
 	requires com.google.zxing;
     requires com.google.zxing.javase;
     requires javafx.media;
+    requires javafx.web;
     
     opens application to javafx.graphics, javafx.fxml;
     opens view to javafx.fxml;

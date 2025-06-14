@@ -7,7 +7,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.web.WebView?>
 <?import javafx.scene.text.Text?>
 
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
@@ -19,13 +19,24 @@
         <!-- Cole aqui o mesmo HBox da TelaMenu.fxml -->
     </top>
     
-    <!-- Centro: Área de vídeo -->
+    <!-- Centro: Área de vídeo e controle -->
     <center>
-        <StackPane style="-fx-background-color: black;">
-            <MediaView fx:id="mediaView" fitWidth="800" fitHeight="450" />
-            <!-- Exibe mensagem se não houver vídeo -->
-            <Text fx:id="lblSemVideo" text="Vídeo indisponível" fill="white" style="-fx-font-size: 24;" visible="false" />
-        </StackPane>
+        <VBox spacing="10" style="-fx-background-color: black; -fx-padding: 10;">
+            
+            <!-- Controle de URL do vídeo - visível só para organizador -->
+            <HBox fx:id="videoControlsPane" spacing="10" visible="false" managed="false" style="-fx-background-color: #222; -fx-padding: 5; -fx-alignment: center_left;">
+                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 600;" />
+                <Button text="Carregar Vídeo" onAction="#handleCarregarVideo" />
+            </HBox>
+            
+            <!-- Área do vídeo -->
+            <StackPane style="-fx-background-color: black; -fx-alignment: center;">
+                <WebView fx:id="webView" prefWidth="800" prefHeight="450" />
+                <!-- Exibe mensagem se não houver vídeo -->
+                <Text fx:id="lblSemVideo" text="Vídeo indisponível" fill="white" style="-fx-font-size: 24;" visible="false" />
+            </StackPane>
+            
+        </VBox>
     </center>
     
     <!-- Direita: Chat -->
@@ -53,4 +64,3 @@
     </bottom>
     
 </BorderPane>
-

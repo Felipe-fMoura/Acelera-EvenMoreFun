@@ -205,10 +205,10 @@ public class Evento {
     @Override
     public String toString() {
         return String.format(
-            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador=%s, participantes=%d], palestrante='%s'",
+            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador='%s', palestrante='%s', participantes=%d]",
             id,
             titulo != null ? titulo : "",
-            data != null ? data : "null",
+            data != null ? data.toString() : "null",
             local != null ? local : "",
             organizador != null ? organizador.getNome() : "null",
             palestrante != null ? palestrante : "",
