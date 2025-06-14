@@ -237,25 +237,38 @@ public class CardEventoController {
 }
     @FXML
     private void handleEntrar(ActionEvent event) {
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
+        if (usuarioLogado == null) {
+            mostrarAlerta("Você precisa estar logado para entrar na sala do evento.");
+            return;
+        }
+
+        boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
+        boolean isOrganizador = evento.getOrganizador() != null && evento.getOrganizador().getId() == usuarioLogado.getId();
+
+        if (!isParticipante && !isOrganizador) {
+            mostrarAlerta("Apenas participantes inscritos ou organizadores podem entrar na sala do evento.");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("TelaEventoAoVivo.fxml"));
             Parent root = loader.load();
 
-            // Passa o evento para a próxima tela
             TelaEventoAoVivoController controller = loader.getController();
-            controller.setEvento(this.evento); // Supondo que você tenha o atributo "evento" no Card
+            controller.setEvento(this.evento);
 
             Stage stage = new Stage();
             stage.setTitle("Sala do Evento");
             stage.setScene(new Scene(root));
             stage.show();
 
-            // Fecha a janela atual se necessário:
-            // ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
-
         } catch (IOException e) {
             e.printStackTrace();
+            mostrarAlerta("Erro ao abrir a sala do evento.");
         }
     }
+
 
 }

@@ -69,7 +69,7 @@ public class TelaLoginController {
                 return;
             }
 
-            a.mostrarAlerta("Sucesso!!", "Usuário logado com sucesso");
+           // a.mostrarAlerta("Sucesso!!", "Usuário logado com sucesso");
 
             try {
             	Usuario usuario = usuarioService.getUsuarioPorEmail(email);            	
