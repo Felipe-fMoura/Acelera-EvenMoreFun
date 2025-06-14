@@ -12,3 +12,5 @@
 /EventoListCell.class
 /TelaCriarEventoController.class
 /TelaEditarEventoController.class
+/TelaParticipantesEvento.class
+/TelaParticipantesEventoController.class

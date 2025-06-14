@@ -220,21 +220,19 @@ public class CardEventoController {
 
     @FXML
     private void handleLista(ActionEvent event) {
-        if (evento == null) return;
+    	try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaParticipantesEvento.fxml"));
+            Parent root = loader.load();
 
-        StringBuilder lista = new StringBuilder();
-        if (evento.getParticipantes().isEmpty()) {
-            lista.append("Nenhum participante no momento.");
-        } else {
-            for (Usuario u : evento.getParticipantes()) {
-                lista.append("- ").append(u.getNome()).append(" (").append(u.getEmail()).append(")\n");
-            }
+            TelaParticipantesEventoController controller = loader.getController();
+            controller.setEvento(this.evento);
+
+            Stage stage = new Stage();
+            stage.setTitle("Lista de Participantes");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle("Participantes do Evento");
-        alert.setHeaderText("Lista de Participantes");
-        alert.setContentText(lista.toString());
-        alert.showAndWait();
-    }
+}
 }

@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.HashMap;
+import java.util.Map;
+
 
 public class Evento {
     private int id;
@@ -20,6 +23,8 @@ public class Evento {
 
     private LocalDateTime data;
     private LocalDateTime dataCriacao;
+
+    private Map<Integer, Boolean> presencas = new HashMap<>();
 
     private boolean privado;
     
@@ -211,7 +216,12 @@ public class Evento {
         );
     }
     
-    
-    
-    
+    public void setPresenca(int usuarioId, boolean presente) {
+        presencas.put(usuarioId, presente);
+    }
+
+    public boolean getPresenca(int usuarioId) {
+        return presencas.getOrDefault(usuarioId, false);
+    }
+
 }
