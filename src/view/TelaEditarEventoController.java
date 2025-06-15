@@ -1,18 +1,14 @@
 package view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.stage.Stage;
+import javafx.util.converter.IntegerStringConverter;
 import model.Evento;
 import model.Usuario;
 import service.EventoService;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.function.UnaryOperator;
 
 public class TelaEditarEventoController {
     @FXML private TextField txtTitulo;
@@ -27,17 +23,16 @@ public class TelaEditarEventoController {
     
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
-    private Evento eventoSelecionado;
     private Evento evento;
 
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
     }
     
-    public void setEvento(int eventoId) {
-        this.eventoSelecionado = eventoService.buscarEventoPorId(eventoId);
-        if (eventoSelecionado != null) {
-            preencherCamposComEvento(eventoSelecionado);
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+        if (evento != null) {
+            preencherCamposComEvento(evento);
         }
     }
     
@@ -45,66 +40,97 @@ public class TelaEditarEventoController {
         txtTitulo.setText(evento.getTitulo());
         txtDescricao.setText(evento.getDescricao());
         dateData.setValue(evento.getData().toLocalDate());
-        txtHora.setText(evento.getData().toLocalTime().toString());
+        // Formata o horário para HH:mm, sem os segundos que LocalTime.toString() retorna
+        String horaFormatada = evento.getData().toLocalTime().toString();
+        if (horaFormatada.length() > 5) {
+            horaFormatada = horaFormatada.substring(0,5);
+        }
+        txtHora.setText(horaFormatada);
         txtLocal.setText(evento.getLocal());
         txtImagem.setText(evento.getImagem());
         cbCategoria.setValue(evento.getCategoria());
         checkPrivado.setSelected(evento.isPrivado());
         txtPalestrante.setText(evento.getPalestrante());
     }
-    
 
     @FXML
     private void initialize() {
         cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
+
+        // TextFormatter para aceitar apenas números e até 4 dígitos no txtHora
+        UnaryOperator<TextFormatter.Change> filter = change -> {
+            String text = change.getControlNewText();
+            if (text.matches("\\d{0,4}")) {
+                return change;
+            }
+            return null;
+        };
+        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+        txtHora.setTextFormatter(textFormatter);
+
+        // Listener para formatar com ":" enquanto digita no txtHora
+        txtHora.textProperty().addListener((obs, oldText, newText) -> {
+            String digits = newText.replaceAll(":", "");
+
+            if (digits.length() > 4) {
+                digits = digits.substring(0, 4);
+            }
+
+            String formatted = digits;
+            if (digits.length() >= 3) {
+                formatted = digits.substring(0, digits.length() - 2) + ":" + digits.substring(digits.length() - 2);
+            }
+
+            if (!newText.equals(formatted)) {
+                txtHora.setText(formatted);
+                txtHora.positionCaret(formatted.length());
+            }
+        });
     }
 
-    
-    public void carregarEvento(Evento evento) {
-        this.evento = evento;
-
-        // Preencher os campos com os dados do evento
-        txtTitulo.setText(evento.getTitulo());
-        txtDescricao.setText(evento.getDescricao());
-        dateData.setValue(evento.getData().toLocalDate());
-        txtHora.setText(evento.getData().toLocalTime().toString());
-        txtLocal.setText(evento.getLocal());
-        txtImagem.setText(evento.getImagem());
-        cbCategoria.setValue(evento.getCategoria());
-        checkPrivado.setSelected(evento.isPrivado());
-        txtPalestrante.setText(evento.getPalestrante());
-    }
-    
-    
     @FXML
     private void handleEditarEvento() {
         if (evento == null) {
-           // mostrarAlerta("Erro interno: evento não carregado.");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Evento não carregado");
+            alert.setContentText("Não foi possível editar o evento porque ele não foi carregado corretamente.");
+            alert.showAndWait();
             return;
         }
 
-        LocalDateTime dataHora = LocalDateTime.of(
-            dateData.getValue(),
-            java.time.LocalTime.parse(txtHora.getText())
-        );
+        try {
+            String horaTexto = txtHora.getText().trim();
 
-        evento.setTitulo(txtTitulo.getText());
-        evento.setDescricao(txtDescricao.getText());
-        evento.setData(dataHora);
-        evento.setLocal(txtLocal.getText());
-        evento.setImagem(txtImagem.getText());
-        evento.setCategoria(cbCategoria.getValue());
-        evento.setPrivado(checkPrivado.isSelected());
-        evento.setPalestrante(txtPalestrante.getText());
+            // Ajusta o formato da hora, exemplo: "1000" vira "10:00"
+            if (horaTexto.matches("\\d{3,4}")) {
+                int len = horaTexto.length();
+                String horaFormatada = horaTexto.substring(0, len - 2) + ":" + horaTexto.substring(len - 2);
+                horaTexto = horaFormatada;
+            }
 
-        eventoService.atualizarEvento(evento); // Se tiver esse método
+            java.time.LocalTime hora = java.time.LocalTime.parse(horaTexto);
+            LocalDateTime dataHora = LocalDateTime.of(dateData.getValue(), hora);
 
-        txtTitulo.getScene().getWindow().hide(); // Fecha a janela
-        
+            evento.setTitulo(txtTitulo.getText());
+            evento.setDescricao(txtDescricao.getText());
+            evento.setData(dataHora);
+            evento.setLocal(txtLocal.getText());
+            evento.setImagem(txtImagem.getText());
+            evento.setCategoria(cbCategoria.getValue());
+            evento.setPrivado(checkPrivado.isSelected());
+            evento.setPalestrante(txtPalestrante.getText());
+
+            eventoService.atualizarEvento(evento);
+
+            txtTitulo.getScene().getWindow().hide();
+
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Erro");
+            alert.setHeaderText("Hora inválida");
+            alert.setContentText("Por favor, digite a hora no formato HHmm (ex: 1000) ou HH:mm (ex: 10:00).");
+            alert.showAndWait();
+        }
     }
-    
-   
-    
-    
-    
 }

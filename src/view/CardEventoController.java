@@ -199,7 +199,7 @@ public class CardEventoController {
 
             TelaEditarEventoController controller = loader.getController();
             controller.setUsuarioLogado(usuarioLogado);
-            controller.carregarEvento(evento);
+            controller.setEvento(evento);
 
             Stage stage = new Stage();
             stage.setScene(new Scene(root));

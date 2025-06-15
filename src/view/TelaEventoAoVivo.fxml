@@ -51,6 +51,8 @@
                 <TextField fx:id="campoMensagem" promptText="Digite sua mensagem..." HBox.hgrow="ALWAYS"/>
                 <Button text="Enviar" onAction="#handleEnviarMensagem"/>
             </HBox>
+            <Button text="✋ Levantar a mão" onAction="#handleLevantarMao"
+                    style="-fx-background-color: #ffd966; -fx-font-weight: bold;"/>
         </VBox>
     </right>
     
@@ -59,7 +61,6 @@
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10; -fx-background-color: #ddd;">
             <Text fx:id="nomeUsuario" style="-fx-font-weight: bold;" />
             <Button text="Sair do Evento" onAction="#handleSairEvento" />
-            <Button text="Levantar a mão" onAction="#handleLevantarMao" />
         </HBox>
     </bottom>
     
