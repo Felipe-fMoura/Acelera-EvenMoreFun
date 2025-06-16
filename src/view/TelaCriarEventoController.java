@@ -95,6 +95,10 @@ public class TelaCriarEventoController {
 
             eventoService.criarEvento(evento);
             usuarioLogado.organizarEvento(evento);
+            
+         // Adiciona o organizador como participante com permissão "organizador"
+            eventoService.adicionarParticipanteComPermissao(evento.getId(), usuarioLogado.getId(), "organizador");
+
 
             txtTitulo.getScene().getWindow().hide();
 

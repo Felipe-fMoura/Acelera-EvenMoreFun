@@ -16,4 +16,5 @@ module evenMoreFun{
 
     exports application;
     exports view;
+    exports model;
 }

@@ -187,7 +187,7 @@ public class UsuarioService {
 
 	public void carregarUsuariosDeTeste() {
 		Usuario Tester = new Usuario();
-		Tester.setId(3);
+		Tester.setId(1);
 		Tester.setNome("Usuario Teste");
 		Tester.setUsername("Tester");
 		Tester.setSenha("Teste@123");
@@ -195,12 +195,20 @@ public class UsuarioService {
 		this.cadastrar(Tester);
 		
 		Usuario Tester2 = new Usuario();
-		Tester2.setId(3);
+		Tester2.setId(2);
 		Tester2.setNome("Usuario Teste2");
 		Tester2.setUsername("Brazino");
 		Tester2.setSenha("Teste@123");
 		Tester2.setEmail("brazino@gmail.com");
 		this.cadastrar(Tester2);
+		
+		Usuario Tester3 = new Usuario();
+		Tester3.setId(3);
+		Tester3.setNome("Usuario Teste3");
+		Tester3.setUsername("Caetano");
+		Tester3.setSenha("Teste@123");
+		Tester3.setEmail("joazin1012123987@gmail.com");
+		this.cadastrar(Tester3);
 	}
 
 	
