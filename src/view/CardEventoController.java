@@ -1,11 +1,16 @@
 package view;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Side;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -15,10 +20,11 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Evento;
 import model.Usuario;
+import otp.EmailSender;
+import otp.QRCodeGenerator;
 import service.EventoService;
 import session.SessaoUsuario;
-import otp.QRCodeGenerator;
-import otp.EmailSender;
+import javafx.geometry.Bounds;
 
 public class CardEventoController {
     @FXML private Text txtTituloEvento;
@@ -34,7 +40,6 @@ public class CardEventoController {
     @FXML private Button btnCompartilhar;
     @FXML private Button btnLista;
     @FXML private Button btnEditar;
-
 
     private Evento evento;
     private Usuario usuarioLogado;
@@ -56,29 +61,22 @@ public class CardEventoController {
             try {
                 imgEvento.setImage(new Image(evento.getImagem()));
             } catch (Exception e) {
-                imgEvento.setImage(new Image(getClass().getResourceAsStream("/images/default-event.jpg")));
+                // fallback para imagem padrão se ocorrer erro
+                InputStream defaultImgStream = getClass().getResourceAsStream("/images/default-event.jpg");
+                if (defaultImgStream != null) {
+                    imgEvento.setImage(new Image(defaultImgStream));
+                }
             }
         }
 
-     // Ocultar btn Lista only organizador
-        if (evento.getOrganizador() != null && usuarioLogado != null &&
-            evento.getOrganizador().getId() == usuarioLogado.getId()) {
-            btnLista.setVisible(true);
-            btnLista.setManaged(true);
-        } else {
-            btnLista.setVisible(false);
-            btnLista.setManaged(false);
-        }
-        
-     // Ocultar btn Editar only organizador
-        if (evento.getOrganizador() != null && usuarioLogado != null &&
-            evento.getOrganizador().getId() == usuarioLogado.getId()) {
-            btnEditar.setVisible(true);
-            btnEditar.setManaged(true);
-        } else {
-            btnEditar.setVisible(false);
-            btnEditar.setManaged(false);
-        }
+        boolean isOrganizador = evento.getOrganizador() != null && usuarioLogado != null &&
+                                evento.getOrganizador().getId() == usuarioLogado.getId();
+
+        btnLista.setVisible(isOrganizador);
+        btnLista.setManaged(isOrganizador);
+
+        btnEditar.setVisible(isOrganizador);
+        btnEditar.setManaged(isOrganizador);
 
         atualizarEstadoParticipacao();
     }
@@ -129,28 +127,80 @@ public class CardEventoController {
             mostrarAlerta("Erro ao atualizar participação.");
         }
     }
+    @FXML
+    private Button btnCompartilhar1;
 
     @FXML
-    private void handleCompartilhar() {
-        try {
-            String link = gerarLinkEvento();
-            javafx.scene.input.Clipboard clipboard = javafx.scene.input.Clipboard.getSystemClipboard();
-            javafx.scene.input.ClipboardContent content = new javafx.scene.input.ClipboardContent();
-            content.putString(link);
-            clipboard.setContent(content);
+    private void handleCompartilhar(ActionEvent event) {
+        ContextMenu menu = new ContextMenu();
 
-            btnCompartilhar.setText("Copiado!");
-            new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        javafx.application.Platform.runLater(() -> btnCompartilhar.setText("Compartilhar"));
-                    }
-                },
-                2000
-            );
+        MenuItem facebook = new MenuItem("", carregarIcone("/resources/face.png"));
+        facebook.setOnAction(e -> compartilharFacebook());
+
+        MenuItem whatsapp = new MenuItem("", carregarIcone("/resources/zap.png"));
+        whatsapp.setOnAction(e -> compartilharWhatsApp());
+
+        MenuItem twitter = new MenuItem("", carregarIcone("/resources/x.png"));
+        twitter.setOnAction(e -> compartilharTwitter());
+
+        menu.getItems().addAll(facebook, whatsapp, twitter);
+        menu.show(btnCompartilhar, Side.BOTTOM, 0, 0);
+        
+        Bounds boundsInScreen = btnCompartilhar1.localToScreen(btnCompartilhar1.getBoundsInLocal());
+        menu.show(btnCompartilhar1, boundsInScreen.getMinX(), boundsInScreen.getMaxY());
+    }
+
+    private void compartilharFacebook() {
+        String url = "https://www.facebook.com/sharer/sharer.php?u=" + urlEncode(gerarLinkEvento());
+        abrirLinkNoNavegador(url);
+    }
+
+    private void compartilharWhatsApp() {
+        String texto = "Confira este evento incrível: ";
+        String url = "https://wa.me/?text=" + urlEncode(texto + gerarLinkEvento());
+        abrirLinkNoNavegador(url);
+    }
+
+    private void compartilharTwitter() {
+        try {
+            String texto = "Confira este evento incrível: ";
+            String textoEncode = URLEncoder.encode(texto + gerarLinkEvento(), StandardCharsets.UTF_8.toString());
+            String url = "https://twitter.com/intent/tweet?text=" + textoEncode;
+            abrirLinkNoNavegador(url);
         } catch (Exception e) {
             e.printStackTrace();
+            mostrarAlerta("Erro ao preparar link para Twitter.");
+        }
+    }
+
+    private String urlEncode(String texto) {
+        try {
+            return URLEncoder.encode(texto, StandardCharsets.UTF_8.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return texto;
+        }
+    }
+
+    private ImageView carregarIcone(String caminhoRelativo) {
+        try {
+            Image img = new Image(getClass().getResourceAsStream(caminhoRelativo));
+            ImageView imgView = new ImageView(img);
+            imgView.setFitWidth(16);
+            imgView.setFitHeight(16);
+            return imgView;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private void abrirLinkNoNavegador(String url) {
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao abrir o navegador para compartilhar.");
         }
     }
 
@@ -220,7 +270,7 @@ public class CardEventoController {
 
     @FXML
     private void handleLista(ActionEvent event) {
-    	try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaParticipantesEvento.fxml"));
             Parent root = loader.load();
 
@@ -233,8 +283,10 @@ public class CardEventoController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+            mostrarAlerta("Erro ao abrir lista de participantes.");
         }
-}
+    }
+
     @FXML
     private void handleEntrar(ActionEvent event) {
         usuarioLogado = SessaoUsuario.getInstance().getUsuario();
@@ -253,14 +305,13 @@ public class CardEventoController {
             return;
         }
 
-        //  bloquear entrada se acesso não estiver liberado
         if (!isOrganizador && !evento.isAcessoLiberado()) {
             mostrarAlerta("A sala do evento ainda está trancada. Aguarde o organizador liberar o acesso.");
             return;
         }
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("TelaEventoAoVivo.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEventoAoVivo.fxml"));
             Parent root = loader.load();
 
             TelaEventoAoVivoController controller = loader.getController();
@@ -276,5 +327,4 @@ public class CardEventoController {
             mostrarAlerta("Erro ao abrir a sala do evento.");
         }
     }
-
 }
