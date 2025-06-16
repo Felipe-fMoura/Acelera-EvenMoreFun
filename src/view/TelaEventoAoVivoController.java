@@ -31,14 +31,15 @@ public class TelaEventoAoVivoController {
     @FXML private HBox videoControlsPane;
     @FXML private TextField txtUrlVideo;
 
+    @FXML private HBox acessoControlsPane;
+    @FXML private Button btnToggleAcesso;
+
     private Evento evento;
     private Usuario usuario;
     private WebEngine webEngine;
     private Timeline chatRefresh;
 
-    // Controle de quem já recebeu o aviso HAND_ACK
     private Set<String> handAckRecebidos = new HashSet<>();
-    // Usuários com a próxima mensagem destacada (após ACK)
     private Set<String> aguardandoResposta = new HashSet<>();
 
     public void initialize() {
@@ -51,8 +52,13 @@ public class TelaEventoAoVivoController {
         nomeUsuario.setText("Você está assistindo como " + usuario.getNome());
 
         boolean isOrganizador = usuario.equals(evento.getOrganizador());
+
         videoControlsPane.setVisible(isOrganizador);
         videoControlsPane.setManaged(isOrganizador);
+        acessoControlsPane.setVisible(isOrganizador);
+        acessoControlsPane.setManaged(isOrganizador);
+
+        atualizarBotaoAcesso();
 
         aguardandoResposta.clear();
         handAckRecebidos.clear();
@@ -60,7 +66,6 @@ public class TelaEventoAoVivoController {
         mensagensContainer.getChildren().clear();
 
         List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
-        // Atualizar estados ao carregar mensagens existentes
         for (String msg : mensagens) {
             if (msg.startsWith("[HAND_ACK] ")) {
                 String nomeAck = msg.replace("[HAND_ACK] ", "");
@@ -78,12 +83,27 @@ public class TelaEventoAoVivoController {
         startChatAutoRefresh();
     }
 
+    @FXML
+    private void handleToggleAcesso() {
+        evento.setAcessoLiberado(!evento.isAcessoLiberado());
+        atualizarBotaoAcesso();
+    }
+
+    private void atualizarBotaoAcesso() {
+        if (evento.isAcessoLiberado()) {
+            btnToggleAcesso.setText("🔓 Acesso Liberado");
+            btnToggleAcesso.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+        } else {
+            btnToggleAcesso.setText("🔒 Acesso Trancado");
+            btnToggleAcesso.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white;");
+        }
+    }
+
     private void startChatAutoRefresh() {
         chatRefresh = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
             List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
             mensagensContainer.getChildren().clear();
             for (String msg : mensagens) {
-                // Atualiza handAckRecebidos dinamicamente (não remove nenhum)
                 if (msg.startsWith("[HAND_ACK] ")) {
                     String nomeAck = msg.replace("[HAND_ACK] ", "");
                     handAckRecebidos.add(nomeAck);
@@ -184,10 +204,8 @@ public class TelaEventoAoVivoController {
                 btnOk.setOnAction(e -> {
                     mensagensContainer.getChildren().remove(linhaMensagem);
                     ChatService.getInstancia().removerMensagem(evento, mensagem);
-                    // Enviar ACK para o usuário
                     String resposta = "[HAND_ACK] " + nomeSolicitante;
                     ChatService.getInstancia().adicionarMensagem(evento, resposta);
-                    // Colocar o usuário na lista para destacar a próxima mensagem
                     aguardandoResposta.add(nomeSolicitante);
                 });
 
@@ -197,7 +215,6 @@ public class TelaEventoAoVivoController {
             }
         } else if (mensagem.startsWith("[HAND_ACK]")) {
             String nome = mensagem.replace("[HAND_ACK] ", "");
-            // Mostrar alerta para o usuário que recebeu o ACK apenas uma vez
             if (usuario.getNome().equals(nome) && !handAckRecebidos.contains(nome)) {
                 handAckRecebidos.add(nome);
                 Platform.runLater(() -> {
@@ -205,7 +222,6 @@ public class TelaEventoAoVivoController {
                     alert.showAndWait();
                 });
             }
-            // Para o organizador, mostra texto estilizado
             if (usuario.equals(evento.getOrganizador())) {
                 Text txtMensagem = new Text(nome + " foi atendido pelo organizador.");
                 txtMensagem.setStyle("-fx-fill: gray; -fx-font-style: italic;");
@@ -213,12 +229,10 @@ public class TelaEventoAoVivoController {
                 mensagensContainer.getChildren().add(linhaMensagem);
             }
         } else {
-            // Mensagens normais
             String nomeRemetente = mensagem.split(":")[0].trim();
             Text txtMensagem = new Text(mensagem);
 
             if (usuario.equals(evento.getOrganizador()) && aguardandoResposta.contains(nomeRemetente)) {
-                // Destacar apenas a primeira mensagem após o ACK
                 txtMensagem.setStyle("-fx-fill: orange; -fx-font-weight: bold;");
                 aguardandoResposta.remove(nomeRemetente);
             }

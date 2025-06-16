@@ -13,55 +13,73 @@
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="view.TelaEventoAoVivoController">
-    
+
     <!-- Topo: Reutiliza a barra de navegação -->
     <top>
-        <!-- Cole aqui o mesmo HBox da TelaMenu.fxml -->
-    </top>
-    
-    <!-- Centro: Área de vídeo e controle -->
-    <center>
-        <VBox spacing="10" style="-fx-background-color: black; -fx-padding: 10;">
-            
-            <!-- Controle de URL do vídeo - visível só para organizador -->
-            <HBox fx:id="videoControlsPane" spacing="10" visible="false" managed="false" style="-fx-background-color: #222; -fx-padding: 5; -fx-alignment: center_left;">
-                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 600;" />
-                <Button text="Carregar Vídeo" onAction="#handleCarregarVideo" />
-            </HBox>
-            
-            <!-- Área do vídeo -->
-            <StackPane style="-fx-background-color: black; -fx-alignment: center;">
-                <WebView fx:id="webView" prefWidth="800" prefHeight="450" />
-                <!-- Exibe mensagem se não houver vídeo -->
-                <Text fx:id="lblSemVideo" text="Vídeo indisponível" fill="white" style="-fx-font-size: 24;" visible="false" />
-            </StackPane>
-            
-        </VBox>
-    </center>
-    
-    <!-- Direita: Chat -->
-    <right>
-        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;" prefWidth="300">
-            <ScrollPane fitToWidth="true" fitToHeight="true">
-                <content>
-                    <VBox fx:id="mensagensContainer" spacing="5" style="-fx-padding: 5;" />
-                </content>
-            </ScrollPane>
-            <HBox spacing="5">
-                <TextField fx:id="campoMensagem" promptText="Digite sua mensagem..." HBox.hgrow="ALWAYS"/>
-                <Button text="Enviar" onAction="#handleEnviarMensagem"/>
-            </HBox>
-            <Button text="✋ Levantar a mão" onAction="#handleLevantarMao"
-                    style="-fx-background-color: #ffd966; -fx-font-weight: bold;"/>
-        </VBox>
-    </right>
-    
-    <!-- Inferior: Opções do usuário -->
-    <bottom>
+        <!-- Cole aqui o mesmo HBox da TelaMenu.fxml, se desejar -->
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10; -fx-background-color: #ddd;">
             <Text fx:id="nomeUsuario" style="-fx-font-weight: bold;" />
             <Button text="Sair do Evento" onAction="#handleSairEvento" />
         </HBox>
-    </bottom>
-    
+    </top>
+
+    <!-- Centro: Área de vídeo e controle -->
+    <center>
+        <VBox spacing="10" style="-fx-background-color: black; -fx-padding: 10;" alignment="TOP_CENTER">
+            
+            <!-- Controle de URL do vídeo - visível só para organizador -->
+            <HBox fx:id="videoControlsPane"
+                  spacing="10"
+                  visible="false"
+                  managed="false"
+                  style="-fx-background-color: #222; -fx-padding: 5; -fx-alignment: center_left;">
+                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 600;" />
+                <Button text="Carregar Vídeo" onAction="#handleCarregarVideo" />
+            </HBox>
+
+            <!-- Botão de liberar acesso - visível só para organizador -->
+            <HBox fx:id="acessoControlsPane"
+                  spacing="10"
+                  visible="false"
+                  managed="false"
+                  alignment="CENTER"
+                  style="-fx-padding: 5;">
+                <Button fx:id="btnToggleAcesso"
+                        text="🔒 Acesso Trancado"
+                        onAction="#handleToggleAcesso"
+                        style="-fx-font-size: 14px; -fx-padding: 6 12;" />
+            </HBox>
+
+            <!-- Área do vídeo -->
+            <StackPane style="-fx-background-color: black; -fx-alignment: center;">
+                <WebView fx:id="webView" prefWidth="800" prefHeight="450" />
+                <Text fx:id="lblSemVideo"
+                      text="Vídeo indisponível"
+                      fill="white"
+                      style="-fx-font-size: 24;"
+                      visible="false" />
+            </StackPane>
+        </VBox>
+    </center>
+
+    <!-- Direita: Chat -->
+    <right>
+        <VBox spacing="10" style="-fx-padding: 10; -fx-background-color: #f0f0f0;" prefWidth="300">
+            <ScrollPane fitToWidth="true" fitToHeight="true" style="-fx-background: white;">
+                <content>
+                    <VBox fx:id="mensagensContainer" spacing="5" style="-fx-padding: 5;" />
+                </content>
+            </ScrollPane>
+
+            <HBox spacing="5">
+                <TextField fx:id="campoMensagem" promptText="Digite sua mensagem..." HBox.hgrow="ALWAYS"/>
+                <Button text="Enviar" onAction="#handleEnviarMensagem"/>
+            </HBox>
+
+            <Button text="✋ Levantar a mão"
+                    onAction="#handleLevantarMao"
+                    style="-fx-background-color: #ffd966; -fx-font-weight: bold;" />
+        </VBox>
+    </right>
+
 </BorderPane>

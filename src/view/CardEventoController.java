@@ -245,10 +245,17 @@ public class CardEventoController {
         }
 
         boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
-        boolean isOrganizador = evento.getOrganizador() != null && evento.getOrganizador().getId() == usuarioLogado.getId();
+        boolean isOrganizador = evento.getOrganizador() != null &&
+                                evento.getOrganizador().getId() == usuarioLogado.getId();
 
         if (!isParticipante && !isOrganizador) {
             mostrarAlerta("Apenas participantes inscritos ou organizadores podem entrar na sala do evento.");
+            return;
+        }
+
+        //  bloquear entrada se acesso não estiver liberado
+        if (!isOrganizador && !evento.isAcessoLiberado()) {
+            mostrarAlerta("A sala do evento ainda está trancada. Aguarde o organizador liberar o acesso.");
             return;
         }
 
@@ -269,6 +276,5 @@ public class CardEventoController {
             mostrarAlerta("Erro ao abrir a sala do evento.");
         }
     }
-
 
 }
