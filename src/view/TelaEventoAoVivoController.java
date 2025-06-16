@@ -17,6 +17,7 @@ import model.Usuario;
 import model.Evento;
 import session.SessaoUsuario;
 import service.ChatService;
+import service.ChatService.MensagemChat;
 
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class TelaEventoAoVivoController {
     private Timeline chatRefresh;
 
     private Set<String> handAckRecebidos = new HashSet<>();
-    private Set<String> aguardandoResposta = new HashSet<>();
+    private Map<String, Boolean> aguardandoRespostaMap = new HashMap<>();
 
     public void initialize() {
         webEngine = webView.getEngine();
@@ -60,15 +61,16 @@ public class TelaEventoAoVivoController {
 
         atualizarBotaoAcesso();
 
-        aguardandoResposta.clear();
+        aguardandoRespostaMap.clear();
         handAckRecebidos.clear();
 
         mensagensContainer.getChildren().clear();
 
-        List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
-        for (String msg : mensagens) {
-            if (msg.startsWith("[HAND_ACK] ")) {
-                String nomeAck = msg.replace("[HAND_ACK] ", "");
+        List<MensagemChat> mensagens = ChatService.getInstancia().getMensagens(evento);
+        for (MensagemChat msg : mensagens) {
+            String texto = msg.getTexto();
+            if (texto.startsWith("[HAND_ACK] ")) {
+                String nomeAck = texto.replace("[HAND_ACK] ", "");
                 handAckRecebidos.add(nomeAck);
             }
             adicionarMensagemNaInterface(msg);
@@ -101,11 +103,12 @@ public class TelaEventoAoVivoController {
 
     private void startChatAutoRefresh() {
         chatRefresh = new Timeline(new KeyFrame(Duration.seconds(3), event -> {
-            List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
+            List<MensagemChat> mensagens = ChatService.getInstancia().getMensagens(evento);
             mensagensContainer.getChildren().clear();
-            for (String msg : mensagens) {
-                if (msg.startsWith("[HAND_ACK] ")) {
-                    String nomeAck = msg.replace("[HAND_ACK] ", "");
+            for (MensagemChat msg : mensagens) {
+                String texto = msg.getTexto();
+                if (texto.startsWith("[HAND_ACK] ")) {
+                    String nomeAck = texto.replace("[HAND_ACK] ", "");
                     handAckRecebidos.add(nomeAck);
                 }
                 adicionarMensagemNaInterface(msg);
@@ -114,6 +117,15 @@ public class TelaEventoAoVivoController {
         chatRefresh.setCycleCount(Timeline.INDEFINITE);
         chatRefresh.play();
     }
+    
+    private void mostrarSemVideo() {
+        webEngine.loadContent(
+            "<html><body style='background:black; color:white; display:flex; justify-content:center; align-items:center; height:100%;'>" +
+            "<h2>Vídeo indisponível</h2></body></html>"
+        );
+        lblSemVideo.setVisible(true);
+    }
+
 
     @FXML
     private void handleCarregarVideo() {
@@ -162,39 +174,33 @@ public class TelaEventoAoVivoController {
         return null;
     }
 
-    private void mostrarSemVideo() {
-        webEngine.loadContent("<html><body style='background:black; color:white; display:flex; justify-content:center; align-items:center; height:100%;'>" +
-                "<h2>Vídeo indisponível</h2></body></html>");
-        lblSemVideo.setVisible(true);
-    }
-
     @FXML
     private void handleEnviarMensagem() {
         String msg = campoMensagem.getText().trim();
         if (!msg.isEmpty()) {
-            String mensagemFormatada = usuario.getNome() + ": " + msg;
-            ChatService.getInstancia().adicionarMensagem(evento, mensagemFormatada);
+            ChatService.getInstancia().adicionarMensagem(evento, usuario.getId(), usuario.getNome() + ": " + msg);
             campoMensagem.clear();
             refreshMensagens();
         }
     }
 
     private void refreshMensagens() {
-        List<String> mensagens = ChatService.getInstancia().getMensagens(evento);
+        List<MensagemChat> mensagens = ChatService.getInstancia().getMensagens(evento);
         mensagensContainer.getChildren().clear();
-        for (String msg : mensagens) {
+        for (MensagemChat msg : mensagens) {
             adicionarMensagemNaInterface(msg);
         }
     }
 
-    private void adicionarMensagemNaInterface(String mensagem) {
+    private void adicionarMensagemNaInterface(MensagemChat mensagem) {
+        String texto = mensagem.getTexto();
         HBox linhaMensagem = new HBox();
         linhaMensagem.setSpacing(10);
         linhaMensagem.setAlignment(Pos.CENTER_LEFT);
         linhaMensagem.setPadding(new Insets(5));
 
-        if (mensagem.startsWith("[HAND_RAISE]")) {
-            String nomeSolicitante = mensagem.replace("[HAND_RAISE] ", "");
+        if (texto.startsWith("[HAND_RAISE] ")) {
+            String nomeSolicitante = texto.replace("[HAND_RAISE] ", "");
             if (usuario.equals(evento.getOrganizador())) {
                 VBox box = new VBox(5);
                 Label lbl = new Label(nomeSolicitante + " levantou a mão ✋");
@@ -205,16 +211,22 @@ public class TelaEventoAoVivoController {
                     mensagensContainer.getChildren().remove(linhaMensagem);
                     ChatService.getInstancia().removerMensagem(evento, mensagem);
                     String resposta = "[HAND_ACK] " + nomeSolicitante;
-                    ChatService.getInstancia().adicionarMensagem(evento, resposta);
-                    aguardandoResposta.add(nomeSolicitante);
+                    ChatService.getInstancia().adicionarMensagem(evento, 0, resposta);
+                    aguardandoRespostaMap.put(nomeSolicitante, Boolean.FALSE);
                 });
 
                 box.getChildren().addAll(lbl, btnOk);
                 linhaMensagem.getChildren().add(box);
                 mensagensContainer.getChildren().add(linhaMensagem);
+            } else {
+                // Participantes veem só o texto informando mão levantada
+                Text txt = new Text(nomeSolicitante + " levantou a mão ✋");
+                txt.setStyle("-fx-font-style: italic; -fx-fill: gray;");
+                linhaMensagem.getChildren().add(txt);
+                mensagensContainer.getChildren().add(linhaMensagem);
             }
-        } else if (mensagem.startsWith("[HAND_ACK]")) {
-            String nome = mensagem.replace("[HAND_ACK] ", "");
+        } else if (texto.startsWith("[HAND_ACK] ")) {
+            String nome = texto.replace("[HAND_ACK] ", "");
             if (usuario.getNome().equals(nome) && !handAckRecebidos.contains(nome)) {
                 handAckRecebidos.add(nome);
                 Platform.runLater(() -> {
@@ -229,12 +241,18 @@ public class TelaEventoAoVivoController {
                 mensagensContainer.getChildren().add(linhaMensagem);
             }
         } else {
-            String nomeRemetente = mensagem.split(":")[0].trim();
-            Text txtMensagem = new Text(mensagem);
+            // Mensagem normal
+            String nomeRemetente = texto.split(":")[0].trim();
+            Text txtMensagem = new Text(texto);
 
-            if (usuario.equals(evento.getOrganizador()) && aguardandoResposta.contains(nomeRemetente)) {
-                txtMensagem.setStyle("-fx-fill: orange; -fx-font-weight: bold;");
-                aguardandoResposta.remove(nomeRemetente);
+            if (usuario.equals(evento.getOrganizador()) && aguardandoRespostaMap.containsKey(nomeRemetente)) {
+                Boolean jaDestacado = aguardandoRespostaMap.get(nomeRemetente);
+                if (jaDestacado == Boolean.FALSE) {
+                    txtMensagem.setStyle("-fx-fill: orange; -fx-font-weight: bold;");
+                    aguardandoRespostaMap.put(nomeRemetente, Boolean.TRUE);
+                } else if (jaDestacado == Boolean.TRUE) {
+                    aguardandoRespostaMap.remove(nomeRemetente);
+                }
             }
 
             linhaMensagem.getChildren().add(txtMensagem);
@@ -269,7 +287,7 @@ public class TelaEventoAoVivoController {
     @FXML
     private void handleLevantarMao() {
         String msg = "[HAND_RAISE] " + usuario.getNome();
-        ChatService.getInstancia().adicionarMensagem(evento, msg);
+        ChatService.getInstancia().adicionarMensagem(evento, usuario.getId(), msg);
         refreshMensagens();
         Alert alert = new Alert(Alert.AlertType.INFORMATION, "Você levantou a mão! Aguarde o organizador.");
         alert.showAndWait();

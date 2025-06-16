@@ -3,14 +3,22 @@ package service;
 import java.util.*;
 
 import model.Evento;
+import model.Usuario;
 
 public class ChatService {
 
     private static ChatService instancia;
-    private Map<Evento, List<String>> mensagensPorEvento;
+
+    // Map evento -> lista de mensagens
+    // Vamos criar um modelo de mensagem para armazenar remetente e texto
+    private Map<Evento, List<MensagemChat>> mensagensPorEvento;
+
+    // Map evento -> map usuarioId -> qtd mãos levantadas
+    private Map<Evento, Map<Integer, Integer>> maosLevantadasPorEvento;
 
     private ChatService() {
         mensagensPorEvento = new HashMap<>();
+        maosLevantadasPorEvento = new HashMap<>();
     }
 
     public static ChatService getInstancia() {
@@ -20,19 +28,64 @@ public class ChatService {
         return instancia;
     }
 
-    public void adicionarMensagem(Evento evento, String mensagem) {
-        mensagensPorEvento.computeIfAbsent(evento, k -> new ArrayList<>()).add(mensagem);
+    // Classe interna para representar mensagem com remetente
+    public static class MensagemChat {
+        private int usuarioId;
+        private String texto;
+
+        public MensagemChat(int usuarioId, String texto) {
+            this.usuarioId = usuarioId;
+            this.texto = texto;
+        }
+
+        public int getUsuarioId() {
+            return usuarioId;
+        }
+
+        public String getTexto() {
+            return texto;
+        }
     }
 
-    public List<String> getMensagens(Evento evento) {
+    public void adicionarMensagem(Evento evento, int usuarioId, String mensagem) {
+        mensagensPorEvento
+            .computeIfAbsent(evento, k -> new ArrayList<>())
+            .add(new MensagemChat(usuarioId, mensagem));
+    }
+
+    public List<MensagemChat> getMensagens(Evento evento) {
         return mensagensPorEvento.getOrDefault(evento, new ArrayList<>());
     }
 
-    public void removerMensagem(Evento evento, String mensagem) {
-        List<String> mensagens = mensagensPorEvento.get(evento);
+    public void removerMensagem(Evento evento, MensagemChat mensagem) {
+        List<MensagemChat> mensagens = mensagensPorEvento.get(evento);
         if (mensagens != null) {
             mensagens.remove(mensagem);
         }
     }
-}
 
+    // Registra que um usuário levantou a mão no evento
+    public void registrarMaoLevantada(Evento evento, int usuarioId) {
+        maosLevantadasPorEvento
+            .computeIfAbsent(evento, k -> new HashMap<>())
+            .merge(usuarioId, 1, Integer::sum);
+    }
+
+    // Retorna a quantidade de mensagens enviadas pelo usuário no evento
+    public int getQuantidadeMensagens(int eventoId, int usuarioId) {
+        int total = 0;
+        for (Evento evento : mensagensPorEvento.keySet()) {
+            if (evento.getId() == eventoId) {
+                List<MensagemChat> mensagens = mensagensPorEvento.get(evento);
+                if (mensagens != null) {
+                    for (MensagemChat msg : mensagens) {
+                        if (msg.getUsuarioId() == usuarioId) {
+                            total++;
+                        }
+                    }
+                }
+            }
+        }
+        return total;
+    }
+}

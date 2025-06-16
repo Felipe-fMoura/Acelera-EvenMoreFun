@@ -41,5 +41,12 @@
         <!-- Botão de salvar -->
         <Button text="Salvar Presenças" layoutX="460" layoutY="430" onAction="#salvarPresencas"/>
     </children>
+    <!-- Ranking de Participação -->
+      <VBox layoutX="680" layoutY="55" prefWidth="200" prefHeight="400"
+        spacing="8" style="-fx-background-color: #ecf0f1; -fx-padding: 10;">
+      <Label text="🏆 Ranking de Participação"
+           style="-fx-font-weight: bold; -fx-font-size: 14px;" />
+      <ListView fx:id="rankingListView" prefHeight="360"/>
+      </VBox>
 
 </AnchorPane>
