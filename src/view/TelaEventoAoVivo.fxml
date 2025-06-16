@@ -16,7 +16,6 @@
 
     <!-- Topo: Reutiliza a barra de navegação -->
     <top>
-        <!-- Cole aqui o mesmo HBox da TelaMenu.fxml, se desejar -->
         <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10; -fx-background-color: #ddd;">
             <Text fx:id="nomeUsuario" style="-fx-font-weight: bold;" />
             <Button text="Sair do Evento" onAction="#handleSairEvento" />
@@ -33,8 +32,9 @@
                   visible="false"
                   managed="false"
                   style="-fx-background-color: #222; -fx-padding: 5; -fx-alignment: center_left;">
-                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 600;" />
+                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 500;" />
                 <Button text="Carregar Vídeo" onAction="#handleCarregarVideo" />
+                <Button text="Selecionar do PC" onAction="#handleCarregarVideo" />
             </HBox>
 
             <!-- Botão de liberar acesso - visível só para organizador -->

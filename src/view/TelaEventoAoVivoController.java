@@ -11,6 +11,7 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
 import model.Usuario;
@@ -19,6 +20,7 @@ import session.SessaoUsuario;
 import service.ChatService;
 import service.ChatService.MensagemChat;
 
+import java.io.File;
 import java.util.*;
 
 public class TelaEventoAoVivoController {
@@ -117,7 +119,7 @@ public class TelaEventoAoVivoController {
         chatRefresh.setCycleCount(Timeline.INDEFINITE);
         chatRefresh.play();
     }
-    
+
     private void mostrarSemVideo() {
         webEngine.loadContent(
             "<html><body style='background:black; color:white; display:flex; justify-content:center; align-items:center; height:100%;'>" +
@@ -126,16 +128,30 @@ public class TelaEventoAoVivoController {
         lblSemVideo.setVisible(true);
     }
 
-
     @FXML
     private void handleCarregarVideo() {
         String url = txtUrlVideo.getText().trim();
+
         if (url.isEmpty()) {
-            mostrarSemVideo();
-            return;
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Selecione um vídeo MP4");
+            fileChooser.getExtensionFilters().add(
+                new FileChooser.ExtensionFilter("Arquivos de vídeo MP4", "*.mp4")
+            );
+
+            File arquivo = fileChooser.showOpenDialog(webView.getScene().getWindow());
+            if (arquivo != null) {
+                String caminho = arquivo.toURI().toString();
+                carregarVideo(caminho);
+                evento.setUrlVideo(caminho);
+            } else {
+                mostrarSemVideo();
+            }
+
+        } else {
+            evento.setUrlVideo(url);
+            carregarVideo(url);
         }
-        evento.setUrlVideo(url);
-        carregarVideo(url);
     }
 
     private void carregarVideo(String url) {
@@ -143,14 +159,31 @@ public class TelaEventoAoVivoController {
             if (url.contains("youtube.com") || url.contains("youtu.be")) {
                 String videoId = extrairVideoIdYouTube(url);
                 if (videoId != null) {
-                    String embedHtml = "<html><body style='margin:0; background:black;'>" +
-                            "<iframe width='800' height='450' src='https://www.youtube.com/embed/" + videoId + "' " +
-                            "frameborder='0' allowfullscreen></iframe></body></html>";
-                    webEngine.loadContent(embedHtml);
+                    String embedHtml = """
+                        <html><body style='margin:0; background:black;'>
+                        <iframe width='100%%' height='100%%' src='https://www.youtube.com/embed/%s' 
+                        frameborder='0' allowfullscreen></iframe></body></html>
+                        """.formatted(videoId);
+                    webEngine.loadContent(embedHtml, "text/html");
                     lblSemVideo.setVisible(false);
                     return;
                 }
+            } else if (url.startsWith("file:/") && url.endsWith(".mp4")) {
+                String html = """
+                    <html>
+                    <body style="margin:0; background:black;">
+                      <video width="100%%" height="100%%" controls autoplay>
+                        <source src="%s" type="video/mp4">
+                        Seu navegador não suporta o elemento de vídeo.
+                      </video>
+                    </body>
+                    </html>
+                    """.formatted(url);
+                webEngine.loadContent(html, "text/html");
+                lblSemVideo.setVisible(false);
+                return;
             }
+
             webEngine.load(url);
             lblSemVideo.setVisible(false);
         } catch (Exception e) {
@@ -170,7 +203,9 @@ public class TelaEventoAoVivoController {
                 int paramIndex = videoId.indexOf("&");
                 return paramIndex > 0 ? videoId.substring(0, paramIndex) : videoId;
             }
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -219,7 +254,6 @@ public class TelaEventoAoVivoController {
                 linhaMensagem.getChildren().add(box);
                 mensagensContainer.getChildren().add(linhaMensagem);
             } else {
-                // Participantes veem só o texto informando mão levantada
                 Text txt = new Text(nomeSolicitante + " levantou a mão ✋");
                 txt.setStyle("-fx-font-style: italic; -fx-fill: gray;");
                 linhaMensagem.getChildren().add(txt);
@@ -241,7 +275,6 @@ public class TelaEventoAoVivoController {
                 mensagensContainer.getChildren().add(linhaMensagem);
             }
         } else {
-            // Mensagem normal
             String nomeRemetente = texto.split(":")[0].trim();
             Text txtMensagem = new Text(texto);
 
@@ -259,12 +292,7 @@ public class TelaEventoAoVivoController {
 
             if (usuario.equals(evento.getOrganizador())) {
                 Button btnExcluir = new Button("🗑");
-                btnExcluir.setStyle(
-                        "-fx-background-color: transparent;" +
-                        "-fx-text-fill: #888;" +
-                        "-fx-font-size: 10px;" +
-                        "-fx-padding: 2 4 2 4;" +
-                        "-fx-cursor: hand;");
+                btnExcluir.setStyle("-fx-background-color: transparent; -fx-text-fill: #888; -fx-font-size: 10px; -fx-padding: 2 4; -fx-cursor: hand;");
                 btnExcluir.setTooltip(new Tooltip("Excluir mensagem"));
                 btnExcluir.setOnAction(e -> {
                     mensagensContainer.getChildren().remove(linhaMensagem);
