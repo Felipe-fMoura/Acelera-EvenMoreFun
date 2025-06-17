@@ -75,12 +75,13 @@ Aplicar conceitos fundamentais de estruturas de dados — como listas, árvores,
 
 ```plaintext
 ├── src/
-│   ├── view/            → Interfaces FXML e controladores das telas
+│   ├── application/     → Ponto de entrada principal da aplicação
 │   ├── model/           → Entidades do sistema (Usuario, Evento, Mensagem, etc.)
-│   ├── service/         → Regras de negócio e manipulação de dados
-│   ├── session/         → Gerenciamento de sessões e dados temporários
 │   ├── otp/             → Envio de e-mails, lógica OTP e geração de QR Code
 │   ├── resources/       → Ícones e imagens utilizados na aplicação
+│   ├── service/         → Regras de negócio e manipulação de dados
+│   ├── session/         → Gerenciamento de sessões e dados temporários
+│   ├── view/            → Interfaces FXML e controladores das telas
 │   └── module-info.java → Declaração dos módulos Java (JavaFX, JavaMail, etc.)
 ├── rec/                 → Repositório de bibliotecas externas (.jar)
 ```
