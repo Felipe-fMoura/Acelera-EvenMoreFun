@@ -285,4 +285,12 @@ public class EventoService {
             }
         }
     }
+    
+    public void marcarPresenca(int eventoId, int usuarioId) {
+        Evento evento = buscarEventoPorId(eventoId);
+        if (evento != null) {
+            evento.setPresenca(usuarioId, true);
+            System.out.println("Presença registrada para usuário " + usuarioId + " no evento " + eventoId);
+        }
+    }
 }

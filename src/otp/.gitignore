@@ -9,3 +9,4 @@
 /ConfirmacaoHandler.class
 /EmailConfirmationService.class
 /EmailTokenStore.class
+/PresencaHandler.class

@@ -8,6 +8,7 @@ import javafx.scene.Parent;
 
 import com.sun.net.httpserver.HttpServer;
 import otp.ConfirmacaoHandler;
+import otp.PresencaHandler;
 
 import java.net.InetSocketAddress;
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class Main extends Application {
         try {
             server = HttpServer.create(new InetSocketAddress(8080), 0);
             server.createContext("/confirmar", new ConfirmacaoHandler());
+            server.createContext("/presenca", new PresencaHandler());  // NOVO HANDLER
+
             server.setExecutor(null);
             server.start();
             System.out.println("Servidor de confirmação iniciado na porta 8080...");

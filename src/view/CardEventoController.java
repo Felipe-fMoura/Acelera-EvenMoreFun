@@ -109,7 +109,9 @@ public class CardEventoController {
 
                 dialog.showAndWait().ifPresent(email -> {
                     try {
-                        String conteudoQR = "Presença confirmada no evento: " + evento.getTitulo();
+                    	String ipServidor = "192.168.5.6"; // troque pelo IP do seu PC
+                    	String conteudoQR = "http://" + ipServidor + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
+
                         byte[] qrCodeBytes = QRCodeGenerator.generateQRCode(conteudoQR, 200);
                         EmailSender.sendEmailWithAttachment(
                                 email,
