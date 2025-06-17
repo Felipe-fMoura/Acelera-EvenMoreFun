@@ -333,7 +333,10 @@ public class CardEventoController {
             stage.setTitle("Sala do Evento");
             stage.setScene(new Scene(root));
             stage.show();
-
+            
+         // Marca a presença automaticamente
+            eventoService.marcarPresenca(evento.getId(), usuarioLogado.getId());
+            
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir a sala do evento.");

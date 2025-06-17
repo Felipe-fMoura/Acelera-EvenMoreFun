@@ -221,13 +221,14 @@ public class TelaMenuController {
     	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
     	        Parent root = loader.load();
 
-    	        Stage stage = new Stage();
-    	        stage.setScene(new Scene(root));
+    	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+
+    	        // Usa a largura/altura da janela atual
+    	        Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
+
+    	        stage.setScene(newScene);
     	        stage.setTitle("Login");
     	        stage.show();
-
-    	        Stage telaAtual = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    	        telaAtual.close();
 
     	    } catch (IOException e) {
     	        e.printStackTrace();   	       
