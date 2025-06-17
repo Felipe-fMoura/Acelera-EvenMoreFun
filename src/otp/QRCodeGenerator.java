@@ -1,3 +1,8 @@
+/*
+ * Método relevante criado:
+ * - generateQRCode(String text, int size): gera um QR Code em formato PNG retornando o array de bytes.
+ */
+
 package otp;
 
 import com.google.zxing.BarcodeFormat;

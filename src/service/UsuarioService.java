@@ -1,3 +1,22 @@
+/*
+ * Métodos relevantes criados:
+ * - iniciarCadastro(nome, sobrenome, username, email, senha): inicia cadastro validando email e senha, cria usuário com ID provisório.
+ * - completarCadastro(usuario): finaliza cadastro criptografando senha e adicionando usuário à lista.
+ * - cadastrar(usuario): cadastra usuário com verificação de duplicidade, senha criptografada e atribuição de ID.
+ * - validarEmail(email): valida formato do email conforme regex RFC 5322.
+ * - validarSenha(senha): valida se senha tem maiúsculas, minúsculas, números, especiais e tamanho mínimo.
+ * - fazerLogin(email, senhaDigitada): autentica usuário comparando email e senha criptografada.
+ * - buscarPorId(id): busca usuário pelo ID.
+ * - registrarParticipacaoUsuario(usuarioId, evento): registra usuário em evento e atualiza evento.
+ * - removerParticipacaoUsuario(usuarioId, evento): remove usuário de evento.
+ * - getEventosParticipandoUsuario(usuarioId): retorna eventos que usuário participa.
+ * - getEventosOrganizandoUsuario(usuarioId): retorna eventos organizados pelo usuário.
+ * - getUsuarioPorEmail(email): busca usuário pelo email.
+ * - atualizarSenha(email, novaSenha): atualiza senha criptografada do usuário.
+ * - dadosCompletosCadastrados(usuario): verifica se dados obrigatórios do usuário estão preenchidos.
+ * - carregarUsuariosDeTeste(): carrega usuários de teste para desenvolvimento.
+ */
+
 package service;
 
 import java.time.LocalDate;
@@ -5,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jasypt.util.password.BasicPasswordEncryptor;
-import service.EmailConfirmationService;
+import otp.EmailConfirmationService;
 
 import model.Evento;
 import model.Usuario;

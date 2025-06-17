@@ -1,3 +1,9 @@
+/*
+ * Métodos/Fluxos principais criados:
+ * - main(): fluxo de validação OTP via console, envio de código por e-mail,
+ *   verificação de tentativas, validação e atualização da senha do usuário.
+ */
+
 package otp;
 
 import java.util.Scanner;

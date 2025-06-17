@@ -17,9 +17,9 @@ import javafx.scene.Group;
 import javafx.stage.Stage;
 import model.Usuario;
 import service.Alertas;
-import service.EmailConfirmationService;
 import service.UsuarioService;
 import service.Redimensionamento;
+import otp.*;
 
 public class TelaCadastroController {
 

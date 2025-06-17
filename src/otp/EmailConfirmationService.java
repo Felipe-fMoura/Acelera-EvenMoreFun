@@ -1,4 +1,9 @@
-package service;
+/*
+ * Método relevante criado:
+ * - iniciarConfirmacaoEmail(String email, String nome): gera token, salva, cria link e envia e-mail de confirmação.
+ */
+
+package otp;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;

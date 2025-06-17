@@ -1,3 +1,12 @@
+/*
+ * Métodos relevantes criados:
+ * - getInstance() : SessaoUsuario (Singleton para obter instância)
+ * - setUsuario(Usuario usuario) : void (define usuário logado)
+ * - getUsuario() : Usuario (retorna usuário logado)
+ * - limparSessao() : void (limpa sessão do usuário)
+ * - getUsuarioLogado() : static Usuario (facilita acesso ao usuário logado)
+ */
+
 package session;
 
 import model.Usuario;

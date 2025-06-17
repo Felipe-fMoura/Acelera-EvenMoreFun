@@ -1,3 +1,18 @@
+/*
+ * Métodos relevantes criados:
+ * - Evento() (construtor padrão)
+ * - Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador, String palestrante) (construtor com parâmetros)
+ * - Getters e Setters para atributos principais (id, titulo, descricao, local, imagem, categoria, palestrante, data, dataCriacao, organizador)
+ * - getParticipantes(), setParticipantes(List<Usuario>)
+ * - adicionarParticipante(Usuario), removerParticipante(Usuario)
+ * - getQuantidadeParticipantes()
+ * - setPresenca(int usuarioId, boolean presente), getPresenca(int usuarioId)
+ * - isPrivado(), setPrivado(boolean)
+ * - getUrlVideo(), setUrlVideo(String)
+ * - isAcessoLiberado(), setAcessoLiberado(boolean)
+ * - toString()
+ */
+
 package model;
 
 import java.time.LocalDateTime;

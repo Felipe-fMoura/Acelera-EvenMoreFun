@@ -7,7 +7,7 @@ import javafx.stage.Stage;
 import javafx.scene.Parent;
 
 import com.sun.net.httpserver.HttpServer;
-import web.ConfirmacaoHandler;
+import otp.ConfirmacaoHandler;
 
 import java.net.InetSocketAddress;
 import java.io.IOException;

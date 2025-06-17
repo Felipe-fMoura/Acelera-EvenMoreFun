@@ -1,3 +1,21 @@
+/*
+ * Métodos relevantes criados:
+ * - criarEvento(Evento evento): cria e adiciona novo evento com ID incremental.
+ * - atualizarEvento(Evento eventoAtualizado): atualiza evento existente pelo ID.
+ * - removerEvento(int id): remove evento pelo ID.
+ * - buscarEventoPorId(int id): busca evento pelo ID.
+ * - listarTodosEventos(): retorna todos os eventos cadastrados.
+ * - listarEventosPublicos(): lista eventos públicos ordenados por data.
+ * - listarProximosEventos(): lista eventos futuros ordenados por data.
+ * - pesquisarEventos(String termo, Usuario usuarioLogado): busca eventos por termo visíveis ao usuário.
+ * - adicionarParticipante(int eventoId, int usuarioId): adiciona participante a evento.
+ * - removerParticipante(int eventoId, int usuarioId): remove participante do evento.
+ * - contarEventosOrganizadosPorUsuario(int usuarioId): conta eventos organizados por usuário.
+ * - contarParticipacoesUsuario(int usuarioId): conta eventos que usuário participa.
+ * - setPresenca(int eventoId, int usuarioId, boolean presente): marca presença do participante.
+ * - getPermissao(int eventoId, int usuarioId): retorna permissão do usuário para o evento ("organizador", "participante", "nenhuma").
+ */
+
 package service;
 
 import model.Evento;

@@ -1,3 +1,8 @@
+/*
+ * Método relevante criado:
+ * - generateOTP(): gera um código OTP numérico de 6 dígitos.
+ */
+
 package otp;
 
 import java.util.Random;

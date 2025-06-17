@@ -1,3 +1,10 @@
+/*
+ * Métodos relevantes criados:
+ * - sendOTP(String toEmail, String otp): envia e-mail com código OTP no corpo.
+ * - sendEmail(String toEmail, String subject, String body): envia e-mail simples com assunto e texto.
+ * - sendEmailWithAttachment(String toEmail, String subject, String body, byte[] attachmentBytes, String filename): envia e-mail com anexo.
+ */
+
 package otp;
 
 import java.util.Properties;
@@ -95,18 +102,18 @@ public class EmailSender {
             this.data = data;
             this.type = type;
         }
-
+     // Retorna os dados do anexo como InputStream
         @Override
         public InputStream getInputStream() throws IOException {
             if (data == null) throw new IOException("No data");
             return new ByteArrayInputStream(data);
         }
-
+     // Impede a escrita no fluxo de saída
         @Override
         public OutputStream getOutputStream() throws IOException {
             throw new IOException("Not Supported");
         }
-
+     // Retorna o tipo MIME do conteúdo
         @Override
         public String getContentType() {
             return type;

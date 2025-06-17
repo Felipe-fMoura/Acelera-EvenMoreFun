@@ -6,3 +6,6 @@
 /ByteArrayDataSourceCustom.class
 /EmailSender$2.class
 /EmailSender$ByteArrayDataSourceCustom.class
+/ConfirmacaoHandler.class
+/EmailConfirmationService.class
+/EmailTokenStore.class

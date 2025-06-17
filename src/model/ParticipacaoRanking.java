@@ -1,3 +1,12 @@
+/*
+ * Métodos relevantes criados:
+ * - getUsuario(): retorna o usuário associado ao ranking de participação.
+ * - getMensagens(): retorna o número de mensagens do usuário.
+ * - getPontuacao(): retorna a pontuação (neste caso, o número de mensagens).
+ * - compareTo(ParticipacaoRanking outro): compara rankings para ordenar em ordem decrescente.
+ * - toString(): representação textual do ranking.
+ */
+
 package model;
 
 public class ParticipacaoRanking implements Comparable<ParticipacaoRanking> {

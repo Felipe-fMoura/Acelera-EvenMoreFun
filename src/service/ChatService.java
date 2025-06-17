@@ -1,3 +1,16 @@
+/*
+ * Métodos relevantes criados:
+ * - getInstancia() : ChatService (Singleton para obter instância)
+ * - adicionarMensagem(Evento evento, int usuarioId, String mensagem) : void (adiciona mensagem a evento)
+ * - getMensagens(Evento evento) : List<MensagemChat> (retorna lista de mensagens de evento)
+ * - removerMensagem(Evento evento, MensagemChat mensagem) : void (remove mensagem do evento)
+ * - registrarMaoLevantada(Evento evento, int usuarioId) : void (registra mão levantada do usuário no evento)
+ * - getQuantidadeMensagens(int eventoId, int usuarioId) : int (quantidade de mensagens do usuário no evento)
+ *
+ * Classes internas:
+ * - MensagemChat (representa uma mensagem com remetente e texto)
+ */
+
 package service;
 
 import java.util.*;

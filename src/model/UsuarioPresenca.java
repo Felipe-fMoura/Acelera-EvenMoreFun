@@ -1,3 +1,11 @@
+/*
+ * Métodos relevantes criados:
+ * - UsuarioPresenca(Usuario usuario, boolean presente, String permissao) (construtor com permissão)
+ * - UsuarioPresenca(Usuario usuario, boolean presente) (construtor padrão com permissão "participante")
+ * - Getters e setters para propriedades: presente, nome, email, permissao
+ * - propriedades JavaFX: BooleanProperty presente, StringProperty nome, email, permissao
+ */
+
 package model;
 
 import javafx.beans.property.BooleanProperty;
