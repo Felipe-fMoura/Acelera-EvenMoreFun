@@ -206,7 +206,17 @@ public class Evento {
     public void setAcessoLiberado(boolean acessoLiberado) {
         this.acessoLiberado = acessoLiberado;
     }
+    
+    private String tipo; // "Presencial", "Online" ou "Híbrido"
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    
     // Representação textual
     @Override
     public String toString() {

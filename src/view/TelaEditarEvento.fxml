@@ -37,8 +37,10 @@
         
         <Label text="Imagem:" GridPane.rowIndex="6" />
         <TextField fx:id="txtPalestrante" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label text="Tipo:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <ComboBox fx:id="cbTipo" GridPane.columnIndex="1" GridPane.rowIndex="7" />
         
-        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="8" />
       <TextField fx:id="txtImagem" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label text="Palestrante:" GridPane.rowIndex="5" />
       <columnConstraints>
@@ -57,5 +59,9 @@
       </rowConstraints>
     </GridPane>
     
-    <Button onAction="#handleEditarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="Criar Evento" />
-</VBox>
+    <HBox spacing="10">
+    <Button onAction="#handleEditarEvento" style="-fx-background-color: #2ecc71; -fx-text-fill: white;" text="Salvar Alterações" />
+    <Button onAction="#handleExcluirEvento" style="-fx-background-color: #e74c3c; -fx-text-fill: white;" text="Excluir Evento" />
+    </HBox>
+    </VBox>
+

@@ -35,7 +35,7 @@ public class CardEventoController {
     @FXML private Label lblLocal;
     @FXML private ImageView imgEvento;
     @FXML private Label lblPalestrante;
-
+    @FXML private Button btnEntrar;
     @FXML private Button btnParticipar;
     @FXML private Button btnCompartilhar;
     @FXML private Button btnLista;
@@ -77,6 +77,13 @@ public class CardEventoController {
 
         btnEditar.setVisible(isOrganizador);
         btnEditar.setManaged(isOrganizador);
+        
+     // Oculta o botão "Entrar" se o evento for presencial
+        if (btnEntrar != null && evento.getTipo() != null) {
+            boolean isOnline = !evento.getTipo().equalsIgnoreCase("Presencial");
+            btnEntrar.setVisible(isOnline);
+            btnEntrar.setManaged(isOnline); // também remove o espaço do layout
+        }
 
         atualizarEstadoParticipacao();
     }

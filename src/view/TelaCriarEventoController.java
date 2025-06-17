@@ -20,6 +20,7 @@ public class TelaCriarEventoController {
     @FXML private ComboBox<String> cbCategoria;
     @FXML private CheckBox checkPrivado;
     @FXML private TextField txtPalestrante;
+    @FXML private ComboBox<String> cbTipoEvento;
     
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
@@ -32,6 +33,9 @@ public class TelaCriarEventoController {
     private void initialize() {
         cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
 
+        cbTipoEvento.getItems().addAll("Presencial", "Online", "Híbrido");
+        cbTipoEvento.setValue("Presencial");
+        
         // TextFormatter para aceitar apenas números e até 4 dígitos
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String text = change.getControlNewText();
@@ -92,6 +96,8 @@ public class TelaCriarEventoController {
             evento.setCategoria(cbCategoria.getValue());
             evento.setPrivado(checkPrivado.isSelected());
             evento.setImagem(txtImagem.getText());
+            evento.setTipo(cbTipoEvento.getValue());
+
 
             eventoService.criarEvento(evento);
             usuarioLogado.organizarEvento(evento);

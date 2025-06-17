@@ -20,7 +20,8 @@ public class TelaEditarEventoController {
     @FXML private ComboBox<String> cbCategoria;
     @FXML private CheckBox checkPrivado;
     @FXML private TextField txtPalestrante;
-    
+    @FXML private ComboBox<String> cbTipo;
+
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
     private Evento evento;
@@ -51,12 +52,13 @@ public class TelaEditarEventoController {
         cbCategoria.setValue(evento.getCategoria());
         checkPrivado.setSelected(evento.isPrivado());
         txtPalestrante.setText(evento.getPalestrante());
+        cbTipo.setValue(evento.getTipo());
     }
 
     @FXML
     private void initialize() {
         cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
-
+        cbTipo.getItems().addAll("Presencial", "Online");
         // TextFormatter para aceitar apenas números e até 4 dígitos no txtHora
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String text = change.getControlNewText();
@@ -120,6 +122,7 @@ public class TelaEditarEventoController {
             evento.setCategoria(cbCategoria.getValue());
             evento.setPrivado(checkPrivado.isSelected());
             evento.setPalestrante(txtPalestrante.getText());
+            evento.setTipo(cbTipo.getValue());
 
             eventoService.atualizarEvento(evento);
 
@@ -133,4 +136,21 @@ public class TelaEditarEventoController {
             alert.showAndWait();
         }
     }
+    @FXML
+    private void handleExcluirEvento() {
+        if (evento == null) return;
+
+        Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacao.setTitle("Confirmação");
+        confirmacao.setHeaderText("Deseja realmente excluir este evento?");
+        confirmacao.setContentText("Essa ação não poderá ser desfeita.");
+
+        confirmacao.showAndWait().ifPresent(resposta -> {
+            if (resposta == ButtonType.OK) {
+            	eventoService.removerEvento(evento.getId());
+                txtTitulo.getScene().getWindow().hide(); // Fecha a janela
+            }
+        });
+    }
+
 }

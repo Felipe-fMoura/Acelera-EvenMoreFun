@@ -37,8 +37,10 @@
         
         <Label text="Imagem:" GridPane.rowIndex="6" />
         <TextField fx:id="txtPalestrante" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+        <Label text="Tipo de Evento:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+        <ComboBox fx:id="cbTipoEvento" GridPane.columnIndex="1" GridPane.rowIndex="7" />
         
-        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <CheckBox fx:id="checkPrivado" text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="8" />
       <TextField fx:id="txtImagem" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label text="Palestrante:" GridPane.rowIndex="5" />
       <columnConstraints>
