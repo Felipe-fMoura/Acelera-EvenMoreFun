@@ -49,35 +49,48 @@ public class UsuarioService {
 		return instancia;
 	}
 
-	public Usuario iniciarCadastro(String nome, String sobrenome,String username, String email, String senha) {
-		// Validações
-		if (!validarEmail(email) || !validarSenha(senha)) {
-			return null;
-		}
+	public Usuario iniciarCadastro(String nome, String sobrenome, String username, String email, String senha) {
+	    // Validações
+	    if (!validarEmail(email) || !validarSenha(senha)) {
+	        return null;
+	    }
 
-		// Verifica email existente
-		if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
-			return null;
-		}
-		
-		String senhaHash = passwordEncryptor.encryptPassword(senha);
+	    // Verifica email existente
+	    if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
+	        return null;
+	    }
 
-		// Cria usuário com ID provisional
-		Usuario novo = new Usuario(nome,sobrenome,username, email, senhaHash);
-		listaUsuarios.add(novo);
-		novo.setId(proximoId++); // Reserva o ID
-		return novo;
+	    // Criptografa a senha
+	    String senhaHash = passwordEncryptor.encryptPassword(senha);
+
+	    // Cria usuário, mas **NÃO adiciona à lista ainda**
+	    Usuario novo = new Usuario(nome, sobrenome, username, email, senhaHash);
+
+	    // ID só será atribuído na finalização do cadastro, para evitar buracos na numeração
+	    // novo.setId(proximoId++);
+
+	    return novo;
 	}
+
 
 	public boolean completarCadastro(Usuario usuario) {
-		// Criptografa senha
-		String hash = passwordEncryptor.encryptPassword(usuario.getSenha());
-		usuario.setSenha(hash);
+	    if (usuario.getId() == 0) {
+	        usuario.setId(proximoId++);
+	        listaUsuarios.add(usuario);
+	    } else {
+	        // Atualiza usuário existente na lista
+	        int idx = listaUsuarios.indexOf(usuario);
+	        if (idx >= 0) {
+	            listaUsuarios.set(idx, usuario);
+	        } else {
+	            listaUsuarios.add(usuario);
+	        }
+	    }
+	    // outras lógicas de validação, criptografia, etc, se necessário
 
-		// Adiciona à lista
-		listaUsuarios.add(usuario);
-		return true;
+	    return true;
 	}
+
 
 	public boolean cadastrar(Usuario usuario) {
 

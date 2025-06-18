@@ -110,6 +110,7 @@ public class TelaCadastroController {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;
 		}
+		usuarioService.completarCadastro(novo);
 
 		//e-mail de confirmação
 		EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);

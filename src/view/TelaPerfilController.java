@@ -46,6 +46,8 @@ public class TelaPerfilController {
         Usuario usuario = SessaoUsuario.getInstance().getUsuario();
         
         if (usuario != null) {
+        	
+        	lblId.setText("" + usuario.getId());
             // Informações básicas
             lblNome.setText(usuario.getNome());
             lblUsername.setText("@" + usuario.getUsername());

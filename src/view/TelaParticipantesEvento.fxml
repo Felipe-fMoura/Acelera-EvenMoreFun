@@ -24,7 +24,10 @@
         <TableView fx:id="tabelaParticipantes" layoutX="20" layoutY="90" prefWidth="610" prefHeight="300">
             <columns>
                 <TableColumn fx:id="colNome" text="Nome" prefWidth="180"/>
+                <TableColumn fx:id="colCpf" text="CPF" prefWidth="120"/>
                 <TableColumn fx:id="colEmail" text="E-mail" prefWidth="220"/>
+                <TableColumn fx:id="colTelefone" text="Telefone" prefWidth="120"/>
+                <TableColumn fx:id="colNascimento" text="Nascimento" prefWidth="120"/>
                 <TableColumn fx:id="colPresente" text="Presente?" prefWidth="160"/>
                 <TableColumn fx:id="colPermissao" text="Permissão" prefWidth="130"/>
             </columns>

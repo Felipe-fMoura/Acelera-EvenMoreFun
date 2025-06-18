@@ -20,6 +20,10 @@ public class UsuarioPresenca {
     private final StringProperty nome;
     private final StringProperty email;
     private final StringProperty permissao;  // nova propriedade para armazenar a permissão
+    private final StringProperty telefone = new SimpleStringProperty();
+    private final StringProperty cpf = new SimpleStringProperty();
+    private final StringProperty dataNascimento = new SimpleStringProperty();
+
 
     // Construtor com permissão explícita
     public UsuarioPresenca(Usuario usuario, boolean presente, String permissao) {
@@ -28,6 +32,9 @@ public class UsuarioPresenca {
         this.nome = new SimpleStringProperty(usuario.getNome());
         this.email = new SimpleStringProperty(usuario.getEmail());
         this.permissao = new SimpleStringProperty(permissao.toLowerCase()); // padroniza minúsculo
+        this.telefone.set(usuario.getTelefone());
+        this.cpf.set(usuario.getCpf());
+        this.dataNascimento.set(usuario.getDataNascimento() != null ? usuario.getDataNascimento().toString() : "");
     }
 
     // Construtor antigo para compatibilidade, padrão "participante"
@@ -72,4 +79,17 @@ public class UsuarioPresenca {
     public void setPermissao(String permissao) {
         this.permissao.set(permissao.toLowerCase());
     }
+    
+    public StringProperty telefoneProperty() {
+        return telefone;
+    }
+
+    public StringProperty cpfProperty() {
+        return cpf;
+    }
+
+    public StringProperty dataNascimentoProperty() {
+        return dataNascimento;
+    }
+
 }

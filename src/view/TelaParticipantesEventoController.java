@@ -27,6 +27,9 @@ public class TelaParticipantesEventoController {
     @FXML private TableColumn<UsuarioPresenca, String> colEmail;
     @FXML private TableColumn<UsuarioPresenca, Boolean> colPresente;
     @FXML private TableColumn<UsuarioPresenca, String> colPermissao;
+    @FXML private TableColumn<UsuarioPresenca, String> colTelefone;
+    @FXML private TableColumn<UsuarioPresenca, String> colCpf;
+    @FXML private TableColumn<UsuarioPresenca, String> colNascimento;
     @FXML private TextField txtFiltro;
     @FXML private Label lblContadorPresentes;
 
@@ -70,6 +73,9 @@ public class TelaParticipantesEventoController {
         colPresente.setCellValueFactory(data -> data.getValue().presenteProperty());
         colPresente.setCellFactory(CheckBoxTableCell.forTableColumn(colPresente));
         colPermissao.setCellValueFactory(data -> data.getValue().permissaoProperty());
+        colTelefone.setCellValueFactory(data -> data.getValue().telefoneProperty());
+        colCpf.setCellValueFactory(data -> data.getValue().cpfProperty());
+        colNascimento.setCellValueFactory(data -> data.getValue().dataNascimentoProperty());
 
         tabelaParticipantes.setEditable(true);
         colPresente.setEditable(true);
@@ -149,42 +155,58 @@ public class TelaParticipantesEventoController {
 
         if (file != null) {
             try (FileWriter writer = new FileWriter(file)) {
-                // Escreve a tabela de presenças
-                writer.write("Nome;E-mail;Presente?;Permissão\n");
+
+                writer.write("=== Lista de Participantes ===\n");
+                writer.write("Nome;E-mail;Telefone;CPF;Nascimento;Gênero;Presente?;Permissão\n");
+
                 for (UsuarioPresenca up : listaOriginal) {
-                    writer.write(String.format("%s;%s;%s;%s\n",
-                            up.getUsuario().getNome(),
-                            up.getUsuario().getEmail(),
+                    Usuario u = up.getUsuario();
+                    writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s\n",
+                            csvSafe(u.getNome()),
+                            csvSafe(u.getEmail()),
+                            csvSafe(u.getTelefone()),
+                            csvSafe(u.getCpf()),
+                            u.getDataNascimento() != null ? u.getDataNascimento().toString() : "",
+                            csvSafe(u.getGenero()),
                             up.isPresente() ? "Sim" : "Não",
-                            up.getPermissao()));
+                            csvSafe(up.getPermissao())
+                    ));
                 }
 
-                // Quebra e cabeçalho para ranking
-                writer.write("\nRanking de Participação:\n");
+                writer.write("\n=== Ranking de Participação (Mensagens no chat) ===\n");
                 writer.write("Posição;Nome;Mensagens\n");
 
-                // Gera o ranking com base em mensagens
                 List<UsuarioPresenca> participantesOrdenados = new ArrayList<>(listaOriginal);
                 participantesOrdenados.sort((a, b) -> {
                     int msgsB = chatService.getQuantidadeMensagens(evento.getId(), b.getUsuario().getId());
                     int msgsA = chatService.getQuantidadeMensagens(evento.getId(), a.getUsuario().getId());
-                    return Integer.compare(msgsB, msgsA); // decrescente
+                    return Integer.compare(msgsB, msgsA); // ordem decrescente
                 });
 
                 int pos = 1;
                 for (UsuarioPresenca up : participantesOrdenados) {
                     int mensagens = chatService.getQuantidadeMensagens(evento.getId(), up.getUsuario().getId());
-                    writer.write(String.format("%d;%s;%d\n", pos++, up.getUsuario().getNome(), mensagens));
+                    writer.write(String.format("%d;%s;%d\n", pos++, csvSafe(up.getUsuario().getNome()), mensagens));
                 }
 
                 Alert alerta = new Alert(Alert.AlertType.INFORMATION, "CSV exportado com sucesso.");
                 alerta.showAndWait();
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Alert alerta = new Alert(Alert.AlertType.ERROR, "Erro ao exportar CSV.");
                 alerta.showAndWait();
             }
         }
+    }
+
+    // Escapa campos com ; ou " para evitar quebra no CSV
+    private String csvSafe(String input) {
+        if (input == null) return "";
+        if (input.contains(";") || input.contains("\"")) {
+            return "\"" + input.replace("\"", "\"\"") + "\"";
+        }
+        return input;
     }
 
 

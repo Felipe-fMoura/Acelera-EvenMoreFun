@@ -109,7 +109,7 @@ public class TelaCadastro2Controller {
 				System.out.println("Genêro: " + usuario.getGenero());
 				System.out.println("Id: " + usuario.getId());
 
-				usuarioService.cadastrar(usuario);
+			//	usuarioService.cadastrar(usuario);
 
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
