@@ -111,8 +111,6 @@ public class CardEventoController {
 
                 dialog.showAndWait().ifPresent(email -> {
                     try {
-                    	//String ipServidor = "192.168.5.6"; // troque pelo IP do seu PC
-                    	//String conteudoQR = "http://" + ipServidor + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
                     	String ip = IPUtil.getLocalIPv4();
                     	String conteudoQR = "http://" + ip + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
                     	
