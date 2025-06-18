@@ -57,15 +57,7 @@
               
                </Button>
                
-                <Button fx:id="btnNovaSessao" layoutX="1077.0" layoutY="949.0" onAction="#onBtnNovaSessao" style="-fx-background-color: transparent;">
-            <graphic>
-               <ImageView fitHeight="24" fitWidth="24">
-                  <image>
-                     <Image url="@../resources/duplicate.png" />
-                  </image>
-               </ImageView>
-            </graphic>
-         </Button>
+                <Button fx:id="btnNovaSessao" layoutX="1077.0" layoutY="949.0" onAction="#onBtnNovaSessao" style="-fx-background-color: transparent;" />
 
                <Button fx:id="btnCadastro" layoutX="1465.0" layoutY="952.0" mnemonicParsing="false" onAction="#onBtnCadastro" opacity="0.0" prefHeight="25.0" prefWidth="143.0">
                   <cursor>

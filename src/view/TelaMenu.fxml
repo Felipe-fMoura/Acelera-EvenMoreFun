@@ -35,7 +35,7 @@
             <graphic>
                <ImageView fitHeight="24" fitWidth="24">
                   <image>
-                     <Image url="@../resources/refresh.png" />
+                     <Image url="@../resources/refresh%20(2).png" />
                   </image>
                </ImageView>
             </graphic>

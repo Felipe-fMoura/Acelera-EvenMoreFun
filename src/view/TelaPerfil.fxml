@@ -26,7 +26,7 @@
     <HBox alignment="CENTER_LEFT" maxWidth="600" spacing="20">
         <ImageView fx:id="imgPerfil" fitHeight="100" fitWidth="100">
             <image>
-                <Image url="@../images/system/Erro.png" />
+                <Image url="@../resources/account.png" />
             </image>
         </ImageView>
 
