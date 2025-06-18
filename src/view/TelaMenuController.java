@@ -5,11 +5,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.ButtonBar;
 import model.Evento;
 import model.Usuario;
 import service.EventoService;
@@ -147,6 +150,13 @@ public class TelaMenuController {
 
     @FXML
     private void handleCriarEvento(ActionEvent event) {
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
+        if (!UsuarioService.getInstance().isCadastroCompleto(usuarioLogado)) {
+            mostrarAlerta("Complete seu cadastro (CPF, telefone, etc.) antes de criar um evento.");
+            return;
+        }
+
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCriarEvento.fxml"));
             Parent root = loader.load();
@@ -160,7 +170,7 @@ public class TelaMenuController {
             stage.show();
             
             stage.setOnHidden(e -> carregarEventos());
-            
+
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir tela de criação de evento");

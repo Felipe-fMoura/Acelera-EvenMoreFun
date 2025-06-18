@@ -376,4 +376,11 @@ public class UsuarioService {
 		usuario.setSenha(hash);
 		return true;
 	}
+	public boolean isCadastroCompleto(Usuario usuario) {
+	    return usuario.getNome() != null && !usuario.getNome().isEmpty()
+	        && usuario.getEmail() != null && !usuario.getEmail().isEmpty()
+	        && usuario.getSenha() != null && !usuario.getSenha().isEmpty()
+	        && usuario.getCpf() != null && !usuario.getCpf().isEmpty()
+	        && usuario.getTelefone() != null && !usuario.getTelefone().isEmpty();
+	}
 }

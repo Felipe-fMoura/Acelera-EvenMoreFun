@@ -24,6 +24,7 @@ import otp.EmailSender;
 import otp.QRCodeGenerator;
 import otp.IPUtil;
 import service.EventoService;
+import service.UsuarioService;
 import session.SessaoUsuario;
 import javafx.geometry.Bounds;
 
@@ -307,7 +308,13 @@ public class CardEventoController {
             mostrarAlerta("Você precisa estar logado para entrar na sala do evento.");
             return;
         }
-
+        
+        UsuarioService usuarioService = UsuarioService.getInstance();
+        if (!usuarioService.isCadastroCompleto(usuarioLogado)) {
+            mostrarAlerta("Seu cadastro está incompleto. Atualize seus dados antes de entrar no evento.");
+            return;
+            
+        }
         boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
         boolean isOrganizador = evento.getOrganizador() != null &&
                                 evento.getOrganizador().getId() == usuarioLogado.getId();
