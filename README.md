@@ -2,7 +2,7 @@
 
 Projeto desenvolvido para a disciplina de **Estrutura de Dados** da **FATEC – Prof. Waldomiro May**.
 
-O **EvenMoreFun** é uma aplicação desktop desenvolvida em **Java** com interface gráfica em **JavaFX**, voltada para a criação, gerenciamento e participação em eventos. A proposta é oferecer uma experiência rica e interativa tanto para organizadores quanto para participantes, integrando funcionalidades como **chat em tempo real**, **controle de presença**, **envio de e-mails** e **autenticação com OTP (código de uso único)**.
+O **EvenMoreFun** é uma aplicação desktop desenvolvida em **Java** com interface gráfica em **JavaFX**, voltada para a criação, gerenciamento e participação em eventos. A proposta é oferecer uma experiência rica e interativa tanto para organizadores quanto para participantes.
 
 ---
 
