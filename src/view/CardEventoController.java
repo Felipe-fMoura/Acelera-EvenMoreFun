@@ -347,4 +347,24 @@ public class CardEventoController {
             mostrarAlerta("Erro ao abrir a sala do evento.");
         }
     }
+    
+    @FXML
+    private void handleGaleria(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaGaleria.fxml"));
+            Parent root = loader.load();
+
+            TelaGaleriaController controller = loader.getController();
+            controller.setEvento(this.evento, SessaoUsuario.getInstance().getUsuario());
+
+            Stage stage = new Stage();
+            stage.setTitle("Galeria do Evento");
+            stage.setScene(new Scene(root));
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao abrir galeria de fotos.");
+        }
+    }
 }

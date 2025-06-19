@@ -36,6 +36,9 @@ public class Evento {
 
     private LocalDateTime data;
     private LocalDateTime dataCriacao;
+    
+    private Map<String, Integer> curtidasPorImagem = new HashMap<>();
+    private Map<String, List<String>> comentariosPorImagem = new HashMap<>();
 
     private boolean privado;
 
@@ -207,6 +210,15 @@ public class Evento {
         this.acessoLiberado = acessoLiberado;
     }
     
+    public Map<String, Integer> getCurtidasPorImagem() {
+        return curtidasPorImagem;
+    }
+
+    public Map<String, List<String>> getComentariosPorImagem() {
+        return comentariosPorImagem;
+    }
+
+    
     private String tipo; // "Presencial", "Online" ou "Híbrido"
 
     public String getTipo() {
@@ -231,4 +243,11 @@ public class Evento {
             getQuantidadeParticipantes()
         );
     }
+    
+    private List<String> galeriaFotos = new ArrayList<>();
+
+    public List<String> getGaleriaFotos() {
+        return galeriaFotos;
+    }
+
 }
