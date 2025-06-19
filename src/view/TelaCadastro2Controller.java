@@ -2,6 +2,7 @@ package view;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,9 +18,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.Notificacao;
 import model.Usuario;
 import service.Alertas;
+import service.NotificacaoService;
 import service.UsuarioService;
+import session.SessaoUsuario;
 import service.Redimensionamento;
 
 public class TelaCadastro2Controller {
@@ -129,5 +133,17 @@ public class TelaCadastro2Controller {
 			}
 		}
 
+		int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+        Notificacao notificacao = new Notificacao(
+            "Você concluiu seu cadastro ",
+            LocalDateTime.now(),
+            false,
+            Notificacao.Tipo.HISTORICO,
+            "Sistema"
+        );
+
+        NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+		
 	}
 }

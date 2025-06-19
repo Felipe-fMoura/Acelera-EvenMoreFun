@@ -17,9 +17,9 @@
 <BorderPane xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaMenuController">
     <!-- Topo - Barra de Navegação -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #46295A; -fx-padding: 10px 20px;">
+        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #550080; -fx-padding: 10px 20px;">
             <!-- Logo -->
-            <ImageView fitHeight="64.0" fitWidth="66.0" preserveRatio="true">
+            <ImageView fitHeight="64.0" fitWidth="87.0" preserveRatio="true">
                 <image>
                     <Image url="@../resources/LogoEvenMoreFunAlternativa.png" />
                 </image>
@@ -35,7 +35,16 @@
             <graphic>
                <ImageView fitHeight="24" fitWidth="24">
                   <image>
-                     <Image url="@../resources/refresh%20(2).png" />
+                     <Image url="@../images/system/iconBtnRefresh.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+         </Button>
+         <Button fx:id="btnListarPor" onAction="#handleListarPor" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="24" fitWidth="24">
+                  <image>
+                     <Image url="@../images/system/iconListaPor.png" />
                   </image>
                </ImageView>
             </graphic>
@@ -45,10 +54,10 @@
             
             <Button fx:id="btnLogout" onAction="#onBtnLogout" style="-fx-background-color: transparent;">
                 <graphic>
-                    <ImageView fitHeight="24" fitWidth="24">
-                        <image>
-                            <Image url="@../resources/logout.png" />
-                        </image>
+                    <ImageView fitHeight="26.0" fitWidth="27.0" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/system/iconBtnSair.png" />
+                  </image>
                     </ImageView>
                 </graphic>
             </Button>

@@ -17,6 +17,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Usuario;
 import model.Evento;
+import model.Notificacao;
+import service.NotificacaoService;
 import service.UsuarioService;
 import session.SessaoUsuario;
 
@@ -76,6 +78,8 @@ public class TelaPerfilController {
                 usuarioService.getEventosOrganizandoUsuario(usuario.getId())
             );
 
+
+            
             configurarCelulasListView();
 
             if (usuarioService.dadosCompletosCadastrados(usuario)) {
@@ -139,5 +143,35 @@ public class TelaPerfilController {
 		}
      }
     }
+    
+    @FXML
+    private void handleAbrirNotificacoes(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCentralNotificacoes.fxml"));
+            Parent root = loader.load();
+
+            // Cria uma nova janela (popup)
+            Stage popupStage = new Stage();
+            popupStage.setTitle("Notificações"); // Título opcional
+            
+            // Define um tamanho menor para o popup (ajuste conforme necessário)
+            Scene scene = new Scene(root, 400, 300); // Largura x Altura
+            
+            // 
+            popupStage.setResizable(false);
+            
+            // Faz o popup ficar na frente da janela principal
+            Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            popupStage.initOwner(mainStage);
+            
+            popupStage.setScene(scene);
+            popupStage.show(); // Mostra o popup sem fechar a tela atual
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    	
+    
    
 }

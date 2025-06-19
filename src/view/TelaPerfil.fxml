@@ -19,6 +19,7 @@
    <HBox prefHeight="100.0" prefWidth="200.0">
       <children>
            <Button fx:id="btnFechar" onAction="#handleFecharPerfil" style="-fx-background-color: #cccccc;" text="Fechar" />
+         <Button fx:id="btnNotificacoes" mnemonicParsing="false" onAction="#handleAbrirNotificacoes" text="Button" />
       </children>
    </HBox>
 
@@ -40,51 +41,64 @@
     </HBox>
    <Label fx:id="txtCompletarCadastro" onMouseClicked="#handleCompletarCadastro" />
 
-    <!-- Informações completas do usuário -->
-    <GridPane hgap="15" maxWidth="600" style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;" vgap="10">
+                      <!-- Informações completas do usuário -->
+    <GridPane hgap="15" maxWidth="600.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;" vgap="10">
         <Label text="CPF:" GridPane.rowIndex="1" />
         <Text fx:id="lblCpf" GridPane.columnIndex="3" GridPane.rowIndex="1" />
 
-        <Label text="Gênero:" GridPane.rowIndex="2" />
+                          <Label text="Gênero:" GridPane.rowIndex="2" />
         <Text fx:id="lblGenero" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
-        <Label text="Telefone:" GridPane.rowIndex="3" />
+                          <Label text="Telefone:" GridPane.rowIndex="3" />
         <Text fx:id="lblTelefone" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
-        <Label text="Data de Nascimento:" GridPane.rowIndex="4" />
+                          <Label text="Data de Nascimento:" GridPane.rowIndex="4" />
         <Text fx:id="lblDataNascimento" GridPane.columnIndex="3" GridPane.rowIndex="4" />
-      <Label text="ID:" />
-      <Text fx:id="lblId" GridPane.columnIndex="3" />
-      <columnConstraints>
-         <ColumnConstraints />
-         <ColumnConstraints />
-         <ColumnConstraints />
-         <ColumnConstraints />
-         <ColumnConstraints />
-         <ColumnConstraints />
-         <ColumnConstraints />
-      </columnConstraints>
-      <rowConstraints>
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-         <RowConstraints />
-      </rowConstraints>
+        
+                                <Label text="ID:" />
+        <Text fx:id="lblId" GridPane.columnIndex="3" />
+        
+                          <columnConstraints>
+           <ColumnConstraints />
+           <ColumnConstraints />
+           <ColumnConstraints />
+           <ColumnConstraints />
+           <ColumnConstraints />
+           <ColumnConstraints />
+           <ColumnConstraints />
+        </columnConstraints>
+        <rowConstraints>
+           <RowConstraints />
+           <RowConstraints />
+           <RowConstraints />
+           <RowConstraints />
+           <RowConstraints />
+           <RowConstraints />
+        </rowConstraints>
     </GridPane>
 
     <!-- Botão para completar o perfil -->
     <Button fx:id="btnCompletarPerfil" style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-font-weight: bold;" text="Completar Perfil" textFill="RED" visible="false" />
 
-    <!-- Abas com listas de eventos -->
-    <TabPane maxWidth="600" style="-fx-background-radius: 10; -fx-border-radius: 10;">
-        <Tab text="Eventos Participando">
-            <ListView fx:id="listEventosParticipando" />
-        </Tab>
-        <Tab text="Eventos Organizados">
-            <ListView fx:id="listEventosOrganizados" />
-        </Tab>
-    </TabPane>
+    <HBox prefHeight="236.0" prefWidth="500.0" spacing="10">
+        <children>
+            <!-- Abas com listas de eventos e histórico -->
+            <TabPane maxWidth="500.0" prefHeight="236.0" prefWidth="500.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
+                <Tab text="Eventos Participando">
+                    <ListView fx:id="listEventosParticipando" />
+                </Tab>
+                <Tab text="Eventos Organizados">
+                    <ListView fx:id="listEventosOrganizados" />
+                </Tab>
+                <Tab text="Histórico">
+                    <ListView fx:id="listHistoricoNotificacoes" />
+                </Tab>
+            <Tab text="Notificações">
+            		<ListView fx:id="listNotificacoesAlerta" />
+             
+            </Tab>                   
+            </TabPane>
+        </children>
+    </HBox>
 
 </VBox>

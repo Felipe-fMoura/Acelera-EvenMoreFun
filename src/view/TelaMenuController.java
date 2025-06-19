@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -58,6 +59,9 @@ public class TelaMenuController {
     
     @FXML
     private Button btnLogout;
+    
+    @FXML
+    private Button btnListarPor;
 
     @FXML
     public void initialize() {
@@ -86,9 +90,7 @@ public class TelaMenuController {
     	
         // Configura o campo de pesquisa para buscar ao pressionar Enter
         campoPesquisa.setOnAction(event -> handlePesquisarEventos());
-        
-        // Carrega os eventos quando a tela é inicializada
-        carregarEventos();
+     
               
     }
     
@@ -103,6 +105,7 @@ public class TelaMenuController {
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         atualizarInterfaceUsuario();
+        carregarEventos();
     }
 
     private void atualizarInterfaceUsuario() {
@@ -251,4 +254,60 @@ public class TelaMenuController {
     private void handleRefresh(ActionEvent event) {
         carregarEventos();
     }
+    
+    @FXML
+    private void handleListarPor() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Escolher filtro de listagem");
+        alert.setHeaderText("Como deseja listar os eventos?");
+        alert.setContentText("Escolha o critério:");
+
+        ButtonType buttonPorCurtidas = new ButtonType("Por Curtidas");
+        ButtonType buttonPorData = new ButtonType("Por Data");
+        ButtonType buttonCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(buttonPorCurtidas, buttonPorData, buttonCancelar);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == buttonPorCurtidas) {
+                listarEventosPorCurtidas();
+            } else if (response == buttonPorData) {
+                listarTodosEventos();
+            }
+            // se cancelar, não faz nada
+        });
+    }
+    
+    private void listarEventosPorCurtidas() {
+        containerEventos.getChildren().clear();
+
+        List<Evento> eventos = eventoService.listarEventosPorCurtidas(); 
+
+        if (eventos.isEmpty()) {
+            Text txtNenhumEvento = new Text("Nenhum evento encontrado");
+            txtNenhumEvento.setStyle("-fx-fill: #666; -fx-font-size: 14px;");
+            containerEventos.getChildren().add(txtNenhumEvento);
+        } else {
+            for (Evento evento : eventos) {
+                containerEventos.getChildren().add(criarCardEvento(evento));
+            }
+        }
+    }
+
+    private void listarTodosEventos() {
+        containerEventos.getChildren().clear();
+
+        List<Evento> eventos = eventoService.listarTodosEventos();
+
+        if (eventos.isEmpty()) {
+            Text txtNenhumEvento = new Text("Nenhum evento encontrado");
+            txtNenhumEvento.setStyle("-fx-fill: #666; -fx-font-size: 14px;");
+            containerEventos.getChildren().add(txtNenhumEvento);
+        } else {
+            for (Evento evento : eventos) {
+                containerEventos.getChildren().add(criarCardEvento(evento));
+            }
+        }
+    }
+
 }

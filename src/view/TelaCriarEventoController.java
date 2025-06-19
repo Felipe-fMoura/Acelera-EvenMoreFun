@@ -6,8 +6,11 @@ import javafx.stage.FileChooser;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 import model.Evento;
+import model.Notificacao;
 import model.Usuario;
 import service.EventoService;
+import service.NotificacaoService;
+import session.SessaoUsuario;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -118,6 +121,18 @@ public class TelaCriarEventoController {
             alert.setContentText("Por favor, digite a hora no formato HHmm (ex: 1000) ou HH:mm (ex: 10:00).");
             alert.showAndWait();
         }
+        
+        int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+        Notificacao notificacao = new Notificacao(
+            "Você criou o evento '" + txtTitulo.getText() + "'",
+            LocalDateTime.now(),
+            false,
+            Notificacao.Tipo.HISTORICO,
+            "Sistema"
+        );
+
+        NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
     }
     
     @FXML

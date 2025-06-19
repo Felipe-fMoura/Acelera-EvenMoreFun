@@ -4,9 +4,10 @@
  * - atualizarEvento(Evento eventoAtualizado): atualiza evento existente pelo ID.
  * - removerEvento(int id): remove evento pelo ID.
  * - buscarEventoPorId(int id): busca evento pelo ID.
- * - listarTodosEventos(): retorna todos os eventos cadastrados.
+ * - listarTodosEventos(): retorna todos os eventos cadastrados (sem filtro), ordenados por data.
  * - listarEventosPublicos(): lista eventos públicos ordenados por data.
  * - listarProximosEventos(): lista eventos futuros ordenados por data.
+ * - listarEventosPorCurtidas(): lista todos os eventos ordenados por número de curtidas (mais curtidos primeiro).
  * - pesquisarEventos(String termo, Usuario usuarioLogado): busca eventos por termo visíveis ao usuário.
  * - adicionarParticipante(int eventoId, int usuarioId): adiciona participante a evento.
  * - removerParticipante(int eventoId, int usuarioId): remove participante do evento.
@@ -95,10 +96,13 @@ public class EventoService {
     }
 
     // Métodos de listagem
-
+    
     public List<Evento> listarTodosEventos() {
-        return new ArrayList<>(eventos);
+        return eventos.stream()
+                .sorted(Comparator.comparing(Evento::getData).reversed())
+                .collect(Collectors.toList());
     }
+
 
     public List<Evento> listarEventosPublicos() {
         return eventos.stream()
@@ -114,6 +118,11 @@ public class EventoService {
                 .collect(Collectors.toList());
     }
 
+    public List<Evento> listarEventosPorCurtidas() {
+        return eventos.stream()
+                .sorted(Comparator.comparingInt(Evento::getCurtidas).reversed())
+                .collect(Collectors.toList());
+    }
     // Métodos de pesquisa
 
     public List<Evento> pesquisarEventos(String termo, Usuario usuarioLogado) {
@@ -293,4 +302,20 @@ public class EventoService {
             System.out.println("Presença registrada para usuário " + usuarioId + " no evento " + eventoId);
         }
     }
+    
+    public List<Integer> getParticipantesDoEvento(int eventoId) {
+        Evento evento = buscarEventoPorId(eventoId);
+        if (evento != null && evento.getParticipantes() != null) {
+            return evento.getParticipantes()
+                         .stream()
+                         .map(Usuario::getId)
+                         .collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+    
+    public boolean tentarCurtirEvento(Evento evento, Usuario usuario) {
+        return evento.curtirEvento(usuario);
+    }
+
 }

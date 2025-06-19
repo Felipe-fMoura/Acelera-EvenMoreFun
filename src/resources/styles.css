@@ -167,3 +167,186 @@
     -fx-cursor: hand;
     -fx-min-width: 150px;
 }
+
+.animated-btn {
+	-fx-background-color:  #FB0F4E;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.animated-btn:hover {
+    -fx-background-color: #1b1b1b;
+    -fx-text-fill: white;
+}
+
+.not-btn {
+	-fx-background-color:  #FFC83D;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 30px;
+    -fx-pref-width: 30px;
+    -fx-max-width: 30px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 13px;
+}
+
+.not-btn:hover {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: white;
+}
+
+.curtir-btn {
+	-fx-background-color:  #FB0F4E;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.curtir-btn:hover {
+    -fx-background-color: #E00D45;
+    -fx-text-fill: white;
+}
+
+.participar-btn {
+	-fx-background-color:  #42b72a;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.participar-btn:hover {
+    -fx-background-color: #369421;
+    -fx-text-fill: white;
+}
+.entrar-btn {
+	-fx-background-color:   #125395;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.entrar-btn:hover {
+    -fx-background-color: #0E426F;
+    -fx-text-fill: white;
+}
+
+.galeria-btn {
+	-fx-background-color:   #3c005a;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.galeria-btn:hover {
+    -fx-background-color: #2A0040;
+    -fx-text-fill: white;
+}
+
+.compartilhar-btn {
+	-fx-background-color:   #F29F32;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.compartilhar-btn:hover {
+    -fx-background-color: #D98B1E;
+    -fx-text-fill: white;
+}
+
+.editar-btn {
+	-fx-background-color:   #11A9C6;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 80px;
+    -fx-pref-width: 80px;
+    -fx-max-width: 80px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.editar-btn:hover {
+    -fx-background-color: #0E8CA5;
+    -fx-text-fill: white;
+}
+
+.lista-btn {
+	-fx-background-color:    #800080;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-min-width: 120px;
+    -fx-pref-width: 120px;
+    -fx-max-width: 120px;
+    -fx-min-height: 30px;
+    -fx-pref-height: 30px;
+    -fx-max-height: 30px;
+    -fx-background-radius: 6px;
+    -fx-font-size: 12px;
+}
+
+.lista-btn:hover {
+    -fx-background-color: #660066;
+    -fx-text-fill: white;
+}
+
+
+
+

@@ -39,6 +39,9 @@ public class Evento {
     
     private Map<String, Integer> curtidasPorImagem = new HashMap<>();
     private Map<String, List<String>> comentariosPorImagem = new HashMap<>();
+    
+    private int curtidas;
+
 
     private boolean privado;
 
@@ -63,6 +66,8 @@ public class Evento {
         this.local = local;
         this.organizador = organizador;
         this.palestrante = palestrante;
+        this.curtidas = 0;
+
     }
 
     // Getters e Setters - Dados principais
@@ -249,5 +254,54 @@ public class Evento {
     public List<String> getGaleriaFotos() {
         return galeriaFotos;
     }
+    
+    public int getCurtidas() {
+        return curtidas;
+    }
+
+    public void curtir() {
+        this.curtidas++;
+    }
+    
+    private Set<Integer> usuariosQueCurtiram = new HashSet<>();
+    
+    public boolean curtirEvento(Usuario usuario) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuário não pode ser nulo");
+        }
+
+        // Verifica se o usuário já curtiu
+        if (usuariosQueCurtiram.contains(usuario.getId())) {
+            return false; // já curtiu, não conta de novo
+        }
+
+        // Registra a curtida
+        usuariosQueCurtiram.add(usuario.getId());
+        this.curtidas++; // atualiza o contador
+
+        return true; // sucesso na curtida
+    }
+
+    public boolean descurtirEvento(Usuario usuario) {
+        if (usuario == null) {
+            throw new IllegalArgumentException("Usuário não pode ser nulo");
+        }
+
+        if (usuariosQueCurtiram.remove(usuario.getId())) {
+            this.curtidas--;
+            if (this.curtidas < 0) {
+                this.curtidas = 0; // garantir que não fique negativo
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public Set<Integer> getUsuariosQueCurtiram() {
+        return Collections.unmodifiableSet(usuariosQueCurtiram);
+    }
+
 
 }
+
+

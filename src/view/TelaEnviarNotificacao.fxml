@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" spacing="15.0" style="-fx-padding: 20; -fx-background-color: #f0f2f5;" prefWidth="500.0" prefHeight="350.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEnviarNotificacaoController">
+    
+    <!-- Título -->
+    <HBox alignment="CENTER_LEFT" spacing="10">
+        <Label text="Enviar Notificação" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Button fx:id="btnFechar" text="Fechar" onAction="#handleFechar" style="-fx-background-color: red; -fx-text-fill: white;" />
+    </HBox>
+
+    <!-- Área de mensagem -->
+    <Label text="Mensagem:" />
+    <TextArea fx:id="txtMensagem" prefHeight="150" wrapText="true" />
+
+    <!-- Opção de e-mail -->
+    <CheckBox fx:id="chkEmail" text="Enviar também por e-mail" />
+
+    <!-- Botão de envio -->
+    <Button fx:id="btnEnviar" text="Enviar Notificação" onAction="#handleEnviar" style="-fx-background-color: #46295a; -fx-text-fill: white; -fx-font-weight: bold;" />
+
+</VBox>

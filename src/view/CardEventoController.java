@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,11 +20,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.Evento;
+import model.Notificacao;
 import model.Usuario;
 import otp.EmailSender;
 import otp.QRCodeGenerator;
 import otp.IPUtil;
 import service.EventoService;
+import service.NotificacaoService;
 import service.UsuarioService;
 import session.SessaoUsuario;
 import javafx.geometry.Bounds;
@@ -42,14 +45,20 @@ public class CardEventoController {
     @FXML private Button btnLista;
     @FXML private Button btnEditar;
     @FXML private Button btnGaleria;
+    @FXML private Button btnNotificacao;
+    @FXML private Button btnCurtir;
 
+    
     private Evento evento;
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
+    private boolean jaCurtiu = false;
 
     public void setEvento(Evento evento, Usuario usuarioLogado) {
         this.evento = evento;
-        this.usuarioLogado = usuarioLogado != null ? usuarioLogado : SessaoUsuario.getInstance().getUsuario();
+        this.usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+        inicializarCurtida();
+        
 
         txtTituloEvento.setText(evento.getTitulo());
         txtDescricaoEvento.setText(evento.getDescricao());
@@ -70,6 +79,8 @@ public class CardEventoController {
                 }
             }
         }
+        
+        
 
         boolean isOrganizador = evento.getOrganizador() != null && usuarioLogado != null &&
                                 evento.getOrganizador().getId() == usuarioLogado.getId();
@@ -80,6 +91,9 @@ public class CardEventoController {
         btnEditar.setVisible(isOrganizador);
         btnEditar.setManaged(isOrganizador);
         
+        btnNotificacao.setVisible(isOrganizador);
+        btnNotificacao.setManaged(isOrganizador);
+        
      // Oculta o botão "Entrar" se o evento for presencial
         if (btnEntrar != null && evento.getTipo() != null) {
             boolean isOnline = !evento.getTipo().equalsIgnoreCase("Presencial");
@@ -88,15 +102,7 @@ public class CardEventoController {
         }
 
         atualizarEstadoParticipacao();
-        
-        // Para deixar todos btn ROXO S2
-        String estiloBtnRoxo = "-fx-background-color: #46295a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;";
-        btnEntrar.setStyle(estiloBtnRoxo);
-        btnCompartilhar1.setStyle(estiloBtnRoxo);
-        btnLista.setStyle(estiloBtnRoxo);
-        btnEditar.setStyle(estiloBtnRoxo);
-        btnGaleria.setStyle(estiloBtnRoxo);
-        btnParticipar.setStyle(estiloBtnRoxo);
+   
     }
 
     @FXML
@@ -121,7 +127,7 @@ public class CardEventoController {
                 dialog.showAndWait().ifPresent(email -> {
                     try {
                     	String ip = IPUtil.getLocalIPv4();
-                    	String conteudoQR = "http://" + ip + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
+                    	String conteudoQR = "http://" + ip + ":8081/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
                     	
                         byte[] qrCodeBytes = QRCodeGenerator.generateQRCode(conteudoQR, 200);
                         EmailSender.sendEmailWithAttachment(
@@ -141,6 +147,17 @@ public class CardEventoController {
             }
 
             atualizarEstadoParticipacao();
+            int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+            Notificacao notificacao = new Notificacao(
+                "Você está participando do evento '" + evento.getTitulo() + "'",
+                LocalDateTime.now(),
+                false,
+                Notificacao.Tipo.HISTORICO,
+                "Sistema"
+            );
+
+            NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -173,12 +190,37 @@ public class CardEventoController {
     private void compartilharFacebook() {
         String url = "https://www.facebook.com/sharer/sharer.php?u=" + urlEncode(gerarLinkEvento());
         abrirLinkNoNavegador(url);
+        
+        int userId = SessaoUsuario.getUsuarioLogado().getId();
+        Notificacao notificacao = new Notificacao(
+                "Você compartilhou o evento '" + evento.getTitulo() + "'" +" no Facebook",
+                LocalDateTime.now(),
+                false,
+                Notificacao.Tipo.HISTORICO,
+                "Sistema"
+            );
+
+            NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+        
+        
     }
 
     private void compartilharWhatsApp() {
         String texto = "Confira este evento incrível: ";
         String url = "https://wa.me/?text=" + urlEncode(texto + gerarLinkEvento());
         abrirLinkNoNavegador(url);
+        
+        int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+        Notificacao notificacao = new Notificacao(
+            "Você compartilhou o evento '" + evento.getTitulo() + "'" +" no Whatsapp",
+            LocalDateTime.now(),
+            false,
+            Notificacao.Tipo.HISTORICO,
+            "Sistema"
+        );
+
+        NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
     }
 
     private void compartilharTwitter() {
@@ -187,6 +229,18 @@ public class CardEventoController {
             String textoEncode = URLEncoder.encode(texto + gerarLinkEvento(), StandardCharsets.UTF_8.toString());
             String url = "https://twitter.com/intent/tweet?text=" + textoEncode;
             abrirLinkNoNavegador(url);
+            int userId = SessaoUsuario.getUsuarioLogado().getId();
+            Notificacao notificacao = new Notificacao(
+                    "Você compartilhou o evento '" + evento.getTitulo() + "'" +" no Twitter",
+                    LocalDateTime.now(),
+                    false,
+                    Notificacao.Tipo.HISTORICO,
+                    "Sistema"
+                );
+
+                NotificacaoService.getInstance().registrarNotificacao(userId, notificacao); 
+            
+            
         } catch (Exception e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao preparar link para Twitter.");
@@ -229,9 +283,8 @@ public class CardEventoController {
         if (usuarioLogado != null) {
             boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
             btnParticipar.setText(isParticipante ? "Cancelar" : "Participar");
-            btnParticipar.setStyle(isParticipante ?
-                "-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 8;" :
-                "-fx-background-color: #46295a; -fx-text-fill: white; -fx-background-radius: 8;");
+     
+             ;
         }
         lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
     }
@@ -281,6 +334,18 @@ public class CardEventoController {
                 if (telaMenuController != null) {
                     telaMenuController.carregarEventos();
                 }
+                
+                int userId = SessaoUsuario.getUsuarioLogado().getId();
+                Notificacao notificacao = new Notificacao(
+                        "Você editou o evento '" + evento.getTitulo() + "'",
+                        LocalDateTime.now(),
+                        false,
+                        Notificacao.Tipo.HISTORICO,
+                        "Sistema"
+                    );
+
+                    NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+                
             });
 
         } catch (IOException e) {
@@ -353,6 +418,17 @@ public class CardEventoController {
             
          // Marca a presença automaticamente
             eventoService.marcarPresenca(evento.getId(), usuarioLogado.getId());
+            int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+            Notificacao notificacao = new Notificacao(
+                "Você entrou ao-vivo no evento '" + evento.getTitulo() + "'",
+                LocalDateTime.now(),
+                false,
+                Notificacao.Tipo.HISTORICO,
+                "Sistema"
+            );
+
+            NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
             
         } catch (IOException e) {
             e.printStackTrace();
@@ -380,4 +456,68 @@ public class CardEventoController {
             mostrarAlerta("Erro ao abrir galeria de fotos.");
         }
     }
+    
+    @FXML
+    private void handleNotificacao(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEnviarNotificacao.fxml"));
+            Parent root = loader.load();
+
+            TelaEnviarNotificacaoController controller = loader.getController();
+            controller.setDados(evento, usuarioLogado);
+
+            Stage stage = new Stage();
+            stage.setTitle("Enviar Notificação");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    private void handleCurtir(ActionEvent event) {
+        this.usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
+        if (usuarioLogado == null) {
+            mostrarAlerta("Você precisa estar logado para curtir um evento.");
+            return;
+        }
+
+        boolean sucesso;
+        if (jaCurtiu) {
+            // Tenta remover a curtida
+            sucesso = evento.descurtirEvento(usuarioLogado);
+            if (sucesso) {
+                jaCurtiu = false;
+            }
+        } else {
+            // Tenta curtir o evento
+            sucesso = evento.curtirEvento(usuarioLogado);
+            if (sucesso) {
+                jaCurtiu = true;
+            }
+        }
+
+        if (sucesso) {
+            atualizarBotaoCurtir();
+        } else {
+            mostrarAlerta("Operação não permitida.");
+        }
+    }
+    private void atualizarBotaoCurtir() {
+        String textoBotao = jaCurtiu ? "Descurtir" : "Curtir";
+        btnCurtir.setText(textoBotao + " (" + evento.getCurtidas() + ")");
+    }
+
+    // Método para inicializar o estado de curtida ao carregar o evento
+    private void inicializarCurtida() {
+        if (usuarioLogado != null) {
+            jaCurtiu = evento.getUsuariosQueCurtiram().contains(usuarioLogado.getId());
+        } else {
+            jaCurtiu = false;
+        }
+        atualizarBotaoCurtir();
+    }
+
 }
