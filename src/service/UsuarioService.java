@@ -23,6 +23,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.time.LocalDate;
 import org.jasypt.util.password.BasicPasswordEncryptor;
 import otp.EmailConfirmationService;
 
@@ -236,10 +237,14 @@ public class UsuarioService {
 		
 		Usuario Tester3 = new Usuario();
 		Tester3.setId(3);
-		Tester3.setNome("Usuario Teste3");
+		Tester3.setNome("Caetano");
 		Tester3.setUsername("Caetano");
 		Tester3.setSenha("Teste@123");
 		Tester3.setEmail("joazin1012123987@gmail.com");
+		Tester3.setTelefone("11999998888");
+		Tester3.setCpf("123.456.789-00");
+		Tester3.setDataNascimento(LocalDate.of(2000, 1, 15));
+		Tester3.setGenero("Masculino");
 		this.cadastrar(Tester3);
 	}
 
