@@ -274,6 +274,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Editar Evento");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
             stage.show();
 
             stage.setOnHiding(e -> {
@@ -300,6 +301,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setTitle("Lista de Participantes");
             stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

@@ -7,49 +7,61 @@
 
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             fx:controller="view.TelaParticipantesEventoController"
-            prefWidth="650" prefHeight="480">
+            prefWidth="880" prefHeight="500"
+            style="-fx-background-color: #fdfdfd;">
 
     <children>
-        <Label text="Participantes do Evento" layoutX="20" layoutY="15" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+        <Label text="Participantes do Evento" layoutX="20" layoutY="15"
+               style="-fx-font-size: 18px; -fx-text-fill: #46295a; -fx-font-weight: bold;" />
 
         <!-- Campo de filtro -->
         <TextField fx:id="txtFiltro" promptText="Filtrar por nome ou e-mail"
-                   layoutX="20" layoutY="45" prefWidth="400"
+                   layoutX="20" layoutY="50" prefWidth="400"
+                   style="-fx-background-color: #f1eaf8; -fx-border-color: #46295a; -fx-border-radius: 5; -fx-background-radius: 5;"
                    onKeyReleased="#filtrarParticipantes"/>
 
         <!-- Botão de exportar para CSV -->
-        <Button text="Exportar CSV" layoutX="430" layoutY="45" onAction="#exportarCSV"/>
+        <Button text="Exportar CSV" layoutX="440" layoutY="50"
+                onAction="#exportarCSV"
+                style="-fx-background-color: #46295a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
 
         <!-- Tabela de participantes -->
-        <TableView fx:id="tabelaParticipantes" layoutX="20" layoutY="90" prefWidth="610" prefHeight="300">
+        <TableView fx:id="tabelaParticipantes" layoutX="20" layoutY="95" prefWidth="610" prefHeight="300"
+                   style="-fx-border-color: #ccc; -fx-border-radius: 5;">
             <columns>
                 <TableColumn fx:id="colNome" text="Nome" prefWidth="180"/>
                 <TableColumn fx:id="colCpf" text="CPF" prefWidth="120"/>
                 <TableColumn fx:id="colEmail" text="E-mail" prefWidth="220"/>
+                <TableColumn fx:id="colPresente" text="Presente?" prefWidth="100"/>
                 <TableColumn fx:id="colTelefone" text="Telefone" prefWidth="120"/>
                 <TableColumn fx:id="colNascimento" text="Nascimento" prefWidth="120"/>
-                <TableColumn fx:id="colPresente" text="Presente?" prefWidth="160"/>
                 <TableColumn fx:id="colPermissao" text="Permissão" prefWidth="130"/>
             </columns>
         </TableView>
 
         <!-- Contador de presentes -->
-        <Label fx:id="lblContadorPresentes" layoutX="20" layoutY="400"
-               text="Presentes: 0" style="-fx-font-size: 14px;" />
+        <Label fx:id="lblContadorPresentes" layoutX="20" layoutY="405"
+               text="Presentes: 0"
+               style="-fx-font-size: 14px; -fx-text-fill: #46295a;" />
 
         <!-- Botão de marcar/desmarcar todos -->
-        <Button text="Marcar/Desmarcar Todos" layoutX="150" layoutY="430"
-                onAction="#alternarTodosCheckBoxes"/>
+        <Button text="Marcar/Desmarcar Todos" layoutX="170" layoutY="430"
+                onAction="#alternarTodosCheckBoxes"
+                style="-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
 
         <!-- Botão de salvar -->
-        <Button text="Salvar Presenças" layoutX="460" layoutY="430" onAction="#salvarPresencas"/>
-    </children>
-    <!-- Ranking de Participação -->
-      <VBox layoutX="680" layoutY="55" prefWidth="200" prefHeight="400"
-        spacing="8" style="-fx-background-color: #ecf0f1; -fx-padding: 10;">
-      <Label text="🏆 Ranking de Participação"
-           style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-      <ListView fx:id="rankingListView" prefHeight="360"/>
-      </VBox>
+        <Button text="Salvar Presenças" layoutX="470" layoutY="430"
+                onAction="#salvarPresencas"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" />
 
+        <!-- Ranking de Participação -->
+        <VBox layoutX="650" layoutY="15" prefWidth="210" prefHeight="450"
+              spacing="8" style="-fx-background-color: #f7f3fa; -fx-padding: 10; -fx-border-radius: 10; -fx-background-radius: 10; -fx-border-color: #46295a;">
+            <Label text="🏆 Ranking de Participação"
+                   style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-text-fill: #46295a;" />
+            <ListView fx:id="rankingListView" prefHeight="410"
+                      style="-fx-background-color: white; -fx-border-color: #ddd;" />
+        </VBox>
+
+    </children>
 </AnchorPane>
