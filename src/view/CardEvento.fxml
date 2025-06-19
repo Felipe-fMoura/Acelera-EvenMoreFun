@@ -44,27 +44,34 @@
     <Text fx:id="txtDescricaoEvento" style="-fx-padding: 5px 0; -fx-font-size: 14px;" wrappingWidth="500" />
     
     <!-- Informações adicionais -->
-    <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 5px 0;">
-      <Label fx:id="lblPalestrante" />
-        <Label fx:id="lblLocal" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #65676b;">
-            <graphic>
-                <ImageView fitHeight="14" fitWidth="14">
-                    <image>
-                        <Image url="@../images/system/images.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Label>
-        <Label fx:id="lblParticipantes" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #65676b;">
-            <graphic>
-                <ImageView fitHeight="14" fitWidth="14">
-                    <image>
-                        <Image url="@../images/system/images.png" />
-                    </image>
-                </ImageView>
-            </graphic>
-        </Label>
-    </HBox>
+<HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 5px 0;">
+
+  <Label text="Palestrante:" style="-fx-font-weight: bold; -fx-text-fill: #555;" />
+  <Label fx:id="lblPalestrante" style="-fx-font-size: 12px; -fx-text-fill: #333;" />
+
+  <Label text="Local:" style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-padding: 0 0 0 20;" />
+  <Label fx:id="lblLocal" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #333;">
+    <graphic>
+      <ImageView fitHeight="14" fitWidth="14">
+        <image>
+          <Image url="@../images/system/images.png" />
+        </image>
+      </ImageView>
+    </graphic>
+  </Label>
+
+  <Label text="Participantes:" style="-fx-font-weight: bold; -fx-text-fill: #555; -fx-padding: 0 0 0 20;" />
+  <Label fx:id="lblParticipantes" graphicTextGap="5" style="-fx-font-size: 12px; -fx-text-fill: #65676b;">
+    <graphic>
+      <ImageView fitHeight="14" fitWidth="14">
+        <image>
+          <Image url="@../images/system/images.png" />
+        </image>
+      </ImageView>
+    </graphic>
+  </Label>
+
+</HBox>
     
     <Separator style="-fx-padding: 5px 0;" />
     

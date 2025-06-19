@@ -2,11 +2,13 @@ package view;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.stage.FileChooser;
 import javafx.util.converter.IntegerStringConverter;
 import model.Evento;
 import model.Usuario;
 import service.EventoService;
 
+import java.io.File;
 import java.time.LocalDateTime;
 import java.util.function.UnaryOperator;
 
@@ -151,6 +153,20 @@ public class TelaEditarEventoController {
                 txtTitulo.getScene().getWindow().hide(); // Fecha a janela
             }
         });
+    }
+    
+    @FXML
+    private void handleSelecionarImagem() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecionar imagem do evento");
+        fileChooser.getExtensionFilters().addAll(
+            new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif")
+        );
+
+        File arquivo = fileChooser.showOpenDialog(txtImagem.getScene().getWindow());
+        if (arquivo != null) {
+            txtImagem.setText(arquivo.toURI().toString());
+        }
     }
 
 }
