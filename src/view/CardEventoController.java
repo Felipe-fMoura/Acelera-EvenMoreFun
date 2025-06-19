@@ -39,9 +39,9 @@ public class CardEventoController {
     @FXML private Label lblPalestrante;
     @FXML private Button btnEntrar;
     @FXML private Button btnParticipar;
-    @FXML private Button btnCompartilhar;
     @FXML private Button btnLista;
     @FXML private Button btnEditar;
+    @FXML private Button btnGaleria;
 
     private Evento evento;
     private Usuario usuarioLogado;
@@ -88,6 +88,15 @@ public class CardEventoController {
         }
 
         atualizarEstadoParticipacao();
+        
+        // Para deixar todos btn ROXO S2
+        String estiloBtnRoxo = "-fx-background-color: #46295a; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 8;";
+        btnEntrar.setStyle(estiloBtnRoxo);
+        btnCompartilhar1.setStyle(estiloBtnRoxo);
+        btnLista.setStyle(estiloBtnRoxo);
+        btnEditar.setStyle(estiloBtnRoxo);
+        btnGaleria.setStyle(estiloBtnRoxo);
+        btnParticipar.setStyle(estiloBtnRoxo);
     }
 
     @FXML
@@ -155,7 +164,7 @@ public class CardEventoController {
         twitter.setOnAction(e -> compartilharTwitter());
 
         menu.getItems().addAll(facebook, whatsapp, twitter);
-        menu.show(btnCompartilhar, Side.BOTTOM, 0, 0);
+        menu.show(btnCompartilhar1, Side.BOTTOM, 0, 0);
         
         Bounds boundsInScreen = btnCompartilhar1.localToScreen(btnCompartilhar1.getBoundsInLocal());
         menu.show(btnCompartilhar1, boundsInScreen.getMinX(), boundsInScreen.getMaxY());
@@ -221,8 +230,8 @@ public class CardEventoController {
             boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
             btnParticipar.setText(isParticipante ? "Cancelar" : "Participar");
             btnParticipar.setStyle(isParticipante ?
-                "-fx-background-color: #e74c3c; -fx-text-fill: white;" :
-                "-fx-background-color: #2ecc71; -fx-text-fill: white;");
+                "-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 8;" :
+                "-fx-background-color: #46295a; -fx-text-fill: white; -fx-background-radius: 8;");
         }
         lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
     }
