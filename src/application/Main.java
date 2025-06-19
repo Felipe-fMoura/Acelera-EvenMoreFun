@@ -19,15 +19,15 @@ public class Main extends Application {
 
     @Override
     public void init() throws Exception {
-        // Inicia o servidor HTTP na porta 8081 antes da UI aparecer
+        // Inicia o servidor HTTP na porta 8080 antes da UI aparecer
         try {
-            server = HttpServer.create(new InetSocketAddress(8081), 0);
+            server = HttpServer.create(new InetSocketAddress(8080), 0);
             server.createContext("/confirmar", new ConfirmacaoHandler());
             server.createContext("/presenca", new PresencaHandler());  // NOVO HANDLER
 
             server.setExecutor(null);
             server.start();
-            System.out.println("Servidor de confirmação iniciado na porta 8081...");
+            System.out.println("Servidor de confirmação iniciado na porta 8080...");
         } catch (IOException e) {
             System.err.println("Erro ao iniciar servidor HTTP: " + e.getMessage());
             e.printStackTrace();
