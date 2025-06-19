@@ -5,7 +5,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.TilePane?>
+<?import javafx.scene.layout.FlowPane?>
 
 <BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaGaleriaController"
             prefWidth="900.0" prefHeight="650.0"
@@ -13,7 +13,7 @@
 
     <!-- Cabeçalho -->
     <top>
-        <HBox alignment="CENTER" style="-fx-padding: 20; -fx-background-color: #8e44ad;">
+        <HBox alignment="CENTER" style="-fx-padding: 20; -fx-background-color: #46295a;">
             <Label text="Galeria de Fotos"
                    style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;" />
         </HBox>
@@ -23,9 +23,11 @@
     <center>
         <ScrollPane fitToWidth="true" style="-fx-padding: 10;">
             <content>
-                <TilePane fx:id="galeriaFotos"
-                          hgap="15" vgap="15"
-                          style="-fx-padding: 20;" />
+                <FlowPane fx:id="galeriaFotos"
+          hgap="15" vgap="15"
+          prefWrapLength="860"
+          orientation="HORIZONTAL"
+          style="-fx-padding: 20;" />
             </content>
         </ScrollPane>
     </center>
@@ -37,16 +39,17 @@
                     text="Enviar Foto"
                     onAction="#handleUploadFoto"
                     style="
-                        -fx-background-color: #9b59b6;
+                        -fx-background-color: #46295a;
                         -fx-text-fill: white;
                         -fx-font-weight: bold;
                         -fx-padding: 8 16;
                         -fx-background-radius: 10;
                     ">
-                <HBox alignment="CENTER" spacing="5">
-                    <Label text="📸" style="-fx-font-size: 16px;" />
-                    <Label text="Enviar Foto" style="-fx-text-fill: white;" />
-                </HBox>
+                <graphic>
+                    <HBox alignment="CENTER" spacing="5">
+                        <Label text="📸" style="-fx-font-size: 16px; -fx-text-fill: white;" />
+                    </HBox>
+                </graphic>
             </Button>
         </HBox>
     </bottom>

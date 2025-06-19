@@ -360,6 +360,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setTitle("Galeria do Evento");
             stage.setScene(new Scene(root));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
             stage.show();
 
         } catch (IOException e) {

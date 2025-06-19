@@ -1,6 +1,7 @@
 package view;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -9,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.layout.FlowPane;
 import model.Evento;
 import model.Usuario;
 
@@ -20,7 +22,7 @@ import java.util.*;
 public class TelaGaleriaController {
 
  @FXML
- private TilePane galeriaFotos;
+ private FlowPane galeriaFotos;
 
  @FXML
  private Button btnUploadFoto;
@@ -48,11 +50,37 @@ public class TelaGaleriaController {
              Image img = new Image("file:" + caminho, 180, 130, true, true);
              ImageView view = new ImageView(img);
              view.setPreserveRatio(true);
+             view.setStyle("-fx-cursor: hand;"); // adiciona o cursor de lupa (mãozinha)
+             
+          // Abrir imagem ampliada ao clicar
+             view.setOnMouseClicked(e -> {
+                 ImageView fullImageView = new ImageView(new Image("file:" + caminho));
+                 fullImageView.setPreserveRatio(true);
+                 fullImageView.setFitWidth(800); // ou ajuste como quiser
+
+                 ScrollPane scrollPane = new ScrollPane(fullImageView);
+                 scrollPane.setFitToWidth(true);
+                 scrollPane.setStyle("-fx-background: black;");
+
+                 Stage popupStage = new Stage();
+                 popupStage.setTitle("Visualizar imagem");
+
+                 Scene scene = new Scene(scrollPane, 850, 600);
+                 popupStage.setScene(scene);
+                 popupStage.show();
+             });
 
              Label lblCurtidas = new Label("Curtidas: " + curtidasPorImagem.getOrDefault(caminho, 0));
 
-             Button btnCurtir = new Button("Curtir");
-             btnCurtir.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 8;");
+             Button btnCurtir = new Button("♡");  // coração vazio
+
+             btnCurtir.setStyle(
+                 "-fx-background-color: transparent;" +
+                 "-fx-text-fill: #46295a;" +
+                 "-fx-font-size: 18px;" +
+                 "-fx-padding: 0;" +
+                 "-fx-border-width: 0;"
+             );
 
              btnCurtir.setOnAction(e -> {
                  Set<Integer> usuariosQueCurtiram = curtidasUsuarioImagem.computeIfAbsent(caminho, k -> new HashSet<>());
@@ -62,18 +90,39 @@ public class TelaGaleriaController {
                      int c = Math.max(0, curtidasPorImagem.getOrDefault(caminho, 1) - 1);
                      curtidasPorImagem.put(caminho, c);
                      lblCurtidas.setText("Curtidas: " + c);
-                     btnCurtir.setText("Curtir");
+                     btnCurtir.setText("♡");  // coração vazio
+                     btnCurtir.setStyle(
+                         "-fx-background-color: transparent;" +
+                         "-fx-text-fill: #46295a;" +
+                         "-fx-font-size: 18px;" +
+                         "-fx-padding: 0;" +
+                         "-fx-border-width: 0;"
+                     );
                  } else {
                      usuariosQueCurtiram.add(usuarioLogado.getId());
                      int c = curtidasPorImagem.getOrDefault(caminho, 0) + 1;
                      curtidasPorImagem.put(caminho, c);
                      lblCurtidas.setText("Curtidas: " + c);
-                     btnCurtir.setText("Descurtir");
+                     btnCurtir.setText("♥");  // coração cheio
+                     btnCurtir.setStyle(
+                         "-fx-background-color: transparent;" +
+                         "-fx-text-fill: #e74c3c;" +  // vermelho coração
+                         "-fx-font-size: 18px;" +
+                         "-fx-padding: 0;" +
+                         "-fx-border-width: 0;"
+                     );
                  }
              });
 
-             Button btnComentar = new Button("Comentar");
-             btnComentar.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white; -fx-background-radius: 8;");
+             Button btnComentar = new Button("💬"); // ou "📝" se preferir
+             btnComentar.setStyle(
+                 "-fx-background-color: transparent;" +
+                 "-fx-text-fill: #46295a;" +
+                 "-fx-font-size: 18px;" +
+                 "-fx-padding: 0;" +
+                 "-fx-border-width: 0;"
+             );
+
              btnComentar.setOnAction(e -> {
                  TextInputDialog dialog = new TextInputDialog();
                  dialog.setTitle("Comentário");
@@ -86,8 +135,15 @@ public class TelaGaleriaController {
                  });
              });
 
-             Button btnDownload = new Button("Download");
-             btnDownload.setStyle("-fx-background-color: #8e44ad; -fx-text-fill: white; -fx-background-radius: 8;");
+             Button btnDownload = new Button("📥");
+             btnDownload.setStyle(
+                 "-fx-background-color: transparent;" +
+                 "-fx-text-fill: #46295a;" +
+                 "-fx-font-size: 18px;" +
+                 "-fx-padding: 0;" +
+                 "-fx-border-width: 0;"
+             );
+
              btnDownload.setOnAction(e -> {
                  FileChooser fc = new FileChooser();
                  fc.setTitle("Salvar imagem");
@@ -115,8 +171,15 @@ public class TelaGaleriaController {
                                         usuarioLogado.getId() == evento.getOrganizador().getId();
 
                  if (podeExcluir) {
-                     Button btnDelComentario = new Button("Excluir");
-                     btnDelComentario.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white; -fx-background-radius: 8;");
+                	 Button btnDelComentario = new Button("✖");  // Ícone pequeno em vez do texto "Excluir"
+                	    btnDelComentario.setStyle(
+                	        "-fx-background-color: transparent;" +    // fundo transparente
+                	        "-fx-text-fill: #888888;" +                // cinza claro
+                	        "-fx-font-size: 12px;" +                   // fonte menor
+                	        "-fx-padding: 0 4 0 4;" +                   // padding reduzido
+                	        "-fx-border-width: 0;"                      // sem borda
+                	    );
+
                      btnDelComentario.setOnAction(ev -> {
                          comentarios.remove(c);
                          carregarFotos();
@@ -132,8 +195,16 @@ public class TelaGaleriaController {
              VBox vbox = new VBox(10, view, btnCurtir, lblCurtidas, btnComentar, comentariosBox, btnDownload);
 
              if (usuarioLogado.getId() == evento.getOrganizador().getId()) {
-                 Button btnExcluir = new Button("Excluir Foto");
-                 btnExcluir.setStyle("-fx-background-color: #c0392b; -fx-text-fill: white; -fx-background-radius: 8;");
+            	 
+            	 Button btnExcluir = new Button("✖️");
+            	 btnExcluir.setStyle(
+            	     "-fx-background-color: transparent;" +
+            	     "-fx-text-fill: #46295a;" +
+            	     "-fx-font-size: 18px;" +
+            	     "-fx-padding: 0;" +
+            	     "-fx-border-width: 0;"
+            	 );
+
                  btnExcluir.setOnAction(e -> {
                      evento.getGaleriaFotos().remove(caminho);
                      curtidasPorImagem.remove(caminho);
