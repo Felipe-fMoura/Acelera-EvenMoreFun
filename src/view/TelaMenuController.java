@@ -62,6 +62,8 @@ public class TelaMenuController {
     
     @FXML
     private Button btnListarPor;
+    
+    @FXML private ImageView imgFotoPerfilMenu;
 
     @FXML
     public void initialize() {
@@ -105,13 +107,14 @@ public class TelaMenuController {
     public void setUsuarioLogado(Usuario usuario) {
         this.usuarioLogado = usuario;
         atualizarInterfaceUsuario();
+        atualizarFotoPerfilOrganizador(usuarioLogado.getCaminhoFotoPerfil());
         carregarEventos();
     }
 
     private void atualizarInterfaceUsuario() {
         if (usuarioLogado != null) {
             txtUserName.setText("Olá, " + usuarioLogado.getUsername());
-            btnPerfil.setText(usuarioLogado.getUsername().split(" ")[0]); 
+           // btnPerfil.setText(usuarioLogado.getUsername().split(" ")[0]); 
         }
     }
 
@@ -136,8 +139,9 @@ public class TelaMenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/CardEvento.fxml"));
             Node card = loader.load();
             CardEventoController controller = loader.getController();
-            controller.setEvento(evento, usuarioLogado); // Passa o evento e o usuário logado
             controller.setTelaMenuController(this); // Passa a referência da própria TelaMenuController
+            controller.setEvento(evento, usuarioLogado); // Passa o evento e o usuário logado
+            
             return card;
         } catch (IOException e) {
             e.printStackTrace();
@@ -190,11 +194,10 @@ public class TelaMenuController {
             Parent subTelaPerfil = loader.load();
 
             TelaPerfilController controller = loader.getController();
-            controller.carregarFotoPerfil();
+            controller.setTelaMenuController(this); // <-- AQUI INJETA A REFERÊNCIA
             Usuario usuarioLogado = SessaoUsuario.getUsuarioLogado();
 
             controller.setUsuario(usuarioLogado); // Assumindo que exista esse método para passar o usuário
-
             // Carregar foto perfil, que deve ser public ou criar método público para isso
             controller.carregarFotoPerfil();
 
@@ -318,5 +321,26 @@ public class TelaMenuController {
             }
         }
     }
+    
+    public void atualizarFotoPerfilOrganizador(String caminhoFoto) {
+        try {
+            Image imagem;
+            if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
+                String caminhoUrl = "file:///" + caminhoFoto.replace("\\", "/");
+                imagem = new Image(caminhoUrl);
+            } else {
+                InputStream padrao = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+                imagem = new Image(padrao);
+            }
+
+            ImageView novaImagem = new ImageView(imagem);
+            novaImagem.setFitWidth(30);
+            novaImagem.setFitHeight(30);
+            btnPerfil.setGraphic(novaImagem); // aqui força a atualização visível
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

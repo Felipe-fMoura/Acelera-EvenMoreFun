@@ -195,6 +195,7 @@ public class TelaPerfilController {
         if (file != null) {
             String caminho = file.getAbsolutePath();
             usuarioLogado.setCaminhoFotoPerfil(caminho); // Armazena caminho no objeto
+            SessaoUsuario.getInstance().setUsuario(usuarioLogado); // <- ATUALIZA NA SESSÃO
             carregarFotoPerfil(); // Atualiza visual
         }
     }
@@ -205,6 +206,12 @@ public class TelaPerfilController {
             try {
                 Image imagem = new Image("file:" + caminho, 150, 150, true, true);
                 imgPerfil.setImage(imagem);
+                
+             // Atualiza o ícone do botão do menu, se o controller principal estiver disponível
+                if (telaMenuController != null) {
+                    telaMenuController.atualizarFotoPerfilOrganizador(caminho);
+                }
+                
             } catch (Exception e) {
                 System.err.println("Erro ao carregar foto de perfil: " + caminho);
             }
@@ -215,5 +222,10 @@ public class TelaPerfilController {
         carregarUsuario();  
     }
 
+    // acesso ao TelaMenuController
+    private TelaMenuController telaMenuController;
+    public void setTelaMenuController(TelaMenuController controller) {
+        this.telaMenuController = controller;
+    }
    
 }

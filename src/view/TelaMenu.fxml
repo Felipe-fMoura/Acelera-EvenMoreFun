@@ -66,10 +66,7 @@
             
             <Button fx:id="btnPerfil" onAction="#handleAbrirPerfil" style="-fx-background-color: transparent;">
                 <graphic>
-                    <StackPane>
-                        <Circle fill="#e4e6eb" radius="15" />
-                        <Text fill="#bb00ff" style="-fx-font-weight: bold;" text="U" />
-                    </StackPane>
+                    <ImageView fx:id="imgFotoPerfilMenu" fitWidth="30" fitHeight="30" />
                 </graphic>
             </Button>
         </HBox>

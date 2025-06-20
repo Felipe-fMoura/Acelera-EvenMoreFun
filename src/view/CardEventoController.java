@@ -68,21 +68,23 @@ public class CardEventoController {
             
             if (urlFoto != null && !urlFoto.isEmpty()) {
                 try {
-                    imgPerfilOrganizador.setImage(new Image(urlFoto));
+                    String caminhoFinal;
+                    if (urlFoto.startsWith("http") || urlFoto.startsWith("file:")) {
+                        caminhoFinal = urlFoto;
+                    } else {
+                        caminhoFinal = "file:///" + urlFoto.replace("\\", "/");
+                    }
+
+                    imgPerfilOrganizador.setImage(new Image(caminhoFinal));
                 } catch (Exception e) {
-                    // fallback para imagem padrão se der erro
+                    e.printStackTrace();
                     InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
                     if (defaultImgStream != null) {
                         imgPerfilOrganizador.setImage(new Image(defaultImgStream));
                     }
                 }
-            } else {
-                // Se não tiver foto, coloca padrão
-                InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
-                if (defaultImgStream != null) {
-                    imgPerfilOrganizador.setImage(new Image(defaultImgStream));
-                }
             }
+
 
             // Setar o username no txtNomeOrganizador (se for diferente do nome)
             txtNomeOrganizador.setText(organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome());
@@ -129,6 +131,12 @@ public class CardEventoController {
             btnEntrar.setVisible(isOnline);
             btnEntrar.setManaged(isOnline); // também remove o espaço do layout
         }
+        
+        if (telaMenuController != null) {
+            String caminhoFoto = evento.getOrganizador().getCaminhoFotoPerfil();
+            telaMenuController.atualizarFotoPerfilOrganizador(caminhoFoto);
+        }
+
 
         atualizarEstadoParticipacao();
    

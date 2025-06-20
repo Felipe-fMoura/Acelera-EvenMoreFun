@@ -229,10 +229,14 @@ public class UsuarioService {
 		
 		Usuario Tester2 = new Usuario();
 		Tester2.setId(2);
-		Tester2.setNome("Usuario Teste2");
-		Tester2.setUsername("Brazino");
+		Tester2.setNome("Thiago Motta");
+		Tester2.setUsername("Thiago_Motta");
 		Tester2.setSenha("Teste@123");
 		Tester2.setEmail("brazino@gmail.com");
+		Tester2.setTelefone("11999998888");
+		Tester2.setCpf("123.456.777-00");
+		Tester2.setDataNascimento(LocalDate.of(2000, 1, 15));
+		Tester2.setGenero("Masculino");
 		this.cadastrar(Tester2);
 		
 		Usuario Tester3 = new Usuario();
@@ -241,9 +245,9 @@ public class UsuarioService {
 		Tester3.setUsername("Caetano");
 		Tester3.setSenha("Teste@123");
 		Tester3.setEmail("joazin1012123987@gmail.com");
-		Tester3.setTelefone("11999998888");
+		Tester3.setTelefone("12996311271");
 		Tester3.setCpf("123.456.789-00");
-		Tester3.setDataNascimento(LocalDate.of(2000, 1, 15));
+		Tester3.setDataNascimento(LocalDate.of(2002, 12, 17));
 		Tester3.setGenero("Masculino");
 		this.cadastrar(Tester3);
 	}
