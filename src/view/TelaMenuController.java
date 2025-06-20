@@ -183,13 +183,21 @@ public class TelaMenuController {
     }
 
     
-    @FXML private void handleAbrirPerfil(ActionEvent event) {
+    @FXML
+    private void handleAbrirPerfil(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaPerfil.fxml"));
             Parent subTelaPerfil = loader.load();
 
             TelaPerfilController controller = loader.getController();
-            controller.carregarUsuario();
+            controller.carregarFotoPerfil();
+            Usuario usuarioLogado = SessaoUsuario.getUsuarioLogado();
+
+            controller.setUsuario(usuarioLogado); // Assumindo que exista esse método para passar o usuário
+
+            // Carregar foto perfil, que deve ser public ou criar método público para isso
+            controller.carregarFotoPerfil();
+
             testeVbox.getChildren().clear();
             testeVbox.getChildren().add(subTelaPerfil);
 
@@ -198,6 +206,7 @@ public class TelaMenuController {
             mostrarAlerta("Erro ao abrir perfil");
         }
     }
+
 
 
 

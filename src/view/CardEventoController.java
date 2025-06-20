@@ -47,7 +47,10 @@ public class CardEventoController {
     @FXML private Button btnGaleria;
     @FXML private Button btnNotificacao;
     @FXML private Button btnCurtir;
-
+    @FXML
+    private ImageView imgPerfilOrganizador;
+    @FXML
+    private Text txtUserNameOrganizador;
     
     private Evento evento;
     private Usuario usuarioLogado;
@@ -58,6 +61,32 @@ public class CardEventoController {
         this.evento = evento;
         this.usuarioLogado = SessaoUsuario.getInstance().getUsuario();
         inicializarCurtida();
+        
+        Usuario organizador = evento.getOrganizador();
+        if (organizador != null) {
+            String urlFoto = organizador.getCaminhoFotoPerfil(); // Ajuste conforme seu modelo
+            
+            if (urlFoto != null && !urlFoto.isEmpty()) {
+                try {
+                    imgPerfilOrganizador.setImage(new Image(urlFoto));
+                } catch (Exception e) {
+                    // fallback para imagem padrão se der erro
+                    InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+                    if (defaultImgStream != null) {
+                        imgPerfilOrganizador.setImage(new Image(defaultImgStream));
+                    }
+                }
+            } else {
+                // Se não tiver foto, coloca padrão
+                InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+                if (defaultImgStream != null) {
+                    imgPerfilOrganizador.setImage(new Image(defaultImgStream));
+                }
+            }
+
+            // Setar o username no txtNomeOrganizador (se for diferente do nome)
+            txtNomeOrganizador.setText(organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome());
+        }
         
 
         txtTituloEvento.setText(evento.getTitulo());

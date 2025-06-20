@@ -33,7 +33,6 @@ public class Evento {
     private String imagem;
     private String categoria;
     private String palestrante;
-
     private LocalDateTime data;
     private LocalDateTime dataCriacao;
     

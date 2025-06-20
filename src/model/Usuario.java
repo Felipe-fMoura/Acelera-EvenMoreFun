@@ -24,6 +24,8 @@ public class Usuario {
     private LocalDate dataNascimento;
     private final List<Evento> eventosParticipando;
     private final List<Evento> eventosOrganizados;
+    private String caminhoFotoPerfil; 
+
 
     /**
      * Construtor padrão que inicializa as listas de eventos.
@@ -52,7 +54,8 @@ public class Usuario {
         this.username = Objects.requireNonNull(username, "Username não pode ser nulo");
         this.email = Objects.requireNonNull(email, "Email não pode ser nulo");
         this.senha = Objects.requireNonNull(senha, "Senha não pode ser nula");
-        
+        this.caminhoFotoPerfil = "/images/system/iconFotoPerfilDefault.png"; // Valor padrão
+
         
         
     }
@@ -279,5 +282,13 @@ public class Usuario {
                ", email='" + email + '\'' +
                ", nomeCompleto='" + getNomeCompleto() + '\'' +
                '}';
+    }
+    
+    public String getCaminhoFotoPerfil() {
+        return caminhoFotoPerfil;
+    }
+
+    public void setCaminhoFotoPerfil(String caminhoFotoPerfil) {
+        this.caminhoFotoPerfil = caminhoFotoPerfil;
     }
 }

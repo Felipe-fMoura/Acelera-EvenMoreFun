@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -39,13 +38,12 @@
 
     <!-- Organizador e Data -->
     <HBox alignment="CENTER_LEFT" spacing="10">
-        <StackPane>
-            <Circle fill="#e4e6eb" radius="20" />
-            <Text fill="#1877f2" style="-fx-font-weight: bold;" text="U" />
+        <StackPane prefWidth="50.0">
+         <ImageView fx:id="imgPerfilOrganizador" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
         </StackPane>
         <VBox spacing="2">
-            <Text fx:id="txtNomeOrganizador" style="-fx-font-weight: bold; -fx-font-size: 14px;" />
-            <Text fx:id="txtDataEvento" style="-fx-font-size: 12px; -fx-fill: #65676b;" />
+            <Text fx:id="txtNomeOrganizador" fill="#1877f2" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Nome" />
+            <Text fx:id="txtDataEvento" style="-fx-font-size: 12px; -fx-fill: #65676b;" text="DATA" />
         </VBox>
     </HBox>
 

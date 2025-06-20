@@ -7,56 +7,99 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" prefHeight="812.0" prefWidth="489.0" spacing="20" style="-fx-padding: 30; -fx-background-color: #f0f2f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaPerfilController">
-   <HBox prefHeight="100.0" prefWidth="200.0">
+<VBox alignment="TOP_CENTER" prefHeight="812.0" prefWidth="674.0" spacing="20" style="-fx-padding: 30; -fx-pref-width: 700; -fx-min-width: 700; -fx-max-width: 700; -fx-background-color: #550080;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaPerfilController">
+   <HBox>
       <children>
-           <Button fx:id="btnFechar" onAction="#handleFecharPerfil" style="-fx-background-color: #cccccc;" text="Fechar" />
-         <Button fx:id="btnNotificacoes" mnemonicParsing="false" onAction="#handleAbrirNotificacoes" text="Button" />
+         <GridPane>
+           <columnConstraints>
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+           </columnConstraints>
+           <rowConstraints>
+             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+           </rowConstraints>
+            <children>
+               <Button fx:id="btnNotificacoes" contentDisplay="TOP" minWidth="50.0" mnemonicParsing="false" onAction="#handleAbrirNotificacoes" prefWidth="50.0" style="-fx-pref-height: 30; -fx-min-height: 30; -fx-max-height: 30; -fx-pref-width: 30; -fx-max-width: 30; -fx-min-width: 30;" styleClass="compartilhar-btn" stylesheets="@../resources/styles.css" text="Button" GridPane.columnIndex="5">
+                  <graphic>
+                     <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../images/system/iconBtnNotificacao.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+               </Button>
+                 <Button fx:id="btnFechar" onAction="#handleFecharPerfil" style="-fx-background-color: #cccccc;" text="Fechar" />
+            </children>
+         </GridPane>
       </children>
    </HBox>
 
     <!-- Cabeçalho com imagem e dados básicos -->
     <HBox alignment="CENTER_LEFT" maxWidth="600" spacing="20">
-        <ImageView fx:id="imgPerfil" fitHeight="100" fitWidth="100">
-            <image>
-                <Image url="@../resources/account.png" />
-            </image>
-        </ImageView>
-
-        <VBox spacing="6">
-            <Text fx:id="lblNome" style="-fx-font-size: 24px; -fx-font-weight: bold;" />
-            <Text fx:id="lblUsername" style="-fx-font-size: 16px; -fx-fill: #444;" />
-            <Text fx:id="lblEmail" style="-fx-font-size: 14px; -fx-fill: #666;" />
-        </VBox>
-
-        <Region HBox.hgrow="ALWAYS" />
+      <AnchorPane prefHeight="173.0" prefWidth="175.0" stylesheets="@../resources/styles.css">
+         <children>
+              <ImageView fx:id="imgPerfil" fitHeight="150.0" fitWidth="150.0">
+                  <image>
+                      <Image url="@../images/system/iconFotoPerfilDefault.png" />
+                  </image>
+              </ImageView>
+            <Button fx:id="btnEditarFoto" layoutX="138.0" layoutY="141.0" mnemonicParsing="false" onAction="#handleSelecionarFoto" prefHeight="29.0" prefWidth="30.0" style="-fx-background-color: None;">
+               <graphic>
+                  <ImageView fitHeight="18.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../images/system/iconBtnEditar.png" />
+                     </image>
+                  </ImageView>
+               </graphic></Button>
+         </children>
+      </AnchorPane>
+      <GridPane>
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+               <Text fx:id="lblUsername" fill="WHITE" style="-fx-font-size: 16px; -fx-fill: white;" text="\@Username" wrappingWidth="88.0" GridPane.rowIndex="1" />
+               <Text fx:id="lblNome" fill="WHITE" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Nome " wrappingWidth="129.0" />
+               <Text fx:id="lblEmail" style="-fx-font-size: 14px; -fx-fill: white;" text="email@email.com" wrappingWidth="255.0" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
     </HBox>
    <Label fx:id="txtCompletarCadastro" onMouseClicked="#handleCompletarCadastro" />
 
                       <!-- Informações completas do usuário -->
     <GridPane hgap="15" maxWidth="600.0" style="-fx-background-color: white; -fx-padding: 20; -fx-border-radius: 10; -fx-background-radius: 10;" vgap="10">
-        <Label text="CPF:" GridPane.rowIndex="1" />
-        <Text fx:id="lblCpf" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+        <Label text="CPF:" GridPane.rowIndex="2" />
+        <Text fx:id="lblCpf" GridPane.columnIndex="3" GridPane.rowIndex="2" />
 
-                          <Label text="Gênero:" GridPane.rowIndex="2" />
-        <Text fx:id="lblGenero" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                          <Label text="Gênero:" GridPane.rowIndex="3" />
+        <Text fx:id="lblGenero" GridPane.columnIndex="3" GridPane.rowIndex="3" />
 
-                          <Label text="Telefone:" GridPane.rowIndex="3" />
-        <Text fx:id="lblTelefone" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                          <Label text="Telefone:" GridPane.rowIndex="4" />
+        <Text fx:id="lblTelefone" GridPane.columnIndex="3" GridPane.rowIndex="4" />
 
-                          <Label text="Data de Nascimento:" GridPane.rowIndex="4" />
-        <Text fx:id="lblDataNascimento" GridPane.columnIndex="3" GridPane.rowIndex="4" />
+                          <Label text="Data de Nascimento:" GridPane.rowIndex="5" />
+        <Text fx:id="lblDataNascimento" GridPane.columnIndex="3" GridPane.rowIndex="5" />
         
-                                <Label text="ID:" />
-        <Text fx:id="lblId" GridPane.columnIndex="3" />
+                                <Label text="ID:" GridPane.rowIndex="1" />
+        <Text fx:id="lblId" GridPane.columnIndex="3" GridPane.rowIndex="1" />
         
                           <columnConstraints>
            <ColumnConstraints />
@@ -66,6 +109,7 @@
            <ColumnConstraints />
            <ColumnConstraints />
            <ColumnConstraints />
+         <ColumnConstraints />
         </columnConstraints>
         <rowConstraints>
            <RowConstraints />
@@ -74,6 +118,7 @@
            <RowConstraints />
            <RowConstraints />
            <RowConstraints />
+         <RowConstraints />
         </rowConstraints>
     </GridPane>
 
@@ -83,20 +128,13 @@
     <HBox prefHeight="236.0" prefWidth="500.0" spacing="10">
         <children>
             <!-- Abas com listas de eventos e histórico -->
-            <TabPane maxWidth="500.0" prefHeight="236.0" prefWidth="500.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
+            <TabPane maxWidth="615.0" prefHeight="236.0" prefWidth="615.0" style="-fx-background-radius: 10; -fx-border-radius: 10;">
                 <Tab text="Eventos Participando">
                     <ListView fx:id="listEventosParticipando" />
                 </Tab>
                 <Tab text="Eventos Organizados">
-                    <ListView fx:id="listEventosOrganizados" />
-                </Tab>
-                <Tab text="Histórico">
-                    <ListView fx:id="listHistoricoNotificacoes" />
-                </Tab>
-            <Tab text="Notificações">
-            		<ListView fx:id="listNotificacoesAlerta" />
-             
-            </Tab>                   
+                    <ListView fx:id="listEventosOrganizados" prefWidth="32.0" />
+                </Tab>                   
             </TabPane>
         </children>
     </HBox>

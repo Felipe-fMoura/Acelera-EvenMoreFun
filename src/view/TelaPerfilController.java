@@ -24,6 +24,14 @@ import session.SessaoUsuario;
 
 import java.io.IOException;
 import java.util.stream.Collectors;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Base64;
+
 
 public class TelaPerfilController {
     @FXML private Text lblNome;
@@ -39,9 +47,12 @@ public class TelaPerfilController {
     @FXML private ListView<Evento> listEventosOrganizados;
     @FXML private Button btnFechar;
     @FXML private Label txtCompletarCadastro;
+    @FXML private Button btnEditarFoto;
+    
     
     private UsuarioService usuarioService = UsuarioService.getInstance();
     Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+	private Usuario usuario;
  
 
     public void carregarUsuario() {
@@ -172,6 +183,37 @@ public class TelaPerfilController {
         }
     }
     	
-    
+    @FXML
+    private void handleSelecionarFoto() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Selecionar Foto de Perfil");
+        fileChooser.getExtensionFilters().add(
+            new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg")
+        );
+
+        File file = fileChooser.showOpenDialog(imgPerfil.getScene().getWindow());
+        if (file != null) {
+            String caminho = file.getAbsolutePath();
+            usuarioLogado.setCaminhoFotoPerfil(caminho); // Armazena caminho no objeto
+            carregarFotoPerfil(); // Atualiza visual
+        }
+    }
+
+    public void carregarFotoPerfil() {
+        String caminho = usuarioLogado.getCaminhoFotoPerfil();
+        if (caminho != null && !caminho.isEmpty()) {
+            try {
+                Image imagem = new Image("file:" + caminho, 150, 150, true, true);
+                imgPerfil.setImage(imagem);
+            } catch (Exception e) {
+                System.err.println("Erro ao carregar foto de perfil: " + caminho);
+            }
+        }
+    }
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+        carregarUsuario();  
+    }
+
    
 }
