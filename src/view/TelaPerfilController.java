@@ -108,25 +108,10 @@ public class TelaPerfilController {
     
     @FXML
     private void handleFecharPerfil(ActionEvent event) {
-    
-	try {
-	
-		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
-		Parent root = loader.load();
-
-		TelaMenuController controller = loader.getController();
-		controller.setUsuarioLogado(usuarioLogado); // Já com ID atribuído
-
-		Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-		stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
-		stage.show();
-	} catch (IOException e) {
-		e.printStackTrace();
-	}
-        
-        
+        if (telaMenuController != null) {
+            telaMenuController.fecharPerfil();
+        }
     }
-
     
     @FXML
     private void handleCompletarCadastro(MouseEvent event) {

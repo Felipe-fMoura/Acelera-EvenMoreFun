@@ -342,5 +342,9 @@ public class TelaMenuController {
         }
     }
 
+    public void fecharPerfil() {
+        testeVbox.getChildren().clear(); // Remove a subTela do perfil
+    }
+    
 
 }
