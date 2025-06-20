@@ -347,6 +347,9 @@
     -fx-text-fill: white;
 }
 
+.gradiente-roxo {
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%,  #550080, #7324c9, #4b0082);
+}
 
 
 

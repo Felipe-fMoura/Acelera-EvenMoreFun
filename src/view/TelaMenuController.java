@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -53,6 +54,9 @@ public class TelaMenuController {
     
     @FXML
     private VBox testeVbox;
+    
+    @FXML
+    private ScrollPane scrollPane;
     
     @FXML
     private Text txtRandom;
