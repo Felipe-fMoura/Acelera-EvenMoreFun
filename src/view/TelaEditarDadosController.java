@@ -38,27 +38,54 @@ public class TelaEditarDadosController {
     }
 
     private void preencherCampos() {
+    	
+    	if(!(usuarioLogado.getCpf()==null))
+    	{
+    	
+    	
         txtNome.setText(usuarioLogado.getNome());
         txtNomeUsuario.setText(usuarioLogado.getUsername());
         txtTelefone.setText(usuarioLogado.getTelefone());
         txtEmail.setText(usuarioLogado.getEmail());
         cbGenero.setValue(usuarioLogado.getGenero());
         datePickerDataNascimento.setValue(usuarioLogado.getDataNascimento());
+    	}
+    	else {
+    		 txtNome.setText(usuarioLogado.getNome());
+    	        txtNomeUsuario.setText(usuarioLogado.getUsername());
+    	        txtTelefone.setVisible(false);
+    	        txtEmail.setText(usuarioLogado.getEmail());
+    	        cbGenero.setVisible(false);
+    	        datePickerDataNascimento.setVisible(false);
+    		
+    	}
     }
 
+    
     @FXML
-    private void handleSalvar() {
-        String nome = txtNome.getText();
-        String username = txtNomeUsuario.getText();
+private void handleSalvar() {
+    String nome = txtNome.getText();
+    String username = txtNomeUsuario.getText();
+
+    if (nome.isEmpty() || username.isEmpty()) {
+        mostrarAlerta("Campos obrigatórios", "Nome e nome de usuário devem ser preenchidos.", Alert.AlertType.WARNING);
+        return;
+    }
+
+    usuarioLogado.setNome(nome);
+    usuarioLogado.setUsername(username);
+
+    if (usuarioLogado.getCpf() != null) {
         String telefone = txtTelefone.getText();
         String email = txtEmail.getText();
         String genero = cbGenero.getValue();
         LocalDate dataNascimento = datePickerDataNascimento.getValue();
 
-        if (nome.isEmpty() || username.isEmpty() || telefone.isEmpty() || genero == null || dataNascimento == null) {
+        if (telefone.isEmpty() || email.isEmpty() || genero == null || dataNascimento == null) {
             mostrarAlerta("Campos obrigatórios", "Todos os campos devem ser preenchidos.", Alert.AlertType.WARNING);
             return;
         }
+
         if (!usuarioService.validarEmail(email)) {
             mostrarAlerta("Campos obrigatórios", "Digite um e-mail válido.", Alert.AlertType.WARNING);
             return;
@@ -74,37 +101,35 @@ public class TelaEditarDadosController {
             return;
         }
 
-        // Atualiza objeto em memória
-        usuarioLogado.setNome(nome);
-        usuarioLogado.setUsername(username);
         usuarioLogado.setTelefone(telefone);
         usuarioLogado.setEmail(email);
         usuarioLogado.setGenero(genero);
         usuarioLogado.setDataNascimento(dataNascimento);
-
-        boolean sucesso = usuarioService.completarCadastro(usuarioLogado);
-
-        if (sucesso) {
-            SessaoUsuario.getInstance().setUsuario(usuarioLogado);
-            mostrarAlerta("Sucesso", "Dados atualizados com sucesso!", Alert.AlertType.INFORMATION);
-            
-            Notificacao notificacao = new Notificacao(
-        		    "Você editou seus dados ",
-        		    LocalDateTime.now(),
-        		    false,
-        		    Notificacao.Tipo.HISTORICO,
-        		    "Sistema"
-        		);
-        		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
-
-
-            // Fecha a janela
-            Stage stage = (Stage) btnSalvar.getScene().getWindow();
-            stage.close();
-        } else {
-            mostrarAlerta("Erro", "Erro ao salvar dados. Tente novamente.", Alert.AlertType.ERROR);
-        }
     }
+
+    boolean sucesso = usuarioService.completarCadastro(usuarioLogado);
+
+    if (sucesso) {
+        SessaoUsuario.getInstance().setUsuario(usuarioLogado);
+        mostrarAlerta("Sucesso", "Dados atualizados com sucesso!", Alert.AlertType.INFORMATION);
+
+        Notificacao notificacao = new Notificacao(
+            "Você editou seus dados ",
+            LocalDateTime.now(),
+            false,
+            Notificacao.Tipo.HISTORICO,
+            "Sistema"
+        );
+        NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+        // Fecha a janela
+        Stage stage = (Stage) btnSalvar.getScene().getWindow();
+        stage.close();
+    } else {
+        mostrarAlerta("Erro", "Erro ao salvar dados. Tente novamente.", Alert.AlertType.ERROR);
+    }
+}
+
 
     private void mostrarAlerta(String titulo, String msg, Alert.AlertType tipo) {
         Alert alert = new Alert(tipo);

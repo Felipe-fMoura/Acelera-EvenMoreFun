@@ -254,6 +254,15 @@ public class UsuarioService {
 		Tester3.setDataNascimento(LocalDate.of(2002, 12, 17));
 		Tester3.setGenero("Masculino");
 		this.cadastrar(Tester3);
+		
+		Usuario Tester4 = new Usuario();
+		Tester4.setId(6);
+		Tester4.setNome("Incompleto");
+		Tester4.setUsername("OIncompleto");
+		Tester4.setSenha("Teste@123");
+		Tester4.setEmail("felipe@gmail.com");
+		this.cadastrar(Tester4);
+		
 	}
 
 	
