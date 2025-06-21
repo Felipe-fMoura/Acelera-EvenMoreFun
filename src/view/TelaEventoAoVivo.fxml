@@ -1,85 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.web.WebView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.web.WebView?>
 
-<BorderPane xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="view.TelaEventoAoVivoController"
-            style="-fx-background-color: #fdfdfd;">
+<BorderPane style="-fx-background-color: #fdfdfd;" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEventoAoVivoController">
 
     <!-- Topo -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="20"
-              style="-fx-padding: 10; -fx-background-color: #46295a;">
-            <Text fx:id="nomeUsuario"
-                  style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: white;" />
-            <Button text="Sair do Evento"
-                    onAction="#handleSairEvento"
-                    style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-weight: bold;" />
+        <HBox alignment="CENTER_LEFT" spacing="20" style="-fx-padding: 10; -fx-background-color: #46295a;">
+            <Text fx:id="nomeUsuario" style="-fx-font-weight: bold; -fx-font-size: 14px; -fx-fill: white;" />
+            <Button onAction="#handleSairEvento" style="-fx-text-fill: white; -fx-font-weight: bold;" styleClass="fechar-btn" text="Sair do Evento">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor></Button>
         </HBox>
     </top>
 
     <!-- Centro: Vídeo -->
     <center>
-        <VBox spacing="10" style="-fx-background-color: black; -fx-padding: 10;" alignment="TOP_CENTER">
+        <VBox alignment="TOP_CENTER" spacing="10" style="-fx-background-color: black; -fx-padding: 10;">
 
             <!-- Controles de vídeo -->
-            <HBox fx:id="videoControlsPane"
-                  spacing="10"
-                  visible="false" managed="false"
-                  style="-fx-background-color: #2c2c2c; -fx-padding: 10; -fx-background-radius: 8;">
-                <TextField fx:id="txtUrlVideo"
-                           promptText="Cole a URL do vídeo aqui..."
-                           style="-fx-pref-width: 500; -fx-background-color: white; -fx-border-color: #46295a; -fx-border-radius: 5;" />
-                <Button text="Carregar Vídeo"
-                        onAction="#handleCarregarVideo"
-                        style="-fx-background-color: #46295a; -fx-text-fill: white;" />
-                <Button text="Selecionar do PC"
-                        onAction="#handleCarregarVideo"
-                        style="-fx-background-color: #46295a; -fx-text-fill: white;" />
+            <HBox fx:id="videoControlsPane" managed="false" spacing="10" style="-fx-background-color: #2c2c2c; -fx-padding: 10; -fx-background-radius: 8;" visible="false">
+                <TextField fx:id="txtUrlVideo" promptText="Cole a URL do vídeo aqui..." style="-fx-pref-width: 500; -fx-background-color: white; -fx-border-color: #46295a; -fx-border-radius: 5;" />
+                <Button onAction="#handleCarregarVideo" style="-fx-background-color: #46295a; -fx-text-fill: white;" text="Carregar Vídeo" />
+                <Button onAction="#handleCarregarVideo" style="-fx-background-color: #46295a; -fx-text-fill: white;" text="Selecionar do PC" />
             </HBox>
 
             <!-- Liberação de acesso -->
-            <HBox fx:id="acessoControlsPane"
-                  spacing="10"
-                  visible="false" managed="false"
-                  alignment="CENTER"
-                  style="-fx-padding: 5;">
-                <Button fx:id="btnToggleAcesso"
-                        text="🔒 Acesso Trancado"
-                        onAction="#handleToggleAcesso"
-                        style="-fx-font-size: 14px; -fx-padding: 6 12; -fx-background-color: #c0392b; -fx-text-fill: white;" />
+            <HBox fx:id="acessoControlsPane" alignment="CENTER" managed="false" spacing="10" style="-fx-padding: 5;" visible="false">
+                <Button fx:id="btnToggleAcesso" onAction="#handleToggleAcesso" style="-fx-font-size: 14px; -fx-padding: 6 12; -fx-background-color: #c0392b; -fx-text-fill: white;" text="🔒 Acesso Trancado" />
             </HBox>
 
             <!-- Player de vídeo -->
             <StackPane style="-fx-background-color: black; -fx-alignment: center;">
-                <WebView fx:id="webView" prefWidth="800" prefHeight="450" />
-                <Text fx:id="lblSemVideo"
-                      fill="white"
-                      style="-fx-font-size: 24;"
-                      visible="false" />
+                <WebView fx:id="webView" prefHeight="450" prefWidth="800" />
+                <Text fx:id="lblSemVideo" fill="white" style="-fx-font-size: 24;" visible="false" />
             </StackPane>
         </VBox>
     </center>
 
     <!-- Chat lateral -->
     <right>
-      <BorderPane prefWidth="320"
-            style="-fx-padding: 10; -fx-background-color: #f5f2f7; -fx-border-color: #46295a; -fx-border-width: 1 0 0 1;">
+      <BorderPane prefWidth="320" style="-fx-padding: 10; -fx-background-color: #f5f2f7; -fx-border-color: #46295a; -fx-border-width: 1 0 0 1;">
     
     <!-- MENSAGENS (CENTRO EXPANSÍVEL) -->
     <center>
-        <ScrollPane fitToWidth="true"
-                    style="-fx-background-color: white; -fx-border-radius: 5;"
-                    BorderPane.alignment="CENTER">
+        <ScrollPane fitToWidth="true" style="-fx-background-color: white; -fx-border-radius: 5;" BorderPane.alignment="CENTER">
             <content>
                 <VBox fx:id="mensagensContainer" spacing="5" style="-fx-padding: 5;" />
             </content>
@@ -90,18 +65,17 @@
     <bottom>
         <VBox spacing="5">
             <HBox spacing="5">
-                <TextField fx:id="campoMensagem"
-                           promptText="Digite sua mensagem..."
-                           HBox.hgrow="ALWAYS"
-                           style="-fx-background-color: white; -fx-border-color: #46295a; -fx-border-radius: 5;" />
-                <Button text="Enviar"
-                        onAction="#handleEnviarMensagem"
-                        style="-fx-background-color: #46295a; -fx-text-fill: white; -fx-font-weight: bold;" />
+                <TextField fx:id="campoMensagem" promptText="Digite sua mensagem..." style="-fx-background-color: white; -fx-border-color: #46295a; -fx-border-radius: 5;" HBox.hgrow="ALWAYS" />
+                <Button minWidth="69.0" onAction="#handleEnviarMensagem" prefWidth="69.0" style="-fx-min-width: 60; -fx-max-width: 60; -fx-text-fill: white; -fx-font-weight: bold;" styleClass="galeria-btn" text="Enviar">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
             </HBox>
             <HBox alignment="BOTTOM_RIGHT">
-                <Button text="✋ Levantar a mão"
-                        onAction="#handleLevantarMao"
-                        style="-fx-background-color: #ffd966; -fx-font-weight: bold;" />
+                <Button onAction="#handleLevantarMao" style="-fx-background-color: #ffd966; -fx-font-weight: bold;" text="✋ Levantar a mão">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor></Button>
             </HBox>
         </VBox>
     </bottom>
@@ -109,4 +83,3 @@
     </right>
 
 </BorderPane>
-

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
@@ -17,12 +18,19 @@
     <!-- Topo - Barra de Navegação -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10px 20px;" styleClass="gradiente-roxo">
-            <!-- Logo -->
-            <ImageView fitHeight="36.0" fitWidth="50.0" preserveRatio="true">
-                <image>
-                    <Image url="@../resources/EFG.png" />
-                </image>
-            </ImageView>
+         <Button fx:id="btnEasterEgg" mnemonicParsing="false" prefHeight="44.0" prefWidth="0.0" style="-fx-background-color: none;">
+            <graphic>
+                  <!-- Logo -->
+                  <ImageView fitHeight="36.0" fitWidth="50.0" preserveRatio="true">
+                      <image>
+                          <Image url="@../resources/EFG.png" />
+                      </image>
+                  </ImageView>
+            </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
             
             <!-- Campo de Pesquisa -->
             <TextField fx:id="campoPesquisa" onAction="#handlePesquisarEventos" prefHeight="44.0" promptText="Pesquisar eventos..." style="-fx-background-radius: 20; -fx-pref-width: 300px;" />
@@ -38,6 +46,9 @@
                   </image>
                </ImageView>
             </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
          </Button>
          <Button fx:id="btnListarPor" onAction="#handleListarPor" style="-fx-background-color: transparent;">
             <graphic>
@@ -47,6 +58,9 @@
                   </image>
                </ImageView>
             </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
          </Button>
             
             <Region HBox.hgrow="ALWAYS" />
@@ -59,9 +73,15 @@
                   </image>
                     </ImageView>
                 </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
             </Button>
             
-            <Button fx:id="btnCriarEvento" onAction="#handleCriarEvento" style="-fx-background-color: #42b72a; -fx-text-fill: white; -fx-font-weight: bold;" text="Criar Evento" />
+            <Button fx:id="btnCriarEvento" onAction="#handleCriarEvento" style="-fx-text-fill: white; -fx-font-weight: bold;" styleClass="verde-btn" stylesheets="@../resources/styles.css" text="Criar Evento">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor></Button>
             
             <Button fx:id="btnPerfil" onAction="#handleAbrirPerfil" style="-fx-background-color: transparent;">
                 <graphic>
@@ -70,6 +90,9 @@
                      <Image url="@../images/system/iconFotoPerfilDefault.png" />
                   </image></ImageView>
                 </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
             </Button>
         </HBox>
     </top>

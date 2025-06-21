@@ -36,6 +36,8 @@ public class TelaMenuController {
     private UsuarioService usuarioService = UsuarioService.getInstance();
     private EventoService eventoService = EventoService.getInstance();
     private Usuario usuarioLogado;
+    private int contadorCliques = 0;
+
 
     @FXML
     private Text txtUserName;
@@ -70,7 +72,24 @@ public class TelaMenuController {
     @FXML private ImageView imgFotoPerfilMenu;
 
     @FXML
+    private Button btnEasterEgg;
+    
+    @FXML
     public void initialize() {
+    	
+    	 btnEasterEgg.setOnAction(event -> {
+             contadorCliques++;
+             if (contadorCliques == 10) {
+                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                 alert.setTitle("Easter Egg");
+                 alert.setHeaderText(null);
+                 alert.setContentText("Obrigado por usar EvenMoreFun!");
+                 alert.showAndWait();
+                 contadorCliques = 0; // resetar contador
+             }
+         });
+    	
+    	
     	
     	try {
     	    // Carrega o arquivo de recursos
@@ -359,6 +378,9 @@ public class TelaMenuController {
     public void fecharPerfil() {
         testeVbox.getChildren().clear(); // Remove a subTela do perfil
     }
+    
+
+    
     
 
 }

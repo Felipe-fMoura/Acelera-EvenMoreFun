@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Separator?>
@@ -25,7 +26,10 @@
                   <Image url="@../images/system/iconBtnNotificacao.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
         <Button fx:id="btnEditar" minWidth="73.0" onAction="#editarEvento" prefWidth="73.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 2;" styleClass="editar-btn" text="Editar">
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
@@ -33,7 +37,10 @@
                   <Image url="@../images/system/iconBtnEditar.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
     </HBox>
 
     <!-- Organizador e Data -->
@@ -100,6 +107,9 @@
                </image>
             </ImageView>
          </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </Button>
         <Button fx:id="btnParticipar" onAction="#handleParticipar" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="participar-btn" text="Participar">
          <graphic>
@@ -108,7 +118,10 @@
                   <Image url="@../images/system/iconBtnParticipar.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
         <Button fx:id="btnEntrar" onAction="#handleEntrar" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="entrar-btn" text="Entrar">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -116,7 +129,10 @@
                   <Image url="@../images/system/iconBtnEntrar.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
         <Button fx:id="btnGaleria" onAction="#handleGaleria" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" stylesheets="@../resources/styles.css" text="Galeria">
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
@@ -124,7 +140,10 @@
                   <Image url="@../images/system/iconBtnGaleira.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
         <Button fx:id="btnCompartilhar1" onAction="#handleCompartilhar" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="compartilhar-btn" text="Compartilhar">
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
@@ -132,7 +151,10 @@
                   <Image url="@../images/system/iconBtnCompartilhar.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
         <Button fx:id="btnLista" onAction="#handleLista" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="lista-btn" text="Lista">
          <graphic>
             <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
@@ -140,6 +162,9 @@
                   <Image url="@../images/system/iconBtnLista.png" />
                </image>
             </ImageView>
-         </graphic></Button>
+         </graphic>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
     </HBox>
 </VBox>
