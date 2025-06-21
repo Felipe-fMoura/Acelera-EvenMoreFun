@@ -48,7 +48,7 @@ public class Main extends Application {
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("EvenMoreFun");
-            primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/resources/LOGOROMXA.png")));
+            primaryStage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             primaryStage.setMaximized(true);
             primaryStage.show();
 

@@ -16,7 +16,7 @@
     <HBox alignment="CENTER_LEFT" spacing="10">
         <Label style="-fx-font-size: 20px; -fx-font-weight: bold;" text="Central de Notificações" />
         <Region HBox.hgrow="ALWAYS" />
-        <Button fx:id="btnVoltar" onAction="#handleVoltar" styleClass="fechar-btn" stylesheets="@../resources/styles.css" text="Fechar">
+        <Button fx:id="btnVoltar" onAction="#handleVoltar" styleClass="fechar-btn" stylesheets="@../resources/css/styles.css" text="Fechar">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

@@ -102,7 +102,7 @@ public class TelaOTPController {
         root.setStyle("-fx-background-color: transparent;");
 
         Scene scene = new Scene(root, 420, 200);
-        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/resources/css/styles.css").toExternalForm());
 
         Stage dialog = new Stage();
         dialog.setTitle("Validação de Código");

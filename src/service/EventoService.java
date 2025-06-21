@@ -56,26 +56,26 @@ public class EventoService {
         org1.setId(1);
         org1.setNome("Eduardo Enari");
         org1.setCpf("12345678900");
-        org1.setCaminhoFotoPerfil(getClass().getResource("/images/system/4792929.png").toExternalForm());
+        org1.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
 
         Usuario org2 = new Usuario();
         org2.setId(2);
         org2.setNome("Prof. Feichas");
         org2.setCpf("32145698700");
-        org2.setCaminhoFotoPerfil(getClass().getResource("/images/system/4792929.png").toExternalForm());
+        org2.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
      
         
         
         criarEvento(new Evento.Builder("Acelera Fatec", "Venha prestigiar!",
                     LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
                     org1, "Enari")
-                .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
+                .comImagem(getClass().getResource("/resources/event/eventoSemFoto.png").toExternalForm())
                 .build());
         
         criarEvento(new Evento.Builder("WorkShop de JavaFx", "Aprenda a criar interfaces incriveis!",
                     LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
                     org2, "Feichas")
-                .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
+                .comImagem(getClass().getResource("/resources/event/eventoSemFoto.png").toExternalForm())
                 .build());
       
     }

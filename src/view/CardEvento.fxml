@@ -17,7 +17,7 @@
 <HBox fx:id="mainContainer" alignment="TOP_LEFT" maxWidth="1200.0" prefHeight="650.0" prefWidth="1200.0" spacing="20" style="-fx-padding: 15px;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CardEventoController">
 
     <!-- Card do Evento (lado esquerdo) -->
-    <VBox fx:id="cardRoot" alignment="CENTER" prefHeight="650.0" prefWidth="850.0" spacing="12" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" stylesheets="@../resources/styles.css">
+    <VBox fx:id="cardRoot" alignment="CENTER" prefHeight="650.0" prefWidth="850.0" spacing="12" style="-fx-background-color: white; -fx-background-radius: 12; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" stylesheets="@../resources/css/styles.css">
 
         <!-- Topo com Notificação e Editar -->
         <HBox alignment="TOP_RIGHT" spacing="10">
@@ -28,7 +28,7 @@
                 <graphic>
                     <ImageView fitHeight="31.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnNotificacao.png" />
+                            <Image url="@../resources/btnIcons/iconBtnNotificacao.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -40,7 +40,7 @@
                 <graphic>
                     <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnEditar.png" />
+                            <Image url="@../resources/btnIcons/iconBtnEditar.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -67,7 +67,7 @@
         <!-- Imagem -->
         <ImageView fx:id="imgEvento" fitHeight="300.0" fitWidth="600.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5,0,0,1);">
             <image>
-                <Image url="@../images/system/images.png" />
+                <Image url="@../resources/btnIcons/resources.png" />
             </image>
         </ImageView>
 
@@ -84,7 +84,7 @@
                 <graphic>
                     <ImageView fitHeight="14" fitWidth="14">
                         <image>
-                            <Image url="@../images/system/images.png" />
+                            <Image url="@../resources/btnIcons/resources.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -95,7 +95,7 @@
                 <graphic>
                     <ImageView fitHeight="14" fitWidth="14">
                         <image>
-                            <Image url="@../images/system/images.png" />
+                            <Image url="@../resources/btnIcons/resources.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -110,7 +110,7 @@
                 <graphic>
                     <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnCurtir.png" />
+                            <Image url="@../resources/btnIcons/iconBtnCurtir.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -122,7 +122,7 @@
                 <graphic>
                     <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnParticipar.png" />
+                            <Image url="@../resources/btnIcons/iconBtnParticipar.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -134,7 +134,7 @@
                 <graphic>
                     <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnEntrar.png" />
+                            <Image url="@../resources/btnIcons/iconBtnEntrar.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -142,11 +142,11 @@
                     <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <Button fx:id="btnGaleria" onAction="#handleGaleria" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" stylesheets="@../resources/styles.css" text="Galeria">
+            <Button fx:id="btnGaleria" onAction="#handleGaleria" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" stylesheets="@../resources/css/styles.css" text="Galeria">
                 <graphic>
                     <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnGaleira.png" />
+                            <Image url="@../resources/btnIcons/iconBtnGaleira.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -158,7 +158,7 @@
                 <graphic>
                     <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnCompartilhar.png" />
+                            <Image url="@../resources/btnIcons/iconBtnCompartilhar.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -170,7 +170,7 @@
                 <graphic>
                     <ImageView fitHeight="23.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                         <image>
-                            <Image url="@../images/system/iconBtnLista.png" />
+                            <Image url="@../resources/btnIcons/iconBtnLista.png" />
                         </image>
                     </ImageView>
                 </graphic>
@@ -194,7 +194,7 @@
         <!-- Campo para adicionar novo comentário -->
         <HBox spacing="5" style="-fx-padding: 10px 0;">
             <TextField fx:id="txtNovoComentario" promptText="Escreva um comentário..." style="-fx-background-radius: 15; -fx-padding: 5 10;" HBox.hgrow="ALWAYS" />
-            <Button fx:id="btnEnviarComentario" onAction="#handleEnviarComentario" style="-fx-background-radius: 5; -fx-padding: 5 15;" styleClass="comentar-btn" stylesheets="@../resources/styles.css" text="Enviar">
+            <Button fx:id="btnEnviarComentario" onAction="#handleEnviarComentario" style="-fx-background-radius: 5; -fx-padding: 5 15;" styleClass="comentar-btn" stylesheets="@../resources/css/styles.css" text="Enviar">
                 <cursor>
                     <Cursor fx:constant="HAND" />
                 </cursor>

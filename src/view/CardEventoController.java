@@ -99,7 +99,7 @@ public class CardEventoController {
             }
         } catch (Exception e) {
             // Carrega imagem padrão caso ocorra erro ou não haja imagem definida
-            InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+            InputStream defaultImgStream = getClass().getResourceAsStream("/resources/profile/iconFotoPerfilDefault.png");
             imagemOrganizador = new Image(defaultImgStream);
         }
 
@@ -122,7 +122,7 @@ public class CardEventoController {
         try {
             imgEvento.setImage(new Image(evento.getImagem()));
         } catch (Exception e) {
-            InputStream defaultImgStream = getClass().getResourceAsStream("/images/default-event.jpg");
+            InputStream defaultImgStream = getClass().getResourceAsStream("/resources/default-event.jpg");
             if (defaultImgStream != null) {
                 imgEvento.setImage(new Image(defaultImgStream));
             }
@@ -237,13 +237,13 @@ public class CardEventoController {
     	
         ContextMenu menu = new ContextMenu();
 
-        MenuItem facebook = new MenuItem("", carregarIcone("/resources/face.png"));
+        MenuItem facebook = new MenuItem("", carregarIcone("/resources/logo/face.png"));
         facebook.setOnAction(e -> compartilharFacebook());
 
-        MenuItem whatsapp = new MenuItem("", carregarIcone("/resources/zap.png"));
+        MenuItem whatsapp = new MenuItem("", carregarIcone("/resources/logo/zap.png"));
         whatsapp.setOnAction(e -> compartilharWhatsApp());
 
-        MenuItem twitter = new MenuItem("", carregarIcone("/resources/x.png"));
+        MenuItem twitter = new MenuItem("", carregarIcone("/resources/logo/x.png"));
         twitter.setOnAction(e -> compartilharTwitter());
 
         menu.getItems().addAll(facebook, whatsapp, twitter);
@@ -396,7 +396,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Editar Evento");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             stage.show();
 
             stage.setOnHiding(e -> {
@@ -435,7 +435,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setTitle("Lista de Participantes");
             stage.setScene(new Scene(root));
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
@@ -482,7 +482,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setTitle("Sala do Evento");
             stage.setScene(new Scene(root));
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             stage.show();
             
          // Marca a presença automaticamente
@@ -517,7 +517,7 @@ public class CardEventoController {
             Stage stage = new Stage();
             stage.setTitle("Galeria do Evento");
             stage.setScene(new Scene(root));
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             stage.show();
 
         } catch (IOException e) {
@@ -641,7 +641,7 @@ public class CardEventoController {
                     }
                 } else {
                     // Foto padrão se não tiver
-                    InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+                    InputStream defaultImgStream = getClass().getResourceAsStream("/resources/profile/iconFotoPerfilDefault.png");
                     if (defaultImgStream != null) {
                         fotoUsuario.setImage(new Image(defaultImgStream));
                     }

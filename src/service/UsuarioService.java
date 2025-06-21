@@ -69,7 +69,7 @@ public class UsuarioService {
 
     // Garante caminho da foto padrão caso não tenha sido setado
     if (novo.getCaminhoFotoPerfil() == null || novo.getCaminhoFotoPerfil().isEmpty()) {
-        novo.setCaminhoFotoPerfil("/images/system/iconFotoPerfilDefault.png");
+        novo.setCaminhoFotoPerfil("/resources/profile/iconFotoPerfilDefault.png");
     }
 
     return novo;

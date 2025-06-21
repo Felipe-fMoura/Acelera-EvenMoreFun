@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaMenuController">
+<BorderPane stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaMenuController">
     <!-- Topo - Barra de Navegação -->
     <top>
         <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10px 20px;" styleClass="gradiente-roxo">
@@ -23,7 +23,7 @@
                   <!-- Logo -->
                   <ImageView fitHeight="36.0" fitWidth="50.0" preserveRatio="true">
                       <image>
-                          <Image url="@../resources/EFG.png" />
+                          <Image url="@../resources/logo/LOGOBRANCAFULL.png" />
                       </image>
                   </ImageView>
             </graphic>
@@ -42,7 +42,7 @@
             <graphic>
                <ImageView fitHeight="24" fitWidth="24">
                   <image>
-                     <Image url="@../images/system/iconBtnRefresh.png" />
+                     <Image url="@../resources/btnIcons/iconBtnRefresh.png" />
                   </image>
                </ImageView>
             </graphic>
@@ -54,7 +54,7 @@
             <graphic>
                <ImageView fitHeight="24" fitWidth="24">
                   <image>
-                     <Image url="@../images/system/iconListaPor.png" />
+                     <Image url="@../resources/btnIcons/iconListaPor.png" />
                   </image>
                </ImageView>
             </graphic>
@@ -66,7 +66,7 @@
             <graphic>
                <ImageView fitHeight="32.0" fitWidth="30.0" onDragDetected="#handleBtnJogo" preserveRatio="true">
                   <image>
-                     <Image url="@../images/system/iconBtnJogos.png" />
+                     <Image url="@../resources/btnIcons/iconBtnJogos.png" />
                   </image>
                </ImageView>
             </graphic>
@@ -81,7 +81,7 @@
                 <graphic>
                     <ImageView fitHeight="26.0" fitWidth="27.0" preserveRatio="true">
                   <image>
-                     <Image url="@../images/system/iconBtnSair.png" />
+                     <Image url="@../resources/btnIcons/iconBtnSair.png" />
                   </image>
                     </ImageView>
                 </graphic>
@@ -90,7 +90,7 @@
             </cursor>
             </Button>
             
-            <Button fx:id="btnCriarEvento" onAction="#handleCriarEvento" style="-fx-text-fill: white; -fx-font-weight: bold;" styleClass="verde-btn" stylesheets="@../resources/styles.css" text="Criar Evento">
+            <Button fx:id="btnCriarEvento" onAction="#handleCriarEvento" style="-fx-text-fill: white; -fx-font-weight: bold;" styleClass="verde-btn" stylesheets="@../resources/css/styles.css" text="Criar Evento">
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor></Button>
@@ -99,7 +99,7 @@
                 <graphic>
                     <ImageView fx:id="imgFotoPerfilMenu" fitHeight="30" fitWidth="30">
                   <image>
-                     <Image url="@../images/system/iconFotoPerfilDefault.png" />
+                     <Image url="@../resources/btnIcons/iconFotoPerfilDefault.png" />
                   </image></ImageView>
                 </graphic>
             <cursor>
@@ -112,7 +112,7 @@
     <!-- Centro - Feed de Eventos -->
     <center>
         <ScrollPane fitToWidth="true" style="-fx-background-color: #f8f9ff;" styleClass="gradiente-roxo">
-            <VBox alignment="TOP_CENTER" prefHeight="197.0" prefWidth="1082.0" spacing="20" style="-fx-padding: 20px; -fx-background-color: #f8f9ff;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css">
+            <VBox alignment="TOP_CENTER" prefHeight="197.0" prefWidth="1082.0" spacing="20" style="-fx-padding: 20px; -fx-background-color: #f8f9ff;" styleClass="gradiente-roxo" stylesheets="@../resources/css/styles.css">
             <Separator prefWidth="200.0" />
                 
                 <!-- Criar Postagem -->

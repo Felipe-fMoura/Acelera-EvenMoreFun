@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaOTP" stylesheets="@../resources/styles.css" 
+<StackPane fx:id="telaOTP" stylesheets="@../resources/css/styles.css" 
            xmlns="http://javafx.com/javafx/23.0.1" 
            xmlns:fx="http://javafx.com/fxml/1" 
            fx:controller="view.TelaOTPController">
@@ -18,7 +18,7 @@
           
             <ImageView fx:id="backgroundImage" preserveRatio="false">
                <image>
-                  <Image url="@../resources/TelaResetSenha.png" />
+                  <Image url="@../resources/screens/TelaResetSenha.png" />
                </image>
             </ImageView>
             

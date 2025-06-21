@@ -98,7 +98,7 @@ public class TelaMenuController {
     	
     	try {
     	    // Carrega o arquivo de recursos
-    	    InputStream inputStream = getClass().getResourceAsStream("/resources/Frases.txt");
+    	    InputStream inputStream = getClass().getResourceAsStream("/resources/frases/Frases.txt");
     	    if (inputStream != null) {
     	        List<String> frases = new BufferedReader(new InputStreamReader(inputStream))
     	                                .lines()
@@ -203,7 +203,7 @@ public class TelaMenuController {
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Criar Novo Evento");
-            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
             stage.show();
 
             // Quando fechar a tela de criação, recarrega eventos e atualiza foto do perfil
@@ -384,7 +384,7 @@ public class TelaMenuController {
 
     } catch (Exception e) {
         // Carrega imagem padrão
-        InputStream padrao = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+        InputStream padrao = getClass().getResourceAsStream("/resources/profile/iconFotoPerfilDefault.png");
         Image imagemPadrao = new Image(padrao);
 
         ImageView miniatura = new ImageView(imagemPadrao);

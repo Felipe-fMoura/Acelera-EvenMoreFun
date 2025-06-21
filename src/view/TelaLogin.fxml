@@ -11,14 +11,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaLogin" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaLoginController">
+<StackPane fx:id="telaLogin" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaLoginController">
 
    <children>
       <!-- Imagem de fundo -->
       <ImageView fx:id="backgroundImage" preserveRatio="false">
         
          <image>
-            <Image url="@../resources/TelaLogin.png" />
+            <Image url="@../resources/screens/TelaLogin.png" />
          </image>
      
       </ImageView>

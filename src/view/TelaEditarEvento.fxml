@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox spacing="15" style="     -fx-padding: 25;     -fx-background-color: #f9f9fb;     -fx-alignment: top_center;     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; " stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEditarEventoController">
+<VBox spacing="15" style="     -fx-padding: 25;     -fx-background-color: #f9f9fb;     -fx-alignment: top_center;     -fx-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; " stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEditarEventoController">
 
     <Label style="         -fx-font-size: 24;         -fx-font-weight: bold;         -fx-text-fill: #3b2e5a;     " text="Editar Evento" />
 

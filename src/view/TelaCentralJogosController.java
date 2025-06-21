@@ -30,7 +30,7 @@ public class TelaCentralJogosController {
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
-            scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+            scene.getStylesheets().add(getClass().getResource("/resources/css/styles.css").toExternalForm());
 
             Stage stage = new Stage();
             stage.setTitle("Joguinho do Clique!");
@@ -51,7 +51,7 @@ private void handleBtnJogoTeclas(ActionEvent event) {
         Parent root = loader.load();
 
         Scene scene = new Scene(root);
-        scene.getStylesheets().add(getClass().getResource("/resources/styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/resources/css/styles.css").toExternalForm());
 
         // INJETAR CENA APÓS LOAD
         TelaJogoTeclaCertaController controller = loader.getController();

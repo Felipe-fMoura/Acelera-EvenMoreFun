@@ -12,14 +12,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaCadastro2" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCadastro2Controller">
+<StackPane fx:id="telaCadastro2" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCadastro2Controller">
 
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  
          <children>
          
             <ImageView fx:id="backgroundImage" preserveRatio="false">
                <image>
-                  <Image url="@../resources/TelaCadastro2.png" />
+                  <Image url="@../resources/screens/TelaCadastro2.png" />
                </image>
             </ImageView>
             

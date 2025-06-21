@@ -52,7 +52,7 @@
       <TextField fx:id="txtEmail" GridPane.columnIndex="1" GridPane.rowIndex="4" />
     </GridPane>
 
-    <Button fx:id="btnSalvar" onAction="#handleSalvar" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-padding: 10 25; -fx-cursor: hand;" styleClass="verde-btn" stylesheets="@../resources/styles.css" text="Salvar alterações">
+    <Button fx:id="btnSalvar" onAction="#handleSalvar" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-font-size: 15; -fx-padding: 10 25; -fx-cursor: hand;" styleClass="verde-btn" stylesheets="@../resources/css/styles.css" text="Salvar alterações">
     </Button>
 
 </VBox>

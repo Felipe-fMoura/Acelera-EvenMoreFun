@@ -217,7 +217,7 @@ public class TelaPerfilController {
                 }
             } else {
                 // Fallback: imagem padrão
-                imagem = new Image(getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png"), 150, 150, true, true);
+                imagem = new Image(getClass().getResourceAsStream("/resources/profile/iconFotoPerfilDefault.png"), 150, 150, true, true);
             }
 
             imgPerfil.setImage(imagem);

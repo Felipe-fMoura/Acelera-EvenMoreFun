@@ -71,7 +71,7 @@
         <CheckBox fx:id="checkPrivado" style="             -fx-text-fill: #555555;         " text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="8" />
     </GridPane>
 
-    <Button onAction="#handleCriarEvento" style="-fx-font-weight: bold; -fx-font-size: 15; -fx-padding: 10 25; -fx-cursor: hand;" styleClass="verde-btn" stylesheets="@../resources/styles.css" text="Criar Evento">
+    <Button onAction="#handleCriarEvento" style="-fx-font-weight: bold; -fx-font-size: 15; -fx-padding: 10 25; -fx-cursor: hand;" styleClass="verde-btn" stylesheets="@../resources/css/styles.css" text="Criar Evento">
       <cursor>
          <Cursor fx:constant="HAND" />
       </cursor></Button>
