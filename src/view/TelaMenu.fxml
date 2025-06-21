@@ -136,6 +136,6 @@
         </ScrollPane>
     </center>
    <right>
-      <VBox fx:id="testeVbox" prefHeight="200.0" prefWidth="0.0" BorderPane.alignment="CENTER" />
+      <VBox fx:id="testeVbox" prefWidth="0.0" BorderPane.alignment="CENTER" />
    </right>
 </BorderPane>

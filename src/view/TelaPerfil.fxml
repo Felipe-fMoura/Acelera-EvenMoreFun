@@ -20,7 +20,7 @@
 
 <ScrollPane fx:id="scrollPane" style="-fx-max-width: 500; -fx-min-width: 500; -fx-pref-width: 500;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaPerfilController">
    <content>
-      <VBox alignment="TOP_CENTER" minWidth="577.0" prefHeight="812.0" prefWidth="500.0" spacing="20" style="-fx-padding: 30; -fx-pref-width: 500; -fx-min-width: 500; -fx-max-width: 500;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css">
+      <VBox alignment="TOP_CENTER" maxHeight="1000.0" minHeight="1000.0" minWidth="577.0" prefHeight="1000.0" prefWidth="500.0" spacing="20" style="-fx-padding: 30; -fx-pref-width: 500; -fx-min-width: 500; -fx-max-width: 500;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css">
          <HBox>
             <children>
                <GridPane>
@@ -124,9 +124,9 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                     <Text fx:id="lblUsername" fill="WHITE" style="-fx-font-size: 16px; -fx-fill: white;" text="\@Username" wrappingWidth="88.0" GridPane.rowIndex="1" />
-                     <Text fx:id="lblNome" fill="WHITE" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Nome " wrappingWidth="129.0" />
-                     <Text fx:id="lblEmail" style="-fx-font-size: 14px; -fx-fill: white;" text="email@email.com" wrappingWidth="255.0" GridPane.rowIndex="2" />
+                     <Text fx:id="lblUsername" fill="WHITE" style="-fx-font-size: 16px; -fx-fill: white;" text="\@Username" wrappingWidth="250.0" GridPane.rowIndex="1" />
+                     <Text fx:id="lblNome" fill="WHITE" style="-fx-font-size: 24px; -fx-font-weight: bold;" text="Nome " wrappingWidth="250.0" />
+                     <Text fx:id="lblEmail" style="-fx-font-size: 14px; -fx-fill: white;" text="email@email.com" wrappingWidth="250.0" GridPane.rowIndex="2" />
                </children>
             </GridPane>
           </HBox>
