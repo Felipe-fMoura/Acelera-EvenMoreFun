@@ -66,10 +66,7 @@ public class TelaCadastroController {
 
 	@FXML
     public void initialize() {
-        // Redimensionar imagem de fundo
 		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
-		// APAGAR
-		usuarioService.carregarUsuariosDeTeste();
     }
 	
 	
@@ -106,6 +103,7 @@ public class TelaCadastroController {
 		}
 
 		Usuario novo = usuarioService.iniciarCadastro(nome, sobrenome, userName, email, senha);
+		
 		if (novo == null) {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;

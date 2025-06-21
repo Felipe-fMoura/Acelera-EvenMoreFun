@@ -4,26 +4,67 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCentralJogosController">
+<AnchorPane prefHeight="368.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1a1a1a);" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCentralJogosController">
+   
    <children>
-      <Text layoutX="250.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Central de Jogos" />
-      <Button fx:id="btnJogoPontinho" layoutX="59.0" layoutY="94.0" mnemonicParsing="false" onAction="#handleBtnJogoPontinho" style="-fx-background-color: none;">
+      <Text layoutX="179.0" layoutY="52.0" style="-fx-fill: #00ffcc;" text="🎮 Central de Jogos 🎮">
+         <font>
+            <Font name="Orbitron" size="26.0" />
+         </font>
+      </Text>
+
+      <Button fx:id="btnJogoPontinho" layoutX="75.0" layoutY="100.0" onAction="#handleBtnJogoPontinho" style="-fx-background-color: transparent; -fx-cursor: hand;">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" preserveRatio="true">
                <image>
                   <Image url="@../images/system/JogoPontinhos.png" />
                </image>
             </ImageView>
-         </graphic></Button>
-      <Button fx:id="btnJogoTeclas" layoutX="357.0" layoutY="104.0" mnemonicParsing="false" onAction="#handleBtnJogoTeclas" prefHeight="57.0" prefWidth="88.0" style="-fx-background-color: none;">
+         </graphic>
+      </Button>
+
+      <Button fx:id="btnJogoTeclas" layoutX="353.0" layoutY="100.0" onAction="#handleBtnJogoTeclas" style="-fx-background-color: transparent; -fx-cursor: hand;">
          <graphic>
-            <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" preserveRatio="true">
                <image>
                   <Image url="@../images/system/JogoTeclas.png" />
                </image>
             </ImageView>
          </graphic></Button>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="35.0" layoutX="-13.0" layoutY="340.0" stroke="BLACK" strokeType="INSIDE" styleClass="gradient-background" width="629.0">
+         <fill>
+            <LinearGradient endX="1.0" endY="1.0">
+               <stops>
+                  <Stop>
+                     <color>
+                        <Color green="1.0" blue="0.800000011920929" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.41798985103944997">
+                     <color>
+                        <Color green="0.45490196347236633" blue="0.8823529481887817" />
+                     </color>
+                  </Stop>
+                  <Stop offset="0.5060975609756098">
+                     <color>
+                        <Color red="0.11999999731779099" green="0.5746666789054871" blue="1.0" />
+                     </color>
+                  </Stop>
+                  <Stop offset="1.0">
+                     <color>
+                        <Color />
+                     </color>
+                  </Stop>
+               </stops>
+            </LinearGradient>
+         </fill>
+      </Rectangle>
    </children>
 </AnchorPane>

@@ -56,51 +56,48 @@ public class TelaPerfilController {
 	private Usuario usuario;
  
 
-    public void carregarUsuario() {
-        Usuario usuario = SessaoUsuario.getInstance().getUsuario();
-        
-        if (usuario != null) {
-        	
-        	lblId.setText("" + usuario.getId());
-            // Informações básicas
-            lblNome.setText(usuario.getNome());
-            lblUsername.setText("@" + usuario.getUsername());
-            lblEmail.setText(usuario.getEmail());
-            
-            if (usuario.getDataNascimento() == null) {
-            	lblId.setText(String.valueOf(usuario.getId()));
-                lblCpf.setText("Dados incompletos");
-                lblGenero.setText("Dados incompletos");
-                lblTelefone.setText("Dados incompletos");
-                lblDataNascimento.setText("Dados incompletos");
-            } else {
-                lblCpf.setText(usuario.getCpf());
-                lblGenero.setText(usuario.getGenero());
-                lblTelefone.setText(usuario.getTelefone());
-                lblDataNascimento.setText(usuario.getDataNascimento().toString());
-            }
+	public void carregarUsuario() {
+	    Usuario usuario = SessaoUsuario.getInstance().getUsuario();
 
-            // Carrega eventos participando
-            listEventosParticipando.getItems().setAll(
-                usuarioService.getEventosParticipandoUsuario(usuario.getId())
-            );
+	    if (usuario != null) {
 
-            // Carrega eventos organizados
-            listEventosOrganizados.getItems().setAll(
-                usuarioService.getEventosOrganizandoUsuario(usuario.getId())
-            );
+	        lblId.setText("" + usuario.getId());
+	        lblNome.setText(usuario.getNome());
+	        lblUsername.setText("@" + usuario.getUsername());
+	        lblEmail.setText(usuario.getEmail());
 
+	        if (usuario.getDataNascimento() == null) {
+	            lblCpf.setText("Dados incompletos");
+	            lblGenero.setText("Dados incompletos");
+	            lblTelefone.setText("Dados incompletos");
+	            lblDataNascimento.setText("Dados incompletos");
+	        } else {
+	            lblCpf.setText(usuario.getCpf());
+	            lblGenero.setText(usuario.getGenero());
+	            lblTelefone.setText(usuario.getTelefone());
+	            lblDataNascimento.setText(usuario.getDataNascimento().toString());
+	        }
 
-            
-            configurarCelulasListView();
+	        listEventosParticipando.getItems().setAll(
+	            usuarioService.getEventosParticipandoUsuario(usuario.getId())
+	        );
 
-            if (usuarioService.dadosCompletosCadastrados(usuario)) {
-                txtCompletarCadastro.setText("Cadastro completo:");
-            } else {
-                txtCompletarCadastro.setText("Cadastro incompleto. Clique aqui para completar");
-            }
-        }
-    }
+	        listEventosOrganizados.getItems().setAll(
+	            usuarioService.getEventosOrganizandoUsuario(usuario.getId())
+	        );
+
+	        configurarCelulasListView();
+
+	        if (usuarioService.dadosCompletosCadastrados(usuario)) {
+	            txtCompletarCadastro.setText("Cadastro completo:");
+	        } else {
+	            txtCompletarCadastro.setText("Cadastro incompleto. Clique aqui para completar");
+	        }
+    System.out.println("Caminho foto : "+usuarioLogado.getCaminhoFotoPerfil());
+	        carregarFotoPerfil();
+	    }
+	}
+
 
     private void configurarCelulasListView() {
         listEventosParticipando.setCellFactory(lv -> new EventoListCell());
@@ -182,6 +179,9 @@ public class TelaPerfilController {
             String caminho = file.getAbsolutePath();
             usuarioLogado.setCaminhoFotoPerfil(caminho); // Armazena caminho no objeto
             SessaoUsuario.getInstance().setUsuario(usuarioLogado); // <- ATUALIZA NA SESSÃO
+            
+            System.out.println("[DEBUG] Caminho da foto perfil do usuário: " + usuarioLogado.getCaminhoFotoPerfil());
+
             carregarFotoPerfil(); // Atualiza visual
         }
         
@@ -200,24 +200,43 @@ public class TelaPerfilController {
 
     public void carregarFotoPerfil() {
         String caminho = usuarioLogado.getCaminhoFotoPerfil();
-        if (caminho != null && !caminho.isEmpty()) {
-            try {
-                Image imagem = new Image("file:" + caminho, 150, 150, true, true);
-                imgPerfil.setImage(imagem);
-                
-             // Atualiza o ícone do botão do menu, se o controller principal estiver disponível
-                if (telaMenuController != null) {
-                    telaMenuController.atualizarFotoPerfilOrganizador(caminho);
+
+        try {
+            Image imagem;
+
+            if (caminho != null && !caminho.isEmpty()) {
+                if (caminho.startsWith("file:")) {
+                    // Caminho absoluto local com prefixo
+                    imagem = new Image(caminho, 150, 150, true, true);
+                } else if (caminho.matches("^[a-zA-Z]:.*") || caminho.startsWith("/")) {
+                    // Caminho local absoluto sem prefixo
+                    imagem = new Image("file:" + caminho, 150, 150, true, true);
+                } else {
+                    // Caminho de recurso (classpath)
+                    imagem = new Image(getClass().getResourceAsStream(caminho), 150, 150, true, true);
                 }
-                
-            } catch (Exception e) {
-                System.err.println("Erro ao carregar foto de perfil: " + caminho);
+            } else {
+                // Fallback: imagem padrão
+                imagem = new Image(getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png"), 150, 150, true, true);
             }
+
+            imgPerfil.setImage(imagem);
+
+            // Atualiza o ícone do botão do menu, se o controller principal estiver disponível
+            if (telaMenuController != null) {
+                telaMenuController.atualizarFotoPerfilOrganizador(caminho);
+            }
+
+        } catch (Exception e) {
+            System.err.println("Erro ao carregar foto de perfil: " + caminho);
+            e.printStackTrace();
         }
     }
+
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
         carregarUsuario();  
+        carregarFotoPerfil();
     }
 
     // acesso ao TelaMenuController

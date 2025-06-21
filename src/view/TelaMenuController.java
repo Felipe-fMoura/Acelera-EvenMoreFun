@@ -23,6 +23,7 @@ import service.UsuarioService;
 import session.SessaoUsuario;
 import javafx.event.ActionEvent;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -232,8 +233,6 @@ public class TelaMenuController {
             Usuario usuarioLogado = SessaoUsuario.getUsuarioLogado();
 
             controller.setUsuario(usuarioLogado); // Assumindo que exista esse método para passar o usuário
-            // Carregar foto perfil, que deve ser public ou criar método público para isso
-            controller.carregarFotoPerfil();
 
             testeVbox.getChildren().clear();
             testeVbox.getChildren().add(subTelaPerfil);
@@ -288,7 +287,7 @@ public class TelaMenuController {
     	        Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
 
     	        stage.setScene(newScene);
-    	        stage.setTitle("Login");
+    	        stage.setTitle("EvenMoreFun");
     	        stage.show();
 
     	    } catch (IOException e) {
@@ -360,24 +359,42 @@ public class TelaMenuController {
     }
     
     public void atualizarFotoPerfilOrganizador(String caminhoFoto) {
-        try {
-            Image imagem;
-            if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
-                String caminhoUrl = "file:///" + caminhoFoto.replace("\\", "/");
-                imagem = new Image(caminhoUrl);
-            } else {
-                InputStream padrao = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
-                imagem = new Image(padrao);
-            }
+    try {
+        Image imagem;
 
-            ImageView novaImagem = new ImageView(imagem);
-            novaImagem.setFitWidth(30);
-            novaImagem.setFitHeight(30);
-            btnPerfil.setGraphic(novaImagem); // aqui força a atualização visível
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (caminhoFoto != null && !caminhoFoto.trim().isEmpty()) {
+            String caminhoUrl = new File(caminhoFoto).toURI().toString();
+            imagem = new Image(caminhoUrl);
+            
+            // Verifica erro de carregamento
+            if (imagem.isError()) {
+                throw new IOException("Erro ao carregar imagem personalizada.");
+            }
+        } else {
+            throw new IOException("Caminho da imagem vazio ou nulo.");
         }
+
+        // Atualiza os dois locais
+        ImageView miniatura = new ImageView(imagem);
+        miniatura.setFitWidth(30);
+        miniatura.setFitHeight(30);
+        btnPerfil.setGraphic(miniatura);
+
+        imgFotoPerfilMenu.setImage(imagem);
+
+    } catch (Exception e) {
+        // Carrega imagem padrão
+        InputStream padrao = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+        Image imagemPadrao = new Image(padrao);
+
+        ImageView miniatura = new ImageView(imagemPadrao);
+        miniatura.setFitWidth(30);
+        miniatura.setFitHeight(30);
+        btnPerfil.setGraphic(miniatura);
+
+        imgFotoPerfilMenu.setImage(imagemPadrao);
     }
+}
 
     public void fecharPerfil() {
         testeVbox.getChildren().clear(); // Remove a subTela do perfil

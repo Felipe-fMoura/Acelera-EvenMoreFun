@@ -19,6 +19,7 @@
 
 package service;
 
+import model.Comentario;
 import model.Evento;
 import model.Usuario;
 import java.time.LocalDate;
@@ -54,22 +55,26 @@ public class EventoService {
         Usuario org1 = new Usuario();
         org1.setId(1);
         org1.setNome("Eduardo Enari");
+        org1.setCpf("12345678900");
+        org1.setCaminhoFotoPerfil(getClass().getResource("/images/system/4792929.png").toExternalForm());
 
         Usuario org2 = new Usuario();
         org2.setId(2);
         org2.setNome("Prof. Feichas");
+        org2.setCpf("32145698700");
+        org2.setCaminhoFotoPerfil(getClass().getResource("/images/system/4792929.png").toExternalForm());
+     
         
-        // Usando o Builder (versão como inner class)
+        
         criarEvento(new Evento.Builder("Acelera Fatec", "Venha prestigiar!",
                     LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
                     org1, "Enari")
                 .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
                 .build());
         
-        // Usando o Builder (versão como inner class)
-        criarEvento(new Evento.Builder("WorkShop de JavaFx", "Venha prestigiar!",
+        criarEvento(new Evento.Builder("WorkShop de JavaFx", "Aprenda a criar interfaces incriveis!",
                     LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
-                    org1, "Feichas")
+                    org2, "Feichas")
                 .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
                 .build());
       
@@ -326,6 +331,23 @@ public class EventoService {
         return evento.curtirEvento(usuario);
     }
     
+    
+    public List<Comentario> getComentariosDoEvento(int eventoId) {
+        Evento evento = buscarEventoPorId(eventoId);
+        if (evento != null) {
+            return evento.getComentarios();
+        }
+        return new ArrayList<>();
+    }
+    
+    public void adicionarComentarioAoEvento(int eventoId, Comentario comentario) {
+        Evento evento = buscarEventoPorId(eventoId);
+        if (evento != null) {
+            evento.adicionarComentario(comentario);
+        }
+    }
+
+
 
     
 

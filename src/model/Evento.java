@@ -43,6 +43,10 @@ public class Evento {
 
 
     private boolean privado;
+    
+    
+    // Comentarios de eventos
+    private List<Comentario> comentarios = new ArrayList<>();
 
     // Controle de vídeo e acesso
     private String urlVideo;
@@ -324,6 +328,17 @@ public class Evento {
                 return evento;
             }
         }
+        
+        public List<Comentario> getComentarios() {
+            return comentarios;
+        }
+
+        public void adicionarComentario(Comentario comentario) {
+            comentarios.add(comentario);
+        }
+        
+        
+        
     }
     
     

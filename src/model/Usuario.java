@@ -54,7 +54,7 @@ public class Usuario {
         this.username = Objects.requireNonNull(username, "Username não pode ser nulo");
         this.email = Objects.requireNonNull(email, "Email não pode ser nulo");
         this.senha = Objects.requireNonNull(senha, "Senha não pode ser nula");
-        this.caminhoFotoPerfil = "/images/system/iconFotoPerfilDefault.png"; // Valor padrão
+        this.caminhoFotoPerfil = getClass().getResource("/images/system/iconFotoPerfilDefault.png").toExternalForm(); // Valor padrão
 
         
         
@@ -289,6 +289,11 @@ public class Usuario {
     }
 
     public void setCaminhoFotoPerfil(String caminhoFotoPerfil) {
-        this.caminhoFotoPerfil = caminhoFotoPerfil;
+        if (caminhoFotoPerfil == null || caminhoFotoPerfil.isBlank()) {
+            this.caminhoFotoPerfil = "/images/system/iconFotoPerfilDefault.png";
+        } else {
+            this.caminhoFotoPerfil = caminhoFotoPerfil;
+        }
     }
+
 }

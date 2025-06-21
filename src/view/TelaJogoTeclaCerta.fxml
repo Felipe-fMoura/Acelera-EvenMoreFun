@@ -1,11 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="view.TelaJogoTeclaCertaController">
-    <Text fx:id="txtLetra" layoutX="260" layoutY="200" styleClass="letra" />
-    <Text fx:id="txtPontuacao" layoutX="20" layoutY="40" styleClass="pontuacao" text="Pontos: 0" />
-    <Text fx:id="txtTempo" layoutX="500" layoutY="40" styleClass="tempo" text="Tempo: 30s" />
-    <Text fx:id="txtFeedback" layoutX="180" layoutY="300" styleClass="feedback" />
+<AnchorPane prefHeight="400" prefWidth="600" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1a1a1a);" styleClass="gradient-background" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaJogoTeclaCertaController">
+    
+    <Text fx:id="txtLetra" fill="#8a8888" layoutX="260" layoutY="200" styleClass="letra" text="A">
+        <font>
+            <Font name="Orbitron" size="72.0" />
+        </font>
+    </Text>
+
+    <Text fx:id="txtPontuacao" fill="WHITE" layoutX="20" layoutY="40" styleClass="pontuacao" text="Pontos: 0">
+        <font>
+            <Font name="Orbitron" size="18.0" />
+        </font>
+    </Text>
+
+    <Text fx:id="txtTempo" fill="WHITE" layoutX="480" layoutY="40" styleClass="tempo" text="Tempo: 30s">
+        <font>
+            <Font name="Orbitron" size="18.0" />
+        </font>
+    </Text>
+
+    <Text fx:id="txtFeedback" layoutX="150" layoutY="320" styleClass="feedback" text="">
+        <font>
+            <Font name="Orbitron" size="20.0" />
+        </font>
+    </Text>
+
 </AnchorPane>

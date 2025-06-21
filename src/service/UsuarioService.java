@@ -51,27 +51,29 @@ public class UsuarioService {
 	}
 
 	public Usuario iniciarCadastro(String nome, String sobrenome, String username, String email, String senha) {
-	    // Validações
-	    if (!validarEmail(email) || !validarSenha(senha)) {
-	        return null;
-	    }
+    // Validações
+    if (!validarEmail(email) || !validarSenha(senha)) {
+        return null;
+    }
 
-	    // Verifica email existente
-	    if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
-	        return null;
-	    }
+    // Verifica email existente
+    if (listaUsuarios.stream().anyMatch(u -> u.getEmail().equalsIgnoreCase(email))) {
+        return null;
+    }
 
-	    // Criptografa a senha
-	    String senhaHash = passwordEncryptor.encryptPassword(senha);
+    // Criptografa a senha
+    String senhaHash = passwordEncryptor.encryptPassword(senha);
 
-	    // Cria usuário, mas **NÃO adiciona à lista ainda**
-	    Usuario novo = new Usuario(nome, sobrenome, username, email, senhaHash);
+    // Cria usuário, mas NÃO adiciona à lista ainda
+    Usuario novo = new Usuario(nome, sobrenome, username, email, senhaHash);
 
-	    // ID só será atribuído na finalização do cadastro, para evitar buracos na numeração
-	    // novo.setId(proximoId++);
+    // Garante caminho da foto padrão caso não tenha sido setado
+    if (novo.getCaminhoFotoPerfil() == null || novo.getCaminhoFotoPerfil().isEmpty()) {
+        novo.setCaminhoFotoPerfil("/images/system/iconFotoPerfilDefault.png");
+    }
 
-	    return novo;
-	}
+    return novo;
+}
 
 
 	public boolean completarCadastro(Usuario usuario) {
@@ -104,7 +106,9 @@ public class UsuarioService {
 		String hash = passwordEncryptor.encryptPassword(usuario.getSenha());
 		usuario.setSenha(hash);
 		listaUsuarios.add(usuario);
-		usuario.setId(proximoId++);
+		if (usuario.getId() == 0) {
+		    usuario.setId(proximoId++);
+		}
 		return true;
 	}
 	
@@ -219,49 +223,81 @@ public class UsuarioService {
 	}
 
 	public void carregarUsuariosDeTeste() {
-		Usuario Tester = new Usuario();
-		Tester.setId(3);
-		Tester.setNome("Alefe");
-		Tester.setUsername("Tester");
-		Tester.setSenha("Teste@123");
-		Tester.setEmail("fmouraschool@gmail.com");
-		Tester.setTelefone("11982938888");
-		Tester.setCpf("321.456.777-00");
-		Tester.setDataNascimento(LocalDate.of(2002, 1, 15));
-		Tester.setGenero("Masculino");
-		this.cadastrar(Tester);
+		
+		Usuario Tester1 = new Usuario();
+		Tester1.setId(1);
+		Tester1.setNome("Eduardo Enari");
+		Tester1.setUsername("ProfEduEnari");
+		Tester1.setSenha("Teste@123");
+		Tester1.setEmail("eduenari@gmail.com");
+		Tester1.setTelefone("11982566881");
+		Tester1.setCpf("311.456.777-00");
+		Tester1.setDataNascimento(LocalDate.of(2002, 5, 15));
+		Tester1.setGenero("Masculino");
+		this.cadastrar(Tester1);
 		
 		Usuario Tester2 = new Usuario();
-		Tester2.setId(4);
-		Tester2.setNome("Thiago Motta");
-		Tester2.setUsername("Thiago_Motta");
+		Tester2.setId(2);
+		Tester2.setNome("Carlos Feichas");
+		Tester2.setUsername("ProfFeichas");
 		Tester2.setSenha("Teste@123");
-		Tester2.setEmail("thiago.oliveiramotta@gmail.com");
-		Tester2.setTelefone("11999998888");
-		Tester2.setCpf("123.456.777-00");
-		Tester2.setDataNascimento(LocalDate.of(1965, 1, 15));
-		Tester2.setGenero("Feminino");
+		Tester2.setEmail("feichas@gmail.com");
+		Tester2.setTelefone("11922933818");
+		Tester2.setCpf("121.436.777-00");
+		Tester2.setDataNascimento(LocalDate.of(1999, 2, 15));
+		Tester2.setGenero("Masculino");
 		this.cadastrar(Tester2);
 		
+		
 		Usuario Tester3 = new Usuario();
-		Tester3.setId(5);
-		Tester3.setNome("Caetano");
-		Tester3.setUsername("Caetano");
+		Tester3.setId(3);
+		Tester3.setNome("Alefe");
+		Tester3.setUsername("Tester");
 		Tester3.setSenha("Teste@123");
-		Tester3.setEmail("joazin1012123987@gmail.com");
-		Tester3.setTelefone("12996311271");
-		Tester3.setCpf("123.456.789-00");
-		Tester3.setDataNascimento(LocalDate.of(2002, 12, 17));
+		Tester3.setEmail("alefe@gmail.com");
+		Tester3.setTelefone("11982938888");
+		Tester3.setCpf("321.456.777-00");
+		Tester3.setDataNascimento(LocalDate.of(2002, 1, 15));
 		Tester3.setGenero("Masculino");
 		this.cadastrar(Tester3);
 		
 		Usuario Tester4 = new Usuario();
-		Tester4.setId(6);
-		Tester4.setNome("Incompleto");
-		Tester4.setUsername("OIncompleto");
+		Tester4.setId(4);
+		Tester4.setNome("Thiago Motta");
+		Tester4.setUsername("Thiago_Motta");
 		Tester4.setSenha("Teste@123");
-		Tester4.setEmail("felipe@gmail.com");
+		Tester4.setEmail("thiago.oliveiramotta@gmail.com");
+		Tester4.setTelefone("11999998888");
+		Tester4.setCpf("123.456.777-00");
+		Tester4.setDataNascimento(LocalDate.of(1965, 1, 15));
+		Tester4.setGenero("Feminino");
 		this.cadastrar(Tester4);
+		
+		Usuario Tester5 = new Usuario();
+		Tester5.setId(5);
+		Tester5.setNome("Caetano");
+		Tester5.setUsername("Caetano");
+		Tester5.setSenha("Teste@123");
+		Tester5.setEmail("joazin1012123987@gmail.com");
+		Tester5.setTelefone("12996311271");
+		Tester5.setCpf("123.456.789-00");
+		Tester5.setDataNascimento(LocalDate.of(2002, 12, 17));
+		Tester5.setGenero("Masculino");
+		this.cadastrar(Tester5);
+		
+		Usuario Tester6 = new Usuario();
+		Tester6.setId(6);
+		Tester6.setNome("Incompleto");
+		Tester6.setUsername("OIncompleto");
+		Tester6.setSenha("Teste@123");
+		Tester6.setEmail("felipe@gmail.com");
+		this.cadastrar(Tester6);
+		
+		int maiorId = listaUsuarios.stream()
+			    .mapToInt(Usuario::getId)
+			    .max()
+			    .orElse(0);
+			proximoId = maiorId + 1;
 		
 	}
 

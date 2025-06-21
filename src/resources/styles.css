@@ -396,3 +396,19 @@
     -fx-cursor: hand;
 }
 
+.comentar-btn {
+    -fx-background-color: #45C4B0;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 5, 0, 2, 2);
+    -fx-alignment: center;
+    -fx-text-fill: white;
+}
+
+.comentar-btn:hover {
+    -fx-background-color: #2F7A6F;
+}
+
+.gradient-background {
+    -fx-background-color: linear-gradient(to bottom, #00ffcc, #000000);
+}
+

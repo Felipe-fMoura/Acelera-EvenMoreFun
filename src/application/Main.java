@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 import com.sun.net.httpserver.HttpServer;
 import otp.ConfirmacaoHandler;
 import otp.PresencaHandler;
+import service.UsuarioService;
 
 import java.net.InetSocketAddress;
 import java.io.IOException;
@@ -16,12 +17,15 @@ import java.io.IOException;
 public class Main extends Application {
 
     private HttpServer server;
+    
+    
 
     @Override
     public void init() throws Exception {
         // Inicia o servidor HTTP na porta 8080 antes da UI aparecer
+    	UsuarioService.getInstance().carregarUsuariosDeTeste();
         try {
-            server = HttpServer.create(new InetSocketAddress(8080), 0);
+            server = HttpServer.create(new InetSocketAddress(8081), 0);
             server.createContext("/confirmar", new ConfirmacaoHandler());
             server.createContext("/presenca", new PresencaHandler());  // NOVO HANDLER
 

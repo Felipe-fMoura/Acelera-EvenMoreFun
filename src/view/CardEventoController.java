@@ -8,6 +8,9 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,8 +20,11 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Comentario;
 import model.Evento;
 import model.Notificacao;
 import model.Usuario;
@@ -32,6 +38,12 @@ import session.SessaoUsuario;
 import javafx.geometry.Bounds;
 
 public class CardEventoController {
+	
+	@FXML private VBox paneComentarios;
+	@FXML private VBox vboxComentarios;
+	@FXML private ScrollPane scrollComentarios;
+	@FXML private TextField txtNovoComentario;	
+	@FXML private Button btnEnviarComentario;
     @FXML private Text txtTituloEvento;
     @FXML private Text txtDescricaoEvento;
     @FXML private Text txtNomeOrganizador;
@@ -47,100 +59,103 @@ public class CardEventoController {
     @FXML private Button btnGaleria;
     @FXML private Button btnNotificacao;
     @FXML private Button btnCurtir;
-    @FXML
-    private ImageView imgPerfilOrganizador;
-    @FXML
-    private Text txtUserNameOrganizador;
+    @FXML private ImageView imgPerfilOrganizador;
+    @FXML private Text txtUserNameOrganizador;
     
     private Evento evento;
     private Usuario usuarioLogado;
     private EventoService eventoService = EventoService.getInstance();
     private boolean jaCurtiu = false;
+    UsuarioService usuarioService = UsuarioService.getInstance();
 
     public void setEvento(Evento evento, Usuario usuarioLogado) {
-        this.evento = evento;
-        this.usuarioLogado = SessaoUsuario.getInstance().getUsuario();
-        inicializarCurtida();
-        
-        Usuario organizador = evento.getOrganizador();
-        if (organizador != null) {
-            String urlFoto = organizador.getCaminhoFotoPerfil(); // Ajuste conforme seu modelo
-            
-            if (urlFoto != null && !urlFoto.isEmpty()) {
-                try {
-                    String caminhoFinal;
-                    if (urlFoto.startsWith("http") || urlFoto.startsWith("file:")) {
-                        caminhoFinal = urlFoto;
-                    } else {
-                        caminhoFinal = "file:///" + urlFoto.replace("\\", "/");
-                    }
+    this.evento = evento;
+    this.usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+    inicializarCurtida();
 
-                    imgPerfilOrganizador.setImage(new Image(caminhoFinal));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
-                    if (defaultImgStream != null) {
-                        imgPerfilOrganizador.setImage(new Image(defaultImgStream));
-                    }
+    Usuario organizador = evento.getOrganizador();
+    if (organizador != null) {
+        Image imagemOrganizador;
+
+        try {
+            String urlFoto = organizador.getCaminhoFotoPerfil();
+
+            if (urlFoto != null && !urlFoto.trim().isEmpty()) {
+                String caminhoFinal;
+                if (urlFoto.startsWith("http") || urlFoto.startsWith("file:")) {
+                    caminhoFinal = urlFoto;
+                } else {
+                    caminhoFinal = "file:///" + urlFoto.replace("\\", "/");
                 }
-            }
 
-
-            // Setar o username no txtNomeOrganizador (se for diferente do nome)
-            txtNomeOrganizador.setText(organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome());
-        }
-        
-
-        txtTituloEvento.setText(evento.getTitulo());
-        txtDescricaoEvento.setText(evento.getDescricao());
-        txtNomeOrganizador.setText(evento.getOrganizador().getNome());
-        txtDataEvento.setText(evento.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
-        lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
-        lblLocal.setText(evento.getLocal());
-        lblPalestrante.setText(evento.getPalestrante());
-
-        if (evento.getImagem() != null && !evento.getImagem().isEmpty()) {
-            try {
-                imgEvento.setImage(new Image(evento.getImagem()));
-            } catch (Exception e) {
-                // fallback para imagem padrão se ocorrer erro
-                InputStream defaultImgStream = getClass().getResourceAsStream("/images/default-event.jpg");
-                if (defaultImgStream != null) {
-                    imgEvento.setImage(new Image(defaultImgStream));
+                imagemOrganizador = new Image(caminhoFinal);
+                
+                // Verifica se houve erro ao carregar
+                if (imagemOrganizador.isError()) {
+                    throw new IOException("Erro ao carregar imagem personalizada.");
                 }
+            } else {
+                throw new IOException("Caminho da imagem está vazio ou nulo.");
             }
-        }
-        
-        
-
-        boolean isOrganizador = evento.getOrganizador() != null && usuarioLogado != null &&
-                                evento.getOrganizador().getId() == usuarioLogado.getId();
-
-        btnLista.setVisible(isOrganizador);
-        btnLista.setManaged(isOrganizador);
-
-        btnEditar.setVisible(isOrganizador);
-        btnEditar.setManaged(isOrganizador);
-        
-        btnNotificacao.setVisible(isOrganizador);
-        btnNotificacao.setManaged(isOrganizador);
-        
-     // Oculta o botão "Entrar" se o evento for presencial
-        if (btnEntrar != null && evento.getTipo() != null) {
-            boolean isOnline = !evento.getTipo().equalsIgnoreCase("Presencial");
-            btnEntrar.setVisible(isOnline);
-            btnEntrar.setManaged(isOnline); // também remove o espaço do layout
-        }
-        
-        if (telaMenuController != null) {
-            String caminhoFoto = evento.getOrganizador().getCaminhoFotoPerfil();
-            telaMenuController.atualizarFotoPerfilOrganizador(caminhoFoto);
+        } catch (Exception e) {
+            // Carrega imagem padrão caso ocorra erro ou não haja imagem definida
+            InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+            imagemOrganizador = new Image(defaultImgStream);
         }
 
+        imgPerfilOrganizador.setImage(imagemOrganizador);
 
-        atualizarEstadoParticipacao();
-   
+        // Define nome de usuário (ou nome comum como fallback)
+        txtNomeOrganizador.setText(
+            organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome()
+        );
     }
+
+    txtTituloEvento.setText(evento.getTitulo());
+    txtDescricaoEvento.setText(evento.getDescricao());
+    txtDataEvento.setText(evento.getData().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm")));
+    lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
+    lblLocal.setText(evento.getLocal());
+    lblPalestrante.setText(evento.getPalestrante());
+
+    if (evento.getImagem() != null && !evento.getImagem().isEmpty()) {
+        try {
+            imgEvento.setImage(new Image(evento.getImagem()));
+        } catch (Exception e) {
+            InputStream defaultImgStream = getClass().getResourceAsStream("/images/default-event.jpg");
+            if (defaultImgStream != null) {
+                imgEvento.setImage(new Image(defaultImgStream));
+            }
+        }
+    }
+
+    boolean isOrganizador = evento.getOrganizador() != null &&
+                            usuarioLogado != null &&
+                            evento.getOrganizador().getId() == usuarioLogado.getId();
+
+    btnLista.setVisible(isOrganizador);
+    btnLista.setManaged(isOrganizador);
+
+    btnEditar.setVisible(isOrganizador);
+    btnEditar.setManaged(isOrganizador);
+
+    btnNotificacao.setVisible(isOrganizador);
+    btnNotificacao.setManaged(isOrganizador);
+
+    if (btnEntrar != null && evento.getTipo() != null) {
+        boolean isOnline = !evento.getTipo().equalsIgnoreCase("Presencial");
+        btnEntrar.setVisible(isOnline);
+        btnEntrar.setManaged(isOnline);
+    }
+
+    if (telaMenuController != null) {
+        String caminhoFoto = evento.getOrganizador().getCaminhoFotoPerfil();
+        telaMenuController.atualizarFotoPerfilOrganizador(caminhoFoto);
+    }
+
+    atualizarEstadoParticipacao();
+    recarregarComentarios();
+}
 
     @FXML
     private void handleParticipar() {
@@ -596,5 +611,128 @@ public class CardEventoController {
         }
         atualizarBotaoCurtir();
     }
+    
+    
+     // Sessão de comentarios por evento
+    private List<ComentarioComUsuario> comentarios = new ArrayList<>();
+
+    @FXML
+    private void carregarComentarios() {
+        vboxComentarios.getChildren().clear();
+        
+        for (ComentarioComUsuario comentario : comentarios) {
+            // Container principal do comentário
+            HBox comentarioContainer = new HBox(10);
+            comentarioContainer.setStyle("-fx-background-color: #e1e1e1; -fx-padding: 8; -fx-background-radius: 5;");
+            
+            // Foto do usuário
+            ImageView fotoUsuario = new ImageView();
+            fotoUsuario.setFitHeight(40);
+            fotoUsuario.setFitWidth(40);
+            fotoUsuario.setPreserveRatio(true);
+            
+            try {
+                String caminhoFoto = comentario.fotoUsuario;
+                if (caminhoFoto != null && !caminhoFoto.isEmpty()) {
+                    if (caminhoFoto.startsWith("http") || caminhoFoto.startsWith("file:")) {
+                        fotoUsuario.setImage(new Image(caminhoFoto));
+                    } else {
+                        fotoUsuario.setImage(new Image("file:" + caminhoFoto));
+                    }
+                } else {
+                    // Foto padrão se não tiver
+                    InputStream defaultImgStream = getClass().getResourceAsStream("/images/system/iconFotoPerfilDefault.png");
+                    if (defaultImgStream != null) {
+                        fotoUsuario.setImage(new Image(defaultImgStream));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            
+            // Container do texto do comentário
+            VBox textoContainer = new VBox(5);
+            
+            // Nome do usuário
+            Label nomeLabel = new Label(comentario.nomeUsuario);
+            nomeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px;");
+            
+            // Texto do comentário
+            Label comentarioLabel = new Label(comentario.texto);
+            comentarioLabel.setWrapText(true);
+            comentarioLabel.setStyle("-fx-font-size: 14px;");
+            
+            textoContainer.getChildren().addAll(nomeLabel, comentarioLabel);
+            comentarioContainer.getChildren().addAll(fotoUsuario, textoContainer);
+            
+            vboxComentarios.getChildren().add(comentarioContainer);
+        }
+        
+        // Scroll para o fim para ver o comentário mais recente
+        scrollComentarios.layout();
+        scrollComentarios.setVvalue(1.0);
+    }
+       
+    @FXML
+    private void handleEnviarComentario() {
+        String texto = txtNovoComentario.getText().trim();
+        if (!texto.isEmpty()) {
+            Usuario usuario = SessaoUsuario.getInstance().getUsuario();
+            if (usuario != null) {
+                Comentario novo = new Comentario(texto, usuario.getId());
+                eventoService.adicionarComentarioAoEvento(evento.getId(), novo);
+                
+                // Atualiza a lista de comentários na interface corretamente
+                recarregarComentarios();
+                // Limpa o campo
+                txtNovoComentario.clear();
+
+                // Registrar notificação
+                Notificacao notificacao = new Notificacao(
+                    "Você comentou no evento '" + evento.getTitulo() + "'",
+                    LocalDateTime.now(),
+                    false,
+                    Notificacao.Tipo.HISTORICO,
+                    "Sistema"
+                );
+                NotificacaoService.getInstance().registrarNotificacao(usuario.getId(), notificacao);
+            } else {
+                mostrarAlerta("Você precisa estar logado para comentar.");
+            }
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING, "O comentário não pode ser vazio.", ButtonType.OK);
+            alert.showAndWait();
+        }
+    }
+
+    private static class ComentarioComUsuario {
+        String texto;
+        String nomeUsuario;
+        String fotoUsuario;
+        
+        public ComentarioComUsuario(String texto, Usuario usuario) {
+            this.texto = texto;
+            this.nomeUsuario = usuario.getUsername() != null ? usuario.getUsername() : usuario.getNome();
+            this.fotoUsuario = usuario.getCaminhoFotoPerfil();
+        }
+    }
+
+    public void recarregarComentarios() {
+        // Limpa os comentários atuais
+        comentarios.clear();
+        
+       
+        List<Comentario> comentariosDoBanco = eventoService.getComentariosDoEvento(evento.getId());
+        for (Comentario c : comentariosDoBanco) {
+            Usuario autor = usuarioService.buscarPorId(c.getUsuarioId());
+            comentarios.add(new ComentarioComUsuario(c.getTexto(), autor));
+        }
+        
+        
+        // Atualiza a interface
+        carregarComentarios();
+    }
+    
+    
 
 }
