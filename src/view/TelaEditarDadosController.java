@@ -3,11 +3,14 @@ package view;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import model.Notificacao;
 import model.Usuario;
+import service.NotificacaoService;
 import service.UsuarioService;
 import session.SessaoUsuario;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TelaEditarDadosController {
 	
@@ -84,6 +87,16 @@ public class TelaEditarDadosController {
         if (sucesso) {
             SessaoUsuario.getInstance().setUsuario(usuarioLogado);
             mostrarAlerta("Sucesso", "Dados atualizados com sucesso!", Alert.AlertType.INFORMATION);
+            
+            Notificacao notificacao = new Notificacao(
+        		    "Você editou seus dados ",
+        		    LocalDateTime.now(),
+        		    false,
+        		    Notificacao.Tipo.HISTORICO,
+        		    "Sistema"
+        		);
+        		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
 
             // Fecha a janela
             Stage stage = (Stage) btnSalvar.getScene().getWindow();

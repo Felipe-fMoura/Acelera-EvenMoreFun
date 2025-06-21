@@ -5,8 +5,10 @@ import javafx.scene.control.*;
 import javafx.stage.FileChooser;
 import javafx.util.converter.IntegerStringConverter;
 import model.Evento;
+import model.Notificacao;
 import model.Usuario;
 import service.EventoService;
+import service.NotificacaoService;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -127,6 +129,17 @@ public class TelaEditarEventoController {
             evento.setTipo(cbTipo.getValue());
 
             eventoService.atualizarEvento(evento);
+            
+            Notificacao notificacao = new Notificacao(
+        		    "Você editou o evento '" + evento.getTitulo() + "'",
+        		    LocalDateTime.now(),
+        		    false,
+        		    Notificacao.Tipo.HISTORICO,
+        		    "Sistema"
+        		);
+        		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+            
 
             txtTitulo.getScene().getWindow().hide();
 
@@ -149,6 +162,16 @@ public class TelaEditarEventoController {
 
         confirmacao.showAndWait().ifPresent(resposta -> {
             if (resposta == ButtonType.OK) {
+            	
+            	Notificacao notificacao = new Notificacao(
+            		    "Você excluiu o evento '" + evento.getTitulo() + "'",
+            		    LocalDateTime.now(),
+            		    false,
+            		    Notificacao.Tipo.HISTORICO,
+            		    "Sistema"
+            		);
+            		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
             	eventoService.removerEvento(evento.getId());
                 txtTitulo.getScene().getWindow().hide(); // Fecha a janela
             }

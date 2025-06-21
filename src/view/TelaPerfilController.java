@@ -23,6 +23,7 @@ import service.UsuarioService;
 import session.SessaoUsuario;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
@@ -183,6 +184,18 @@ public class TelaPerfilController {
             SessaoUsuario.getInstance().setUsuario(usuarioLogado); // <- ATUALIZA NA SESSÃO
             carregarFotoPerfil(); // Atualiza visual
         }
+        
+        Notificacao notificacao = new Notificacao(
+        	    "Você alterou a foto de perfil",
+        	    LocalDateTime.now(),
+        	    false,
+        	    Notificacao.Tipo.HISTORICO,
+        	    "Sistema"
+        	);
+        	NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+        
+        
     }
 
     public void carregarFotoPerfil() {

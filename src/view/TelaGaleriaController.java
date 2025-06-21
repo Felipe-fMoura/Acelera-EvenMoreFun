@@ -12,11 +12,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.layout.FlowPane;
 import model.Evento;
+import model.Notificacao;
 import model.Usuario;
+import service.NotificacaoService;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class TelaGaleriaController {
@@ -84,6 +87,16 @@ public class TelaGaleriaController {
 
              btnCurtir.setOnAction(e -> {
                  Set<Integer> usuariosQueCurtiram = curtidasUsuarioImagem.computeIfAbsent(caminho, k -> new HashSet<>());
+                 
+                 Notificacao notificacao = new Notificacao(
+             		    "Você curtiu uma foto do evento: '" + evento.getTitulo() + "'",
+             		    LocalDateTime.now(),
+             		    false,
+             		    Notificacao.Tipo.HISTORICO,
+             		    "Sistema"
+             		);
+             		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
 
                  if (usuariosQueCurtiram.contains(usuarioLogado.getId())) {
                      usuariosQueCurtiram.remove(usuarioLogado.getId());
@@ -153,6 +166,17 @@ public class TelaGaleriaController {
                      try {
                          Files.copy(Paths.get(caminho), destino.toPath(), StandardCopyOption.REPLACE_EXISTING);
                          mostrarMensagem("Imagem salva com sucesso!");
+                         
+                         Notificacao notificacao = new Notificacao(
+                     		    "Você baixou uma foto do evento '" + evento.getTitulo() + "'",
+                     		    LocalDateTime.now(),
+                     		    false,
+                     		    Notificacao.Tipo.HISTORICO,
+                     		    "Sistema"
+                     		);
+                     		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+                         
                      } catch (IOException ex) {
                          ex.printStackTrace();
                          mostrarErro("Erro ao salvar imagem.");

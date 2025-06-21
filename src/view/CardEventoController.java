@@ -206,6 +206,20 @@ public class CardEventoController {
 
     @FXML
     private void handleCompartilhar(ActionEvent event) {
+    	
+    	
+    	Notificacao notificacao = new Notificacao(
+    		    "Você compartilhou o evento '" + evento.getTitulo() + "'",
+    		    LocalDateTime.now(),
+    		    false,
+    		    Notificacao.Tipo.HISTORICO,
+    		    "Sistema"
+    		);
+    		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+    	
+    	
+    	
         ContextMenu menu = new ContextMenu();
 
         MenuItem facebook = new MenuItem("", carregarIcone("/resources/face.png"));
@@ -222,6 +236,9 @@ public class CardEventoController {
         
         Bounds boundsInScreen = btnCompartilhar1.localToScreen(btnCompartilhar1.getBoundsInLocal());
         menu.show(btnCompartilhar1, boundsInScreen.getMinX(), boundsInScreen.getMaxY());
+        
+        
+        
     }
 
     private void compartilharFacebook() {
@@ -521,17 +538,40 @@ public class CardEventoController {
             return;
         }
 
+        
+        
         boolean sucesso;
         if (jaCurtiu) {
             // Tenta remover a curtida
             sucesso = evento.descurtirEvento(usuarioLogado);
             if (sucesso) {
                 jaCurtiu = false;
+                Notificacao notificacao = new Notificacao(
+            		    "Você descurtiu o evento '" + evento.getTitulo() + "'",
+            		    LocalDateTime.now(),
+            		    false,
+            		    Notificacao.Tipo.HISTORICO,
+            		    "Sistema"
+            		);
+            		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+                
             }
         } else {
             // Tenta curtir o evento
             sucesso = evento.curtirEvento(usuarioLogado);
             if (sucesso) {
+            	
+            	Notificacao notificacao = new Notificacao(
+            		    "Você curtiu o evento '" + evento.getTitulo() + "'",
+            		    LocalDateTime.now(),
+            		    false,
+            		    Notificacao.Tipo.HISTORICO,
+            		    "Sistema"
+            		);
+            		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+            	
                 jaCurtiu = true;
             }
         }

@@ -16,11 +16,14 @@ import javafx.util.Duration;
 
 import model.Usuario;
 import model.Evento;
+import model.Notificacao;
 import session.SessaoUsuario;
 import service.ChatService;
+import service.NotificacaoService;
 import service.ChatService.MensagemChat;
 
 import java.io.File;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class TelaEventoAoVivoController {
@@ -41,6 +44,7 @@ public class TelaEventoAoVivoController {
     private Usuario usuario;
     private WebEngine webEngine;
     private Timeline chatRefresh;
+    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
 
     private Set<String> handAckRecebidos = new HashSet<>();
     private Map<String, Boolean> aguardandoRespostaMap = new HashMap<>();
@@ -76,6 +80,16 @@ public class TelaEventoAoVivoController {
                 handAckRecebidos.add(nomeAck);
             }
             adicionarMensagemNaInterface(msg);
+            
+            Notificacao notificacao = new Notificacao(
+        		    "Você comentou '" + msg + "no evento" + evento.getTitulo() + "'",
+        		    LocalDateTime.now(),
+        		    false,
+        		    Notificacao.Tipo.HISTORICO,
+        		    "Sistema"
+        		);
+        		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
         }
 
         if (evento.getUrlVideo() != null && !evento.getUrlVideo().isEmpty()) {

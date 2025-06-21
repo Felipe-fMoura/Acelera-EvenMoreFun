@@ -1,6 +1,7 @@
 package view;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,9 +14,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import model.Notificacao;
 import model.Usuario;
+import service.NotificacaoService;
 import service.Redimensionamento;
 import service.UsuarioService;
+import session.SessaoUsuario;
 
 public class TelaRedefinirSenhaController {
 
@@ -26,6 +30,8 @@ public class TelaRedefinirSenhaController {
     private PasswordField repetirSenhaField;
     
     private final UsuarioService usuarioService = UsuarioService.getInstance();
+    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
     
     @FXML 
     private ImageView backgroundImage;
@@ -71,6 +77,17 @@ public class TelaRedefinirSenhaController {
         boolean sucesso = usuarioService.atualizarSenha(usuario.getEmail(), novaSenha);
         if (sucesso) {
             new Alert(Alert.AlertType.INFORMATION, "Senha atualizada com sucesso!").show();
+            
+            Notificacao notificacao = new Notificacao(
+        		    "Você redefiniu sua senha",
+        		    LocalDateTime.now(),
+        		    false,
+        		    Notificacao.Tipo.HISTORICO,
+        		    "Sistema"
+        		);
+        		NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+
+            
 
             // Limpa usuário temporário
             usuarioService.setUsuarioTemporario(null);
