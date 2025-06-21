@@ -30,7 +30,7 @@ public class ConfirmacaoHandler implements HttpHandler {
         String resposta;
 
         if (email != null) {
-            resposta = "E-mail " + email + " confirmado com sucesso!";
+            resposta = "O e-mail" + email + "foi verificado. Agora você já pode acessar sua conta normalmente.";
         } else {
             resposta = "Token inválido ou já utilizado.";
         }
