@@ -62,6 +62,18 @@
                <Cursor fx:constant="HAND" />
             </cursor>
          </Button>
+         <Button fx:id="btnJogo" onAction="#handleBtnJogo" style="-fx-background-color: transparent;">
+            <graphic>
+               <ImageView fitHeight="32.0" fitWidth="30.0" onDragDetected="#handleBtnJogo" preserveRatio="true">
+                  <image>
+                     <Image url="@../images/system/iconBtnJogos.png" />
+                  </image>
+               </ImageView>
+            </graphic>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
             
             <Region HBox.hgrow="ALWAYS" />
             

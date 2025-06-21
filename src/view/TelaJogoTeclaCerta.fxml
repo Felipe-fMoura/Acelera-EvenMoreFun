@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="400" prefWidth="600" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="view.TelaJogoTeclaCertaController">
+    <Text fx:id="txtLetra" layoutX="260" layoutY="200" styleClass="letra" />
+    <Text fx:id="txtPontuacao" layoutX="20" layoutY="40" styleClass="pontuacao" text="Pontos: 0" />
+    <Text fx:id="txtTempo" layoutX="500" layoutY="40" styleClass="tempo" text="Tempo: 30s" />
+    <Text fx:id="txtFeedback" layoutX="180" layoutY="300" styleClass="feedback" />
+</AnchorPane>

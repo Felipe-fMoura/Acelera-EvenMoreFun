@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="view.TelaJogoPontinhoController">
+    <Text fx:id="scoreText" layoutX="20.0" layoutY="30.0" styleClass="score-label" text="Pontos: 0" />
+    <Button fx:id="startBtn" layoutX="250.0" layoutY="180.0" onAction="#startGame" styleClass="start-button" text="Iniciar Jogo" />
+</AnchorPane>

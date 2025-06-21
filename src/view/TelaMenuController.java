@@ -75,6 +75,10 @@ public class TelaMenuController {
     private Button btnEasterEgg;
     
     @FXML
+    private Button btnJogo;
+    
+    
+    @FXML
     public void initialize() {
     	
     	 btnEasterEgg.setOnAction(event -> {
@@ -379,6 +383,24 @@ public class TelaMenuController {
         testeVbox.getChildren().clear(); // Remove a subTela do perfil
     }
     
+    @FXML
+    private void handleBtnJogo(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCentralJogos.fxml"));
+            Parent root = loader.load();
+
+            Scene scene = new Scene(root);
+            Stage stage = new Stage(); 
+            stage.setTitle("Central de Jogos");
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            mostrarAlerta("Erro ao carregar a central de jogos");
+        }
+    }
+
 
     
     
