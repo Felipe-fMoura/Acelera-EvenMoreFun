@@ -7,7 +7,6 @@ package otp;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import otp.EmailTokenStore;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -22,10 +21,29 @@ public class ConfirmacaoHandler implements HttpHandler {
      */
     @Override
     public void handle(HttpExchange exchange) throws IOException {
+    	
+    	// Verifica o método HTTP
+        if (!"GET".equalsIgnoreCase(exchange.getRequestMethod())) {
+            exchange.sendResponseHeaders(405, -1); // 405 Method Not Allowed
+            return;
+        }
+        
+        // Obtém o token da query string
         String query = exchange.getRequestURI().getQuery();
+        if (query == null || !query.contains("token=")) {
+            String erro = "Parâmetro 'token' ausente na URL.";
+            byte[] erroBytes = erro.getBytes(StandardCharsets.UTF_8);
+            exchange.sendResponseHeaders(400, erroBytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(erroBytes);
+            }
+            return;
+        }
+        
         String token = query.split("=")[1];
         token = URLDecoder.decode(token, StandardCharsets.UTF_8);
 
+        // Consome o token
         String email = EmailTokenStore.consumeToken(token);
         String resposta;
 
@@ -35,9 +53,12 @@ public class ConfirmacaoHandler implements HttpHandler {
             resposta = "Token inválido ou já utilizado.";
         }
 
-        exchange.sendResponseHeaders(200, resposta.length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(resposta.getBytes());
-        os.close();
+     // Volta resposta
+        byte[] respostaBytes = resposta.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+        exchange.sendResponseHeaders(200, respostaBytes.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(respostaBytes);
+        }
     }
 }
