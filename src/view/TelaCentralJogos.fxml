@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="368.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1a1a1a);" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCentralJogosController">
+<AnchorPane prefHeight="368.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1a1a1a);" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaCentralJogosController">
    
    <children>
       <Text layoutX="179.0" layoutY="52.0" style="-fx-fill: #00ffcc;" text="🎮 Central de Jogos 🎮">

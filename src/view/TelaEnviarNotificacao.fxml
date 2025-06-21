@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="500.0" spacing="15.0" style="-fx-padding: 20; -fx-background-color: #f0f2f5;" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaEnviarNotificacaoController">
+<VBox alignment="TOP_CENTER" prefHeight="350.0" prefWidth="500.0" spacing="15.0" style="-fx-padding: 20; -fx-background-color: #f0f2f5;" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaEnviarNotificacaoController">
     
     <!-- Título -->
     <HBox alignment="CENTER_LEFT" spacing="10">

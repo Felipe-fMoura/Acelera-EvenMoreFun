@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaCadastro" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCadastroController">
+<StackPane fx:id="telaCadastro" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaCadastroController">
            
    <children>
      <!-- oque centraliza o anchorpane é o Stackpane.all -->  

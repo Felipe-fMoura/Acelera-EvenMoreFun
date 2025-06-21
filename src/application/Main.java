@@ -23,7 +23,7 @@ public class Main extends Application {
 		// Inicia o servidor HTTP na porta 8080 antes da UI aparecer
 		UsuarioService.getInstance().carregarUsuariosDeTeste();
 		try {
-			server = HttpServer.create(new InetSocketAddress(8081), 0);
+			server = HttpServer.create(new InetSocketAddress(8080), 0);
 			server.createContext("/confirmar", new ConfirmacaoHandler());
 			server.createContext("/presenca", new PresencaHandler()); // NOVO HANDLER
 

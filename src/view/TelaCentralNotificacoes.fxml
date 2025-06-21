@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0" style="-fx-padding: 20; -fx-background-color: #f0f2f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaCentralNotificacoesController">
+<VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="600.0" spacing="10.0" style="-fx-padding: 20; -fx-background-color: #f0f2f5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaCentralNotificacoesController">
 
     <!-- Cabeçalho -->
     <HBox alignment="CENTER_LEFT" spacing="10">

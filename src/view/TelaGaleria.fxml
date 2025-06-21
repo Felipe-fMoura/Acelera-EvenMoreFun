@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 
-<BorderPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: #f7f3fc;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="view.TelaGaleriaController">
+<BorderPane prefHeight="650.0" prefWidth="900.0" style="-fx-background-color: #f7f3fc;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.TelaGaleriaController">
 
     <!-- Cabeçalho -->
     <top>

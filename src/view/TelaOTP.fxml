@@ -13,7 +13,7 @@
 <StackPane fx:id="telaOTP" stylesheets="@../resources/css/styles.css" 
            xmlns="http://javafx.com/javafx/23.0.1" 
            xmlns:fx="http://javafx.com/fxml/1" 
-           fx:controller="view.TelaOTPController">
+           fx:controller="controllers.TelaOTPController">
    <children>
           
             <ImageView fx:id="backgroundImage" preserveRatio="false">

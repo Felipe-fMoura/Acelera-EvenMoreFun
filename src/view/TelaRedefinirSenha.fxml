@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="telaRedefinirSenha" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaRedefinirSenhaController">
+<StackPane fx:id="telaRedefinirSenha" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaRedefinirSenhaController">
    <children>
         
             <ImageView fx:id="backgroundImage" preserveRatio="false">

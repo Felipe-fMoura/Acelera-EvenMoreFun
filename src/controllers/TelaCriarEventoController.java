@@ -1,4 +1,4 @@
-package view;
+package controllers;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -6,7 +6,6 @@ import java.util.function.UnaryOperator;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -19,8 +18,9 @@ import model.Notificacao;
 import model.Usuario;
 import service.EventoService;
 import service.NotificacaoService;
+import session.SessaoUsuario;
 
-public class TelaEditarEventoController {
+public class TelaCriarEventoController {
 	@FXML
 	private TextField txtTitulo;
 	@FXML
@@ -40,50 +40,26 @@ public class TelaEditarEventoController {
 	@FXML
 	private TextField txtPalestrante;
 	@FXML
-	private ComboBox<String> cbTipo;
+	private ComboBox<String> cbTipoEvento;
 
 	private Usuario usuarioLogado;
 	private EventoService eventoService = EventoService.getInstance();
-	private Evento evento;
 
 	public void setUsuarioLogado(Usuario usuario) {
 		this.usuarioLogado = usuario;
 	}
 
-	public void setEvento(Evento evento) {
-		this.evento = evento;
-		if (evento != null) {
-			preencherCamposComEvento(evento);
-		}
-	}
-
-	private void preencherCamposComEvento(Evento evento) {
-		txtTitulo.setText(evento.getTitulo());
-		txtDescricao.setText(evento.getDescricao());
-		dateData.setValue(evento.getData().toLocalDate());
-		// Formata o horário para HH:mm, sem os segundos que LocalTime.toString()
-		// retorna
-		String horaFormatada = evento.getData().toLocalTime().toString();
-		if (horaFormatada.length() > 5) {
-			horaFormatada = horaFormatada.substring(0, 5);
-		}
-		txtHora.setText(horaFormatada);
-		txtLocal.setText(evento.getLocal());
-		txtImagem.setText(evento.getImagem());
-		cbCategoria.setValue(evento.getCategoria());
-		checkPrivado.setSelected(evento.isPrivado());
-		txtPalestrante.setText(evento.getPalestrante());
-		cbTipo.setValue(evento.getTipo());
-	}
-
 	@FXML
 	private void initialize() {
 		cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
-		cbTipo.getItems().addAll("Presencial", "Online");
-		// TextFormatter para aceitar apenas números e até 4 dígitos no txtHora
+
+		cbTipoEvento.getItems().addAll("Presencial", "Online", "Híbrido");
+		cbTipoEvento.setValue("Presencial");
+
+		// TextFormatter para aceitar apenas números e até 4 dígitos
 		UnaryOperator<TextFormatter.Change> filter = change -> {
 			String text = change.getControlNewText();
-			if (text.matches("\\d{0,4}")) {
+			if (text.matches("\\d{0,4}")) { // aceita 0 a 4 dígitos
 				return change;
 			}
 			return null;
@@ -91,8 +67,9 @@ public class TelaEditarEventoController {
 		TextFormatter<String> textFormatter = new TextFormatter<>(filter);
 		txtHora.setTextFormatter(textFormatter);
 
-		// Listener para formatar com ":" enquanto digita no txtHora
+		// Listener para formatar com ":" enquanto digita
 		txtHora.textProperty().addListener((obs, oldText, newText) -> {
+			// Remove ":" para não atrapalhar a formatação
 			String digits = newText.replaceAll(":", "");
 
 			if (digits.length() > 4) {
@@ -112,16 +89,7 @@ public class TelaEditarEventoController {
 	}
 
 	@FXML
-	private void handleEditarEvento() {
-		if (evento == null) {
-			Alert alert = new Alert(Alert.AlertType.ERROR);
-			alert.setTitle("Erro");
-			alert.setHeaderText("Evento não carregado");
-			alert.setContentText("Não foi possível editar o evento porque ele não foi carregado corretamente.");
-			alert.showAndWait();
-			return;
-		}
-
+	private void handleCriarEvento() {
 		try {
 			String horaTexto = txtHora.getText().trim();
 
@@ -135,21 +103,20 @@ public class TelaEditarEventoController {
 			java.time.LocalTime hora = java.time.LocalTime.parse(horaTexto);
 			LocalDateTime dataHora = LocalDateTime.of(dateData.getValue(), hora);
 
-			evento.setTitulo(txtTitulo.getText());
-			evento.setDescricao(txtDescricao.getText());
-			evento.setData(dataHora);
-			evento.setLocal(txtLocal.getText());
-			evento.setImagem(txtImagem.getText());
+			Evento evento = new Evento(txtTitulo.getText(), txtDescricao.getText(), dataHora, txtLocal.getText(),
+					usuarioLogado, txtPalestrante.getText());
+
+			evento.setOrganizador(usuarioLogado);
 			evento.setCategoria(cbCategoria.getValue());
 			evento.setPrivado(checkPrivado.isSelected());
-			evento.setPalestrante(txtPalestrante.getText());
-			evento.setTipo(cbTipo.getValue());
+			evento.setImagem(txtImagem.getText());
+			evento.setTipo(cbTipoEvento.getValue());
 
-			eventoService.atualizarEvento(evento);
+			eventoService.criarEvento(evento);
+			usuarioLogado.organizarEvento(evento);
 
-			Notificacao notificacao = new Notificacao("Você editou o evento '" + evento.getTitulo() + "'",
-					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
-			NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+			// Adiciona o organizador como participante com permissão "organizador"
+			eventoService.adicionarParticipanteComPermissao(evento.getId(), usuarioLogado.getId(), "organizador");
 
 			txtTitulo.getScene().getWindow().hide();
 
@@ -160,30 +127,13 @@ public class TelaEditarEventoController {
 			alert.setContentText("Por favor, digite a hora no formato HHmm (ex: 1000) ou HH:mm (ex: 10:00).");
 			alert.showAndWait();
 		}
-	}
 
-	@FXML
-	private void handleExcluirEvento() {
-		if (evento == null) {
-			return;
-		}
+		int userId = SessaoUsuario.getUsuarioLogado().getId();
 
-		Alert confirmacao = new Alert(Alert.AlertType.CONFIRMATION);
-		confirmacao.setTitle("Confirmação");
-		confirmacao.setHeaderText("Deseja realmente excluir este evento?");
-		confirmacao.setContentText("Essa ação não poderá ser desfeita.");
+		Notificacao notificacao = new Notificacao("Você criou o evento '" + txtTitulo.getText() + "'",
+				LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
 
-		confirmacao.showAndWait().ifPresent(resposta -> {
-			if (resposta == ButtonType.OK) {
-
-				Notificacao notificacao = new Notificacao("Você excluiu o evento '" + evento.getTitulo() + "'",
-						LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
-				NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
-
-				eventoService.removerEvento(evento.getId());
-				txtTitulo.getScene().getWindow().hide(); // Fecha a janela
-			}
-		});
+		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
 	}
 
 	@FXML

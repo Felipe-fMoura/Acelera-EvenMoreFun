@@ -13,9 +13,12 @@ module evenMoreFun {
 	requires java.desktop;
 
 	opens application to javafx.graphics, javafx.fxml;
-	opens view to javafx.fxml;
+	opens controllers to javafx.fxml;
 
 	exports application;
-	exports view;
 	exports model;
+	exports controllers;
+
+	   
+	
 }
