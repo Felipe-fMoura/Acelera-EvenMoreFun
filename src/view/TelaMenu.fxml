@@ -16,11 +16,11 @@
 <BorderPane stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.TelaMenuController">
     <!-- Topo - Barra de Navegação -->
     <top>
-        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-background-color: #550080; -fx-padding: 10px 20px;">
+        <HBox alignment="CENTER_LEFT" spacing="15" style="-fx-padding: 10px 20px;" styleClass="gradiente-roxo">
             <!-- Logo -->
-            <ImageView fitHeight="64.0" fitWidth="87.0" preserveRatio="true">
+            <ImageView fitHeight="36.0" fitWidth="50.0" preserveRatio="true">
                 <image>
-                    <Image url="@../resources/LogoEvenMoreFunAlternativa.png" />
+                    <Image url="@../resources/EFG.png" />
                 </image>
             </ImageView>
             
@@ -76,15 +76,15 @@
     
     <!-- Centro - Feed de Eventos -->
     <center>
-        <ScrollPane fitToWidth="true" prefHeight="0.0" prefWidth="1094.0" styleClass="gradiente-roxo">
-            <VBox alignment="TOP_CENTER" prefHeight="197.0" prefWidth="1082.0" spacing="20" style="-fx-padding: 20px;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css">
+        <ScrollPane fitToWidth="true" style="-fx-background-color: #f8f9ff;" styleClass="gradiente-roxo">
+            <VBox alignment="TOP_CENTER" prefHeight="197.0" prefWidth="1082.0" spacing="20" style="-fx-padding: 20px; -fx-background-color: #f8f9ff;" styleClass="gradiente-roxo" stylesheets="@../resources/styles.css">
             <Separator prefWidth="200.0" />
                 
                 <!-- Criar Postagem -->
                 <VBox prefHeight="160.0" prefWidth="1053.0" spacing="10" style="-fx-background-color: none; -fx-background-radius: 10; -fx-padding: 15px;">
                <HBox alignment="CENTER" fillHeight="false" prefHeight="126.0" prefWidth="1022.0" style="-fx-background-color: none;">
                   <children>
-                     <Text fx:id="txtRandom" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Chegou no Even+Fun! O seu, o meu, o NOSSO software de eventos. Bora fazer acontecer! 👊" textAlignment="CENTER" wrappingWidth="1022.076171875" x="20.0">
+                     <Text fx:id="txtRandom" fill="#550080" strokeType="OUTSIDE" strokeWidth="0.0" text="Chegou no Even+Fun! O seu, o meu, o NOSSO software de eventos. Bora fazer acontecer! 👊" textAlignment="CENTER" wrappingWidth="1022.076171875" x="20.0">
                         <font>
                            <Font name="Franklin Gothic Heavy" size="40.0" />
                         </font>

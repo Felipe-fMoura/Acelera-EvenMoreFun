@@ -348,10 +348,5 @@
 }
 
 .gradiente-roxo {
-    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%,  #550080, #7324c9, #4b0082);
+    -fx-background-color: linear-gradient(from 0% 0% to 0% 100%,  #4b0082, #7324c9, #550080);
 }
-
-
-
-
-

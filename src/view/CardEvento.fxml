@@ -11,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox fx:id="cardRoot" alignment="CENTER" spacing="12" style="-fx-background-color: white; -fx-max-width: 800; -fx-max-width: 800; -fx-min-width: 800; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CardEventoController">
+<VBox fx:id="cardRoot" alignment="CENTER" spacing="12" style="-fx-background-color: white; -fx-max-width: 800; -fx-max-width: 800; -fx-min-width: 800; -fx-background-radius: 12; -fx-border-radius: 10; -fx-border-color: #e0e0e0; -fx-padding: 15px;" stylesheets="@../resources/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.CardEventoController">
 
     <!-- Topo com Notificação e Editar -->
     <HBox alignment="TOP_RIGHT" spacing="10">
@@ -26,7 +26,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-        <Button fx:id="btnEditar" minWidth="43.0" onAction="#editarEvento" prefWidth="43.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 2;" styleClass="editar-btn" text="Editar">
+        <Button fx:id="btnEditar" minWidth="73.0" onAction="#editarEvento" prefWidth="73.0" style="-fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 5; -fx-pref-width: 2;" styleClass="editar-btn" text="Editar">
          <graphic>
             <ImageView fitHeight="22.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -48,17 +48,17 @@
     </HBox>
 
     <!-- Título -->
-    <Text fx:id="txtTituloEvento" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 5px 0;" />
+    <Text fx:id="txtTituloEvento" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-padding: 5px 0;" text="Título do evento" />
 
     <!-- Imagem -->
-    <ImageView fx:id="imgEvento" fitHeight="240" fitWidth="500" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5,0,0,1);">
+    <ImageView fx:id="imgEvento" fitHeight="300.0" fitWidth="600.0" preserveRatio="true" style="-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5,0,0,1);">
         <image>
             <Image url="@../images/system/images.png" />
         </image>
     </ImageView>
 
     <!-- Descrição -->
-    <Text fx:id="txtDescricaoEvento" style="-fx-padding: 5px 0; -fx-font-size: 14px;" wrappingWidth="500" />
+    <Text fx:id="txtDescricaoEvento" style="-fx-padding: 5px 0; -fx-font-size: 14px;" text="Descrição do evento" textAlignment="CENTER" wrappingWidth="500" />
 
     <!-- Informações -->
     <HBox spacing="20" style="-fx-padding: 5px 0;">

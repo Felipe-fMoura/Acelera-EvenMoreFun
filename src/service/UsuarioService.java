@@ -220,27 +220,31 @@ public class UsuarioService {
 
 	public void carregarUsuariosDeTeste() {
 		Usuario Tester = new Usuario();
-		Tester.setId(1);
-		Tester.setNome("Usuario Teste");
+		Tester.setId(3);
+		Tester.setNome("Alefe");
 		Tester.setUsername("Tester");
 		Tester.setSenha("Teste@123");
 		Tester.setEmail("fmouraschool@gmail.com");
+		Tester.setTelefone("11982938888");
+		Tester.setCpf("321.456.777-00");
+		Tester.setDataNascimento(LocalDate.of(2002, 1, 15));
+		Tester.setGenero("Masculino");
 		this.cadastrar(Tester);
 		
 		Usuario Tester2 = new Usuario();
-		Tester2.setId(2);
+		Tester2.setId(4);
 		Tester2.setNome("Thiago Motta");
 		Tester2.setUsername("Thiago_Motta");
 		Tester2.setSenha("Teste@123");
-		Tester2.setEmail("brazino@gmail.com");
+		Tester2.setEmail("thiago.oliveiramotta@gmail.com");
 		Tester2.setTelefone("11999998888");
 		Tester2.setCpf("123.456.777-00");
-		Tester2.setDataNascimento(LocalDate.of(2000, 1, 15));
-		Tester2.setGenero("Masculino");
+		Tester2.setDataNascimento(LocalDate.of(1965, 1, 15));
+		Tester2.setGenero("Feminino");
 		this.cadastrar(Tester2);
 		
 		Usuario Tester3 = new Usuario();
-		Tester3.setId(3);
+		Tester3.setId(5);
 		Tester3.setNome("Caetano");
 		Tester3.setUsername("Caetano");
 		Tester3.setSenha("Teste@123");

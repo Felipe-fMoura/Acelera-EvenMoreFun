@@ -52,20 +52,28 @@ public class EventoService {
 
     private void inicializarDadosExemplo() {
         Usuario org1 = new Usuario();
-        org1.setId(3);
-        org1.setNome("Fulano Fulanesis");
+        org1.setId(1);
+        org1.setNome("Eduardo Enari");
 
         Usuario org2 = new Usuario();
         org2.setId(2);
-        org2.setNome("Ciclano Ciclone");
-
-        criarEvento(new Evento("Festa de Aniversário", "Venha comemorar conosco!",
-                LocalDateTime.now().plusDays(5), "Casa do João", org1, "Mãe do João"));
-
-        criarEvento(new Evento("Workshop de JavaFX", "Aprenda a criar interfaces incríveis",
-                LocalDateTime.now().plusDays(10), "Sala 101", org2, "Prof. Eduardo Enari"));
+        org2.setNome("Prof. Feichas");
+        
+        // Usando o Builder (versão como inner class)
+        criarEvento(new Evento.Builder("Acelera Fatec", "Venha prestigiar!",
+                    LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
+                    org1, "Enari")
+                .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
+                .build());
+        
+        // Usando o Builder (versão como inner class)
+        criarEvento(new Evento.Builder("WorkShop de JavaFx", "Venha prestigiar!",
+                    LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", 
+                    org1, "Feichas")
+                .comImagem(getClass().getResource("/resources/1695213.png").toExternalForm())
+                .build());
+      
     }
-
     // CRUD básico
 
     public Evento criarEvento(Evento evento) {
@@ -317,5 +325,8 @@ public class EventoService {
     public boolean tentarCurtirEvento(Evento evento, Usuario usuario) {
         return evento.curtirEvento(usuario);
     }
+    
+
+    
 
 }

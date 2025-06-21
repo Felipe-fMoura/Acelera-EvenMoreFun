@@ -66,7 +66,6 @@ public class Evento {
         this.organizador = organizador;
         this.palestrante = palestrante;
         this.curtidas = 0;
-
     }
 
     // Getters e Setters - Dados principais
@@ -301,6 +300,35 @@ public class Evento {
     }
 
 
-}
+ 
+        public static class Builder {
+            private final Evento evento;
+            
+            public Builder(String titulo, String descricao, LocalDateTime data, 
+                          String local, Usuario organizador, String palestrante) {
+                this.evento = new Evento(titulo, descricao, data, local, organizador, palestrante);
+            }
+            
+            public Builder comImagem(String imagem) {
+                evento.setImagem(imagem);
+                return this;
+            }
+            
+            // Adicione outros métodos para atributos opcionais
+            public Builder comCategoria(String categoria) {
+                evento.setCategoria(categoria);
+                return this;
+            }
+            
+            public Evento build() {
+                return evento;
+            }
+        }
+    }
+    
+    
+    
+    
+
 
 
