@@ -1,0 +1,103 @@
+package view;
+
+import javafx.fxml.FXML;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import model.Usuario;
+import service.UsuarioService;
+import session.SessaoUsuario;
+
+import java.time.LocalDate;
+
+public class TelaEditarDadosController {
+	
+	@FXML private TextField txtEmail;
+    @FXML private TextField txtNome;
+    @FXML private TextField txtNomeUsuario;
+    @FXML private DatePicker datePickerDataNascimento;
+    @FXML private ComboBox<String> cbGenero;
+    @FXML private TextField txtTelefone;
+    @FXML private Button btnSalvar;
+    
+
+    private UsuarioService usuarioService = UsuarioService.getInstance();
+    private Usuario usuarioLogado;
+
+    @FXML
+    public void initialize() {
+        cbGenero.getItems().addAll("Masculino", "Feminino", "Outro");
+
+        usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
+        if (usuarioLogado != null) {
+            preencherCampos();
+        }
+    }
+
+    private void preencherCampos() {
+        txtNome.setText(usuarioLogado.getNome());
+        txtNomeUsuario.setText(usuarioLogado.getUsername());
+        txtTelefone.setText(usuarioLogado.getTelefone());
+        txtEmail.setText(usuarioLogado.getEmail());
+        cbGenero.setValue(usuarioLogado.getGenero());
+        datePickerDataNascimento.setValue(usuarioLogado.getDataNascimento());
+    }
+
+    @FXML
+    private void handleSalvar() {
+        String nome = txtNome.getText();
+        String username = txtNomeUsuario.getText();
+        String telefone = txtTelefone.getText();
+        String email = txtEmail.getText();
+        String genero = cbGenero.getValue();
+        LocalDate dataNascimento = datePickerDataNascimento.getValue();
+
+        if (nome.isEmpty() || username.isEmpty() || telefone.isEmpty() || genero == null || dataNascimento == null) {
+            mostrarAlerta("Campos obrigatórios", "Todos os campos devem ser preenchidos.", Alert.AlertType.WARNING);
+            return;
+        }
+        if (!usuarioService.validarEmail(email)) {
+            mostrarAlerta("Campos obrigatórios", "Digite um e-mail válido.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        if (!usuarioService.validarTelefone(telefone)) {
+            mostrarAlerta("Telefone inválido", "Digite um telefone válido com 10 ou 11 dígitos.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        if (!usuarioService.validarDataNascimento(dataNascimento)) {
+            mostrarAlerta("Data inválida", "Usuário deve ter pelo menos 14 anos.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // Atualiza objeto em memória
+        usuarioLogado.setNome(nome);
+        usuarioLogado.setUsername(username);
+        usuarioLogado.setTelefone(telefone);
+        usuarioLogado.setEmail(email);
+        usuarioLogado.setGenero(genero);
+        usuarioLogado.setDataNascimento(dataNascimento);
+
+        boolean sucesso = usuarioService.completarCadastro(usuarioLogado);
+
+        if (sucesso) {
+            SessaoUsuario.getInstance().setUsuario(usuarioLogado);
+            mostrarAlerta("Sucesso", "Dados atualizados com sucesso!", Alert.AlertType.INFORMATION);
+
+            // Fecha a janela
+            Stage stage = (Stage) btnSalvar.getScene().getWindow();
+            stage.close();
+        } else {
+            mostrarAlerta("Erro", "Erro ao salvar dados. Tente novamente.", Alert.AlertType.ERROR);
+        }
+    }
+
+    private void mostrarAlerta(String titulo, String msg, Alert.AlertType tipo) {
+        Alert alert = new Alert(tipo);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(msg);
+        alert.showAndWait();
+    }
+}

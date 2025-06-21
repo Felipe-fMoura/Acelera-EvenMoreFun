@@ -172,23 +172,30 @@ public class TelaMenuController {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaCriarEvento.fxml"));
             Parent root = loader.load();
-            
+
             TelaCriarEventoController controller = loader.getController();
             controller.setUsuarioLogado(usuarioLogado);
-            
+
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("Criar Novo Evento");
             stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/LogoEvenMoreFun.png")));
             stage.show();
-            
-            stage.setOnHidden(e -> carregarEventos());
+
+            // Quando fechar a tela de criação, recarrega eventos e atualiza foto do perfil
+            stage.setOnHidden(e -> {
+                carregarEventos();
+                if (usuarioLogado != null) {
+                    atualizarFotoPerfilOrganizador(usuarioLogado.getCaminhoFotoPerfil());
+                }
+            });
 
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Erro ao abrir tela de criação de evento");
         }
     }
+
 
     
     @FXML
@@ -269,6 +276,9 @@ public class TelaMenuController {
     @FXML
     private void handleRefresh(ActionEvent event) {
         carregarEventos();
+        if (usuarioLogado != null) {
+            atualizarFotoPerfilOrganizador(usuarioLogado.getCaminhoFotoPerfil());
+        }
     }
     
     @FXML

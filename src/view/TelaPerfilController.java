@@ -213,4 +213,24 @@ public class TelaPerfilController {
         this.telaMenuController = controller;
     }
    
+    @FXML
+    private void handleEditarDados(ActionEvent event) {
+  
+    	    try {
+    	    	
+ 	    
+    	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaEditarDados.fxml"));
+    	        Parent root = loader.load();
+
+                Stage stage = new Stage();
+
+                stage.setTitle("Editar dados");
+                stage.setScene(new Scene(root));
+                stage.show();
+    			
+    	    } catch (IOException e) {
+    	        e.printStackTrace();
+    	    }
+    }
+    
 }
