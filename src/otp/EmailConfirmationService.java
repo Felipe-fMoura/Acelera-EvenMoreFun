@@ -17,8 +17,8 @@ public class EmailConfirmationService {
     public static void iniciarConfirmacaoEmail(String email, String nome) {
         String token = UUID.randomUUID().toString();
         EmailTokenStore.saveToken(token, email);
-        String link = "http://localhost:8081/confirmar?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8);
-        String corpo = "Olá " + nome + ",\n\nClique no link para confirmar seu cadastro:\n" + link;
+        String link = "👇\nhttp://localhost:8081/confirmar?token=" + URLEncoder.encode(token, StandardCharsets.UTF_8);
+        String corpo = "Olá," + nome +"! 👋\n\nObrigado por se cadastrar.\nPara ativar sua conta e concluir o processo, clique no link abaixo: " + link + "\n\nAtenciosamente,\n\nEvenMoreFun\n";
         try {
 			EmailSender.sendEmail(email, "Confirme seu cadastro", corpo);
 		} catch (MessagingException e) {
