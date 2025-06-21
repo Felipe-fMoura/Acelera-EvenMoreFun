@@ -22,9 +22,9 @@ import model.Notificacao;
 import model.Usuario;
 import service.Alertas;
 import service.NotificacaoService;
+import service.Redimensionamento;
 import service.UsuarioService;
 import session.SessaoUsuario;
-import service.Redimensionamento;
 
 public class TelaCadastro2Controller {
 
@@ -42,25 +42,24 @@ public class TelaCadastro2Controller {
 
 	@FXML
 	private DatePicker dataNasc;
-	
-    @FXML 
-    private ImageView backgroundImage;
-    
-    @FXML 
-    private StackPane telaCadastro2;
-    
-    @FXML 
-    private AnchorPane contentPane;
-    
-    @FXML 
-    private Group grupoCampos;
+
+	@FXML
+	private ImageView backgroundImage;
+
+	@FXML
+	private StackPane telaCadastro2;
+
+	@FXML
+	private AnchorPane contentPane;
+
+	@FXML
+	private Group grupoCampos;
 
 	@FXML
 	private void initialize() {
 		// Redimensionar imagem de fundo
 		Redimensionamento.aplicarRedimensionamento(telaCadastro2, backgroundImage, grupoCampos);
 
-		
 		// Adiciona os itens ao ComboBox
 		comboBoxGenero.getItems().addAll("Masculino", "Feminino", "Outro");
 	}
@@ -88,9 +87,10 @@ public class TelaCadastro2Controller {
 			a.mostrarAlerta("CPF inválido", "Verifique o número e tente novamente.");
 			return;
 		}
-		
+
 		if (!usuarioService.validarDataNascimento(dataNascimento)) {
-			a.mostrarAlerta("Idade inferior ao permitido" , "Usuário não atende ao requisito mínimo de idade (14 anos).");
+			a.mostrarAlerta("Idade inferior ao permitido",
+					"Usuário não atende ao requisito mínimo de idade (14 anos).");
 			return;
 		}
 
@@ -113,7 +113,7 @@ public class TelaCadastro2Controller {
 				System.out.println("Genêro: " + usuario.getGenero());
 				System.out.println("Id: " + usuario.getId());
 
-			//	usuarioService.cadastrar(usuario);
+				// usuarioService.cadastrar(usuario);
 
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));
@@ -135,15 +135,10 @@ public class TelaCadastro2Controller {
 
 		int userId = SessaoUsuario.getUsuarioLogado().getId();
 
-        Notificacao notificacao = new Notificacao(
-            "Você concluiu seu cadastro ",
-            LocalDateTime.now(),
-            false,
-            Notificacao.Tipo.HISTORICO,
-            "Sistema"
-        );
+		Notificacao notificacao = new Notificacao("Você concluiu seu cadastro ", LocalDateTime.now(), false,
+				Notificacao.Tipo.HISTORICO, "Sistema");
 
-        NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
-		
+		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+
 	}
 }

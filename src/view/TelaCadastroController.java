@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,13 +14,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.Group;
 import javafx.stage.Stage;
 import model.Usuario;
+import otp.EmailConfirmationService;
 import service.Alertas;
-import service.UsuarioService;
 import service.Redimensionamento;
-import otp.*;
+import service.UsuarioService;
 
 public class TelaCadastroController {
 
@@ -30,7 +30,7 @@ public class TelaCadastroController {
 
 	@FXML
 	private TextField txtNome;
-	
+
 	@FXML
 	private TextField txtSobrenome;
 
@@ -51,25 +51,24 @@ public class TelaCadastroController {
 
 	@FXML
 	private Button btnEntrar;
-	
-    @FXML 
-    private ImageView backgroundImage;
-    
-    @FXML 
-    private StackPane telaCadastro;
-    
-    @FXML 
-    private AnchorPane contentPane;
-    
-    @FXML 
-    private Group grupoCampos;
 
 	@FXML
-    public void initialize() {
+	private ImageView backgroundImage;
+
+	@FXML
+	private StackPane telaCadastro;
+
+	@FXML
+	private AnchorPane contentPane;
+
+	@FXML
+	private Group grupoCampos;
+
+	@FXML
+	public void initialize() {
 		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
-    }
-	
-	
+	}
+
 	@FXML
 	private void onBtCadastrarUsuario(ActionEvent event) {
 		String nome = txtNome.getText();
@@ -103,17 +102,17 @@ public class TelaCadastroController {
 		}
 
 		Usuario novo = usuarioService.iniciarCadastro(nome, sobrenome, userName, email, senha);
-		
+
 		if (novo == null) {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;
 		}
 		usuarioService.completarCadastro(novo);
 
-		//e-mail de confirmação
+		// e-mail de confirmação
 		EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);
-		a.mostrarAlerta("Cadastro efetuado", "Um e-mail de confirmação foi enviado para " + email + 
-			". Por favor, confirme seu e-mail antes de acessar o sistema.");
+		a.mostrarAlerta("Cadastro efetuado", "Um e-mail de confirmação foi enviado para " + email
+				+ ". Por favor, confirme seu e-mail antes de acessar o sistema.");
 
 		// Voltar para tela de login após cadastro
 		try {
@@ -130,19 +129,19 @@ public class TelaCadastroController {
 
 	@FXML
 	private void onBtnEntrar(ActionEvent event) {
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
-	        Parent root = loader.load();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+			Parent root = loader.load();
 
-	        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
-	        Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
+			Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
 
-	        stage.setScene(newScene);
-	        stage.show();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+			stage.setScene(newScene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

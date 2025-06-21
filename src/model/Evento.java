@@ -16,334 +16,323 @@
 package model;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
 /**
- * Representa um evento criado por um organizador, contendo título, descrição, data, local,
- * participantes e controle de presença, acesso e vídeo.
+ * Representa um evento criado por um organizador, contendo título, descrição,
+ * data, local, participantes e controle de presença, acesso e vídeo.
  */
 public class Evento {
-    private int id;
-    private Usuario organizador;
+	private int id;
+	private Usuario organizador;
 
-    // Dados do evento
-    private String titulo;
-    private String descricao;
-    private String local;
-    private String imagem;
-    private String categoria;
-    private String palestrante;
-    private LocalDateTime data;
-    private LocalDateTime dataCriacao;
-    
-    private Map<String, Integer> curtidasPorImagem = new HashMap<>();
-    private Map<String, List<String>> comentariosPorImagem = new HashMap<>();
-    
-    private int curtidas;
+	// Dados do evento
+	private String titulo;
+	private String descricao;
+	private String local;
+	private String imagem;
+	private String categoria;
+	private String palestrante;
+	private LocalDateTime data;
+	private LocalDateTime dataCriacao;
 
+	private Map<String, Integer> curtidasPorImagem = new HashMap<>();
+	private Map<String, List<String>> comentariosPorImagem = new HashMap<>();
 
-    private boolean privado;
-    
-    
-    // Comentarios de eventos
-    private List<Comentario> comentarios = new ArrayList<>();
+	private int curtidas;
 
-    // Controle de vídeo e acesso
-    private String urlVideo;
-    private boolean acessoLiberado = false;
+	private boolean privado;
 
-    // Participantes e presença
-    private List<Usuario> participantes = new ArrayList<>();
-    private Map<Integer, Boolean> presencas = new HashMap<>();
+	// Comentarios de eventos
+	private List<Comentario> comentarios = new ArrayList<>();
 
-    // Construtores
-    public Evento() {
-        this.dataCriacao = LocalDateTime.now();
-    }
+	// Controle de vídeo e acesso
+	private String urlVideo;
+	private boolean acessoLiberado = false;
 
-    public Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador, String palestrante) {
-        this();
-        this.titulo = titulo;
-        this.descricao = descricao;
-        this.data = data;
-        this.local = local;
-        this.organizador = organizador;
-        this.palestrante = palestrante;
-        this.curtidas = 0;
-    }
+	// Participantes e presença
+	private List<Usuario> participantes = new ArrayList<>();
+	private Map<Integer, Boolean> presencas = new HashMap<>();
 
-    // Getters e Setters - Dados principais
-    public int getId() {
-        return id;
-    }
+	// Construtores
+	public Evento() {
+		this.dataCriacao = LocalDateTime.now();
+	}
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador,
+			String palestrante) {
+		this();
+		this.titulo = titulo;
+		this.descricao = descricao;
+		this.data = data;
+		this.local = local;
+		this.organizador = organizador;
+		this.palestrante = palestrante;
+		this.curtidas = 0;
+	}
 
-    public String getTitulo() {
-        return titulo;
-    }
+	// Getters e Setters - Dados principais
+	public int getId() {
+		return id;
+	}
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public String getDescricao() {
-        return descricao;
-    }
+	public String getTitulo() {
+		return titulo;
+	}
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
-    }
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 
-    public String getLocal() {
-        return local;
-    }
+	public String getDescricao() {
+		return descricao;
+	}
 
-    public void setLocal(String local) {
-        this.local = local;
-    }
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}
 
-    public String getImagem() {
-        return imagem;
-    }
+	public String getLocal() {
+		return local;
+	}
 
-    public void setImagem(String imagem) {
-        this.imagem = imagem;
-    }
+	public void setLocal(String local) {
+		this.local = local;
+	}
 
-    public String getCategoria() {
-        return categoria;
-    }
+	public String getImagem() {
+		return imagem;
+	}
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
+	public void setImagem(String imagem) {
+		this.imagem = imagem;
+	}
 
-    public String getPalestrante() {
-        return palestrante;
-    }
+	public String getCategoria() {
+		return categoria;
+	}
 
-    public void setPalestrante(String palestrante) {
-        this.palestrante = palestrante;
-    }
+	public void setCategoria(String categoria) {
+		this.categoria = categoria;
+	}
 
-    public LocalDateTime getData() {
-        return data;
-    }
+	public String getPalestrante() {
+		return palestrante;
+	}
 
-    public void setData(LocalDateTime data) {
-        this.data = data;
-    }
+	public void setPalestrante(String palestrante) {
+		this.palestrante = palestrante;
+	}
 
-    public LocalDateTime getDataCriacao() {
-        return dataCriacao;
-    }
+	public LocalDateTime getData() {
+		return data;
+	}
 
-    public void setDataCriacao(LocalDateTime dataCriacao) {
-        this.dataCriacao = dataCriacao;
-    }
+	public void setData(LocalDateTime data) {
+		this.data = data;
+	}
 
-    public Usuario getOrganizador() {
-        return organizador;
-    }
+	public LocalDateTime getDataCriacao() {
+		return dataCriacao;
+	}
 
-    public void setOrganizador(Usuario organizador) {
-        this.organizador = organizador;
-    }
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+		this.dataCriacao = dataCriacao;
+	}
 
-    // Getters e Setters - Participantes
-    public List<Usuario> getParticipantes() {
-        return participantes;
-    }
+	public Usuario getOrganizador() {
+		return organizador;
+	}
 
-    public void setParticipantes(List<Usuario> participantes) {
-        this.participantes = participantes;
-    }
+	public void setOrganizador(Usuario organizador) {
+		this.organizador = organizador;
+	}
 
-    public boolean adicionarParticipante(Usuario usuario) {
-        Objects.requireNonNull(usuario, "Usuário não pode ser nulo");
-        if (!participantes.contains(usuario)) {
-            participantes.add(usuario);
-            return true;
-        }
-        return false;
-    }
+	// Getters e Setters - Participantes
+	public List<Usuario> getParticipantes() {
+		return participantes;
+	}
 
-    public boolean removerParticipante(Usuario usuario) {
-        Objects.requireNonNull(usuario, "Usuário não pode ser nulo");
-        return participantes.remove(usuario);
-    }
+	public void setParticipantes(List<Usuario> participantes) {
+		this.participantes = participantes;
+	}
 
-    public int getQuantidadeParticipantes() {
-        if (participantes == null) {
-            throw new IllegalStateException("Lista de participantes não inicializada");
-        }
-        return participantes.size();
-    }
+	public boolean adicionarParticipante(Usuario usuario) {
+		Objects.requireNonNull(usuario, "Usuário não pode ser nulo");
+		if (!participantes.contains(usuario)) {
+			participantes.add(usuario);
+			return true;
+		}
+		return false;
+	}
 
-    // Getters e Setters - Presença
-    public void setPresenca(int usuarioId, boolean presente) {
-        presencas.put(usuarioId, presente);
-    }
+	public boolean removerParticipante(Usuario usuario) {
+		Objects.requireNonNull(usuario, "Usuário não pode ser nulo");
+		return participantes.remove(usuario);
+	}
 
-    public boolean getPresenca(int usuarioId) {
-        return presencas.getOrDefault(usuarioId, false);
-    }
+	public int getQuantidadeParticipantes() {
+		if (participantes == null) {
+			throw new IllegalStateException("Lista de participantes não inicializada");
+		}
+		return participantes.size();
+	}
 
-    // Getters e Setters - Controle e vídeo
-    public boolean isPrivado() {
-        return privado;
-    }
+	// Getters e Setters - Presença
+	public void setPresenca(int usuarioId, boolean presente) {
+		presencas.put(usuarioId, presente);
+	}
 
-    public void setPrivado(boolean privado) {
-        this.privado = privado;
-    }
+	public boolean getPresenca(int usuarioId) {
+		return presencas.getOrDefault(usuarioId, false);
+	}
 
-    public String getUrlVideo() {
-        return urlVideo;
-    }
+	// Getters e Setters - Controle e vídeo
+	public boolean isPrivado() {
+		return privado;
+	}
 
-    public void setUrlVideo(String urlVideo) {
-        this.urlVideo = urlVideo;
-    }
+	public void setPrivado(boolean privado) {
+		this.privado = privado;
+	}
 
-    public boolean isAcessoLiberado() {
-        return acessoLiberado;
-    }
+	public String getUrlVideo() {
+		return urlVideo;
+	}
 
-    public void setAcessoLiberado(boolean acessoLiberado) {
-        this.acessoLiberado = acessoLiberado;
-    }
-    
-    public Map<String, Integer> getCurtidasPorImagem() {
-        return curtidasPorImagem;
-    }
+	public void setUrlVideo(String urlVideo) {
+		this.urlVideo = urlVideo;
+	}
 
-    public Map<String, List<String>> getComentariosPorImagem() {
-        return comentariosPorImagem;
-    }
+	public boolean isAcessoLiberado() {
+		return acessoLiberado;
+	}
 
-    
-    private String tipo; // "Presencial", "Online" ou "Híbrido"
+	public void setAcessoLiberado(boolean acessoLiberado) {
+		this.acessoLiberado = acessoLiberado;
+	}
 
-    public String getTipo() {
-        return tipo;
-    }
+	public Map<String, Integer> getCurtidasPorImagem() {
+		return curtidasPorImagem;
+	}
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-    
-    // Representação textual
-    @Override
-    public String toString() {
-        return String.format(
-            "Evento[id=%d, titulo='%s', data=%s, local='%s', organizador='%s', palestrante='%s', participantes=%d]",
-            id,
-            titulo != null ? titulo : "",
-            data != null ? data.toString() : "null",
-            local != null ? local : "",
-            organizador != null ? organizador.getNome() : "null",
-            palestrante != null ? palestrante : "",
-            getQuantidadeParticipantes()
-        );
-    }
-    
-    private List<String> galeriaFotos = new ArrayList<>();
+	public Map<String, List<String>> getComentariosPorImagem() {
+		return comentariosPorImagem;
+	}
 
-    public List<String> getGaleriaFotos() {
-        return galeriaFotos;
-    }
-    
-    public int getCurtidas() {
-        return curtidas;
-    }
+	private String tipo; // "Presencial", "Online" ou "Híbrido"
 
-    public void curtir() {
-        this.curtidas++;
-    }
-    
-    private Set<Integer> usuariosQueCurtiram = new HashSet<>();
-    
-    public boolean curtirEvento(Usuario usuario) {
-        if (usuario == null) {
-            throw new IllegalArgumentException("Usuário não pode ser nulo");
-        }
+	public String getTipo() {
+		return tipo;
+	}
 
-        // Verifica se o usuário já curtiu
-        if (usuariosQueCurtiram.contains(usuario.getId())) {
-            return false; // já curtiu, não conta de novo
-        }
+	public void setTipo(String tipo) {
+		this.tipo = tipo;
+	}
 
-        // Registra a curtida
-        usuariosQueCurtiram.add(usuario.getId());
-        this.curtidas++; // atualiza o contador
+	// Representação textual
+	@Override
+	public String toString() {
+		return String.format(
+				"Evento[id=%d, titulo='%s', data=%s, local='%s', organizador='%s', palestrante='%s', participantes=%d]",
+				id, titulo != null ? titulo : "", data != null ? data.toString() : "null", local != null ? local : "",
+				organizador != null ? organizador.getNome() : "null", palestrante != null ? palestrante : "",
+				getQuantidadeParticipantes());
+	}
 
-        return true; // sucesso na curtida
-    }
+	private List<String> galeriaFotos = new ArrayList<>();
 
-    public boolean descurtirEvento(Usuario usuario) {
-        if (usuario == null) {
-            throw new IllegalArgumentException("Usuário não pode ser nulo");
-        }
+	public List<String> getGaleriaFotos() {
+		return galeriaFotos;
+	}
 
-        if (usuariosQueCurtiram.remove(usuario.getId())) {
-            this.curtidas--;
-            if (this.curtidas < 0) {
-                this.curtidas = 0; // garantir que não fique negativo
-            }
-            return true;
-        }
-        return false;
-    }
+	public int getCurtidas() {
+		return curtidas;
+	}
 
-    public Set<Integer> getUsuariosQueCurtiram() {
-        return Collections.unmodifiableSet(usuariosQueCurtiram);
-    }
+	public void curtir() {
+		this.curtidas++;
+	}
 
+	private Set<Integer> usuariosQueCurtiram = new HashSet<>();
 
- 
-        public static class Builder {
-            private final Evento evento;
-            
-            public Builder(String titulo, String descricao, LocalDateTime data, 
-                          String local, Usuario organizador, String palestrante) {
-                this.evento = new Evento(titulo, descricao, data, local, organizador, palestrante);
-            }
-            
-            public Builder comImagem(String imagem) {
-                evento.setImagem(imagem);
-                return this;
-            }
-            
-            // Adicione outros métodos para atributos opcionais
-            public Builder comCategoria(String categoria) {
-                evento.setCategoria(categoria);
-                return this;
-            }
-            
-            public Evento build() {
-                return evento;
-            }
-        }
-        
-        public List<Comentario> getComentarios() {
-            return comentarios;
-        }
+	public boolean curtirEvento(Usuario usuario) {
+		if (usuario == null) {
+			throw new IllegalArgumentException("Usuário não pode ser nulo");
+		}
 
-        public void adicionarComentario(Comentario comentario) {
-            comentarios.add(comentario);
-        }
-        
-        
-        
-    }
-    
-    
-    
-    
+		// Verifica se o usuário já curtiu
+		if (usuariosQueCurtiram.contains(usuario.getId())) {
+			return false; // já curtiu, não conta de novo
+		}
 
+		// Registra a curtida
+		usuariosQueCurtiram.add(usuario.getId());
+		this.curtidas++; // atualiza o contador
 
+		return true; // sucesso na curtida
+	}
 
+	public boolean descurtirEvento(Usuario usuario) {
+		if (usuario == null) {
+			throw new IllegalArgumentException("Usuário não pode ser nulo");
+		}
+
+		if (usuariosQueCurtiram.remove(usuario.getId())) {
+			this.curtidas--;
+			if (this.curtidas < 0) {
+				this.curtidas = 0; // garantir que não fique negativo
+			}
+			return true;
+		}
+		return false;
+	}
+
+	public Set<Integer> getUsuariosQueCurtiram() {
+		return Collections.unmodifiableSet(usuariosQueCurtiram);
+	}
+
+	public static class Builder {
+		private final Evento evento;
+
+		public Builder(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador,
+				String palestrante) {
+			this.evento = new Evento(titulo, descricao, data, local, organizador, palestrante);
+		}
+
+		public Builder comImagem(String imagem) {
+			evento.setImagem(imagem);
+			return this;
+		}
+
+		// Adicione outros métodos para atributos opcionais
+		public Builder comCategoria(String categoria) {
+			evento.setCategoria(categoria);
+			return this;
+		}
+
+		public Evento build() {
+			return evento;
+		}
+	}
+
+	public List<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void adicionarComentario(Comentario comentario) {
+		comentarios.add(comentario);
+	}
+
+}

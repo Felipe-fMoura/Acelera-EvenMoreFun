@@ -1,10 +1,18 @@
 package view;
 
+import java.io.File;
+import java.time.LocalDateTime;
+import java.util.function.UnaryOperator;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.TextFormatter;
 import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
-import javafx.util.converter.IntegerStringConverter;
 import model.Evento;
 import model.Notificacao;
 import model.Usuario;
@@ -12,141 +20,133 @@ import service.EventoService;
 import service.NotificacaoService;
 import session.SessaoUsuario;
 
-import java.io.File;
-import java.time.LocalDateTime;
-import java.util.function.UnaryOperator;
-
 public class TelaCriarEventoController {
-    @FXML private TextField txtTitulo;
-    @FXML private TextArea txtDescricao;
-    @FXML private DatePicker dateData;
-    @FXML private TextField txtHora;
-    @FXML private TextField txtLocal;
-    @FXML private TextField txtImagem;
-    @FXML private ComboBox<String> cbCategoria;
-    @FXML private CheckBox checkPrivado;
-    @FXML private TextField txtPalestrante;
-    @FXML private ComboBox<String> cbTipoEvento;
-    
-    private Usuario usuarioLogado;
-    private EventoService eventoService = EventoService.getInstance();
+	@FXML
+	private TextField txtTitulo;
+	@FXML
+	private TextArea txtDescricao;
+	@FXML
+	private DatePicker dateData;
+	@FXML
+	private TextField txtHora;
+	@FXML
+	private TextField txtLocal;
+	@FXML
+	private TextField txtImagem;
+	@FXML
+	private ComboBox<String> cbCategoria;
+	@FXML
+	private CheckBox checkPrivado;
+	@FXML
+	private TextField txtPalestrante;
+	@FXML
+	private ComboBox<String> cbTipoEvento;
 
-    public void setUsuarioLogado(Usuario usuario) {
-        this.usuarioLogado = usuario;
-    }
+	private Usuario usuarioLogado;
+	private EventoService eventoService = EventoService.getInstance();
 
-    @FXML
-    private void initialize() {
-        cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
+	public void setUsuarioLogado(Usuario usuario) {
+		this.usuarioLogado = usuario;
+	}
 
-        cbTipoEvento.getItems().addAll("Presencial", "Online", "Híbrido");
-        cbTipoEvento.setValue("Presencial");
-        
-        // TextFormatter para aceitar apenas números e até 4 dígitos
-        UnaryOperator<TextFormatter.Change> filter = change -> {
-            String text = change.getControlNewText();
-            if (text.matches("\\d{0,4}")) {  // aceita 0 a 4 dígitos
-                return change;
-            }
-            return null;
-        };
-        TextFormatter<String> textFormatter = new TextFormatter<>(filter);
-        txtHora.setTextFormatter(textFormatter);
+	@FXML
+	private void initialize() {
+		cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
 
-        // Listener para formatar com ":" enquanto digita
-        txtHora.textProperty().addListener((obs, oldText, newText) -> {
-            // Remove ":" para não atrapalhar a formatação
-            String digits = newText.replaceAll(":", "");
+		cbTipoEvento.getItems().addAll("Presencial", "Online", "Híbrido");
+		cbTipoEvento.setValue("Presencial");
 
-            if (digits.length() > 4) {
-                digits = digits.substring(0, 4);
-            }
+		// TextFormatter para aceitar apenas números e até 4 dígitos
+		UnaryOperator<TextFormatter.Change> filter = change -> {
+			String text = change.getControlNewText();
+			if (text.matches("\\d{0,4}")) { // aceita 0 a 4 dígitos
+				return change;
+			}
+			return null;
+		};
+		TextFormatter<String> textFormatter = new TextFormatter<>(filter);
+		txtHora.setTextFormatter(textFormatter);
 
-            String formatted = digits;
-            if (digits.length() >= 3) {
-                formatted = digits.substring(0, digits.length() - 2) + ":" + digits.substring(digits.length() - 2);
-            }
+		// Listener para formatar com ":" enquanto digita
+		txtHora.textProperty().addListener((obs, oldText, newText) -> {
+			// Remove ":" para não atrapalhar a formatação
+			String digits = newText.replaceAll(":", "");
 
-            if (!newText.equals(formatted)) {
-                txtHora.setText(formatted);
-                txtHora.positionCaret(formatted.length());
-            }
-        });
-    }
+			if (digits.length() > 4) {
+				digits = digits.substring(0, 4);
+			}
 
-    @FXML
-    private void handleCriarEvento() {
-        try {
-            String horaTexto = txtHora.getText().trim();
+			String formatted = digits;
+			if (digits.length() >= 3) {
+				formatted = digits.substring(0, digits.length() - 2) + ":" + digits.substring(digits.length() - 2);
+			}
 
-            // Ajusta o formato da hora, exemplo: "1000" vira "10:00"
-            if (horaTexto.matches("\\d{3,4}")) {
-                int len = horaTexto.length();
-                String horaFormatada = horaTexto.substring(0, len - 2) + ":" + horaTexto.substring(len - 2);
-                horaTexto = horaFormatada;
-            }
+			if (!newText.equals(formatted)) {
+				txtHora.setText(formatted);
+				txtHora.positionCaret(formatted.length());
+			}
+		});
+	}
 
-            java.time.LocalTime hora = java.time.LocalTime.parse(horaTexto);
-            LocalDateTime dataHora = LocalDateTime.of(dateData.getValue(), hora);
+	@FXML
+	private void handleCriarEvento() {
+		try {
+			String horaTexto = txtHora.getText().trim();
 
-            Evento evento = new Evento(
-                txtTitulo.getText(),
-                txtDescricao.getText(),
-                dataHora,
-                txtLocal.getText(),
-                usuarioLogado,
-                txtPalestrante.getText()
-            );
+			// Ajusta o formato da hora, exemplo: "1000" vira "10:00"
+			if (horaTexto.matches("\\d{3,4}")) {
+				int len = horaTexto.length();
+				String horaFormatada = horaTexto.substring(0, len - 2) + ":" + horaTexto.substring(len - 2);
+				horaTexto = horaFormatada;
+			}
 
-            evento.setOrganizador(usuarioLogado);
-            evento.setCategoria(cbCategoria.getValue());
-            evento.setPrivado(checkPrivado.isSelected());
-            evento.setImagem(txtImagem.getText());
-            evento.setTipo(cbTipoEvento.getValue());
+			java.time.LocalTime hora = java.time.LocalTime.parse(horaTexto);
+			LocalDateTime dataHora = LocalDateTime.of(dateData.getValue(), hora);
 
+			Evento evento = new Evento(txtTitulo.getText(), txtDescricao.getText(), dataHora, txtLocal.getText(),
+					usuarioLogado, txtPalestrante.getText());
 
-            eventoService.criarEvento(evento);
-            usuarioLogado.organizarEvento(evento);
-            
-         // Adiciona o organizador como participante com permissão "organizador"
-            eventoService.adicionarParticipanteComPermissao(evento.getId(), usuarioLogado.getId(), "organizador");
+			evento.setOrganizador(usuarioLogado);
+			evento.setCategoria(cbCategoria.getValue());
+			evento.setPrivado(checkPrivado.isSelected());
+			evento.setImagem(txtImagem.getText());
+			evento.setTipo(cbTipoEvento.getValue());
 
+			eventoService.criarEvento(evento);
+			usuarioLogado.organizarEvento(evento);
 
-            txtTitulo.getScene().getWindow().hide();
+			// Adiciona o organizador como participante com permissão "organizador"
+			eventoService.adicionarParticipanteComPermissao(evento.getId(), usuarioLogado.getId(), "organizador");
 
-        } catch (Exception e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro");
-            alert.setHeaderText("Hora inválida");
-            alert.setContentText("Por favor, digite a hora no formato HHmm (ex: 1000) ou HH:mm (ex: 10:00).");
-            alert.showAndWait();
-        }
-        
-        int userId = SessaoUsuario.getUsuarioLogado().getId();
+			txtTitulo.getScene().getWindow().hide();
 
-        Notificacao notificacao = new Notificacao(
-            "Você criou o evento '" + txtTitulo.getText() + "'",
-            LocalDateTime.now(),
-            false,
-            Notificacao.Tipo.HISTORICO,
-            "Sistema"
-        );
+		} catch (Exception e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Erro");
+			alert.setHeaderText("Hora inválida");
+			alert.setContentText("Por favor, digite a hora no formato HHmm (ex: 1000) ou HH:mm (ex: 10:00).");
+			alert.showAndWait();
+		}
 
-        NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
-    }
-    
-    @FXML
-    private void handleSelecionarImagem() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Selecionar imagem do evento");
-        fileChooser.getExtensionFilters().addAll(
-            new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif")
-        );
+		int userId = SessaoUsuario.getUsuarioLogado().getId();
 
-        File arquivo = fileChooser.showOpenDialog(txtImagem.getScene().getWindow());
-        if (arquivo != null) {
-            txtImagem.setText(arquivo.toURI().toString());
-        }
-    }
-    
+		Notificacao notificacao = new Notificacao("Você criou o evento '" + txtTitulo.getText() + "'",
+				LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
+
+		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+	}
+
+	@FXML
+	private void handleSelecionarImagem() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Selecionar imagem do evento");
+		fileChooser.getExtensionFilters()
+				.addAll(new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+		File arquivo = fileChooser.showOpenDialog(txtImagem.getScene().getWindow());
+		if (arquivo != null) {
+			txtImagem.setText(arquivo.toURI().toString());
+		}
+	}
+
 }

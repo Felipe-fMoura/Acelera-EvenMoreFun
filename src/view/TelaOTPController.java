@@ -1,7 +1,16 @@
 package view;
 
+import java.io.IOException;
+
+import jakarta.mail.MessagingException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -12,149 +21,139 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.Scene;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Parent;
 import model.Usuario;
-import service.Redimensionamento;
-import service.UsuarioService;
 import otp.EmailSender;
 import otp.OTPGenerator;
-
-import java.io.IOException;
-
-import jakarta.mail.MessagingException;
+import service.Redimensionamento;
+import service.UsuarioService;
 
 public class TelaOTPController {
 
-    @FXML 
-    private TextField emailField;
-    
-    @FXML 
-    private Button enviarOTPButton;
-    
-    @FXML 
-    private ImageView backgroundImage;
-    
-    @FXML 
-    private StackPane telaOTP;
-    
-    @FXML 
-    private AnchorPane contentPane;
-    
-    @FXML 
-    private Group grupoCampos;
+	@FXML
+	private TextField emailField;
 
-    private UsuarioService usuarioService = UsuarioService.getInstance();
-    
-    @FXML
-    public void initialize() {
-        // Redimensionar imagem de fundo
-        Redimensionamento.aplicarRedimensionamento(telaOTP, backgroundImage, grupoCampos);
-    }
+	@FXML
+	private Button enviarOTPButton;
 
-    @FXML
-    private void enviarOTP() {
-        String email = emailField.getText().trim();
-        Usuario usuario = usuarioService.getUsuarioPorEmail(email);
+	@FXML
+	private ImageView backgroundImage;
 
-        if (usuario == null) {
-            new Alert(Alert.AlertType.ERROR, "E-mail não encontrado!").show();
-            return;
-        }
+	@FXML
+	private StackPane telaOTP;
 
-        String otp = OTPGenerator.generateOTP();
-        try {
-            EmailSender.sendOTP(email, otp);
-        } catch (MessagingException e) {
-            new Alert(Alert.AlertType.ERROR, "Erro ao enviar e-mail: " + e.getMessage()).show();
-            return;
-        }
+	@FXML
+	private AnchorPane contentPane;
 
-        usuarioService.setUsuarioTemporario(usuario);
-        usuarioService.setOtpTemporario(otp);
+	@FXML
+	private Group grupoCampos;
 
-        // Mostrar o popup estilizado para digitar o código
-        mostrarPopupValidacaoOTP();
-    }
-    
-    @FXML
-    private void mostrarPopupValidacaoOTP() {
-        Label titulo = new Label("Digite o código fornecido por email");
-        titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4B0082;");
+	private UsuarioService usuarioService = UsuarioService.getInstance();
 
-        TextField input = new TextField();
-        input.setPromptText("Digite o código");
-        input.getStyleClass().add("telaotp-txtfield");
+	@FXML
+	public void initialize() {
+		// Redimensionar imagem de fundo
+		Redimensionamento.aplicarRedimensionamento(telaOTP, backgroundImage, grupoCampos);
+	}
 
-        Button confirmarBtn = new Button("Confirmar");
-        confirmarBtn.getStyleClass().add("telaotp-btn");
+	@FXML
+	private void enviarOTP() {
+		String email = emailField.getText().trim();
+		Usuario usuario = usuarioService.getUsuarioPorEmail(email);
 
-        VBox box = new VBox(15, titulo, input, confirmarBtn);
-        box.setAlignment(Pos.CENTER);
-        box.setPadding(new Insets(30));
-        box.setStyle("-fx-background-color: #D9D9D9; -fx-background-radius: 12; -fx-border-radius: 12;");
+		if (usuario == null) {
+			new Alert(Alert.AlertType.ERROR, "E-mail não encontrado!").show();
+			return;
+		}
 
-        StackPane root = new StackPane(box);
-        root.setStyle("-fx-background-color: transparent;");
+		String otp = OTPGenerator.generateOTP();
+		try {
+			EmailSender.sendOTP(email, otp);
+		} catch (MessagingException e) {
+			new Alert(Alert.AlertType.ERROR, "Erro ao enviar e-mail: " + e.getMessage()).show();
+			return;
+		}
 
-        Scene scene = new Scene(root, 420, 200);
-        scene.getStylesheets().add(getClass().getResource("/resources/css/styles.css").toExternalForm());
+		usuarioService.setUsuarioTemporario(usuario);
+		usuarioService.setOtpTemporario(otp);
 
-        Stage dialog = new Stage();
-        dialog.setTitle("Validação de Código");
-        dialog.setScene(scene);
-        dialog.initOwner(telaOTP.getScene().getWindow());
-        dialog.initModality(Modality.WINDOW_MODAL);
+		// Mostrar o popup estilizado para digitar o código
+		mostrarPopupValidacaoOTP();
+	}
 
-        confirmarBtn.setOnAction(e -> {
-            String inputOtp = input.getText().trim();
-            String otpCorreto = usuarioService.getOtpTemporario();
+	@FXML
+	private void mostrarPopupValidacaoOTP() {
+		Label titulo = new Label("Digite o código fornecido por email");
+		titulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4B0082;");
 
-            if (inputOtp.equals(otpCorreto)) {
-                try {
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaRedefinirSenha.fxml"));
-                    Parent redefinirSenhaRoot = loader.load();
+		TextField input = new TextField();
+		input.setPromptText("Digite o código");
+		input.getStyleClass().add("telaotp-txtfield");
 
-                    Stage mainStage = (Stage) telaOTP.getScene().getWindow();
-                    mainStage.setScene(new Scene(redefinirSenhaRoot, mainStage.getWidth(), mainStage.getHeight()));
-                    mainStage.setTitle("Redefinir Senha");
+		Button confirmarBtn = new Button("Confirmar");
+		confirmarBtn.getStyleClass().add("telaotp-btn");
 
-                    dialog.close();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                    new Alert(Alert.AlertType.ERROR, "Erro ao carregar a tela de redefinição.").show();
-                }
-            } else {
-                Alert erro = new Alert(Alert.AlertType.ERROR);
-                erro.setHeaderText(null);
-                erro.setContentText("Código incorreto.");
-                erro.showAndWait();
-            }
-        });
+		VBox box = new VBox(15, titulo, input, confirmarBtn);
+		box.setAlignment(Pos.CENTER);
+		box.setPadding(new Insets(30));
+		box.setStyle("-fx-background-color: #D9D9D9; -fx-background-radius: 12; -fx-border-radius: 12;");
 
-        dialog.showAndWait();
-    }
-   
-    @FXML
-    private void onBtnEntrar(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
-            Parent root = loader.load();
+		StackPane root = new StackPane(box);
+		root.setStyle("-fx-background-color: transparent;");
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+		Scene scene = new Scene(root, 420, 200);
+		scene.getStylesheets().add(getClass().getResource("/resources/css/styles.css").toExternalForm());
 
-            // Herda o tamanho atual da janela
-            Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
+		Stage dialog = new Stage();
+		dialog.setTitle("Validação de Código");
+		dialog.setScene(scene);
+		dialog.initOwner(telaOTP.getScene().getWindow());
+		dialog.initModality(Modality.WINDOW_MODAL);
 
-            stage.setScene(newScene);
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-            // Você pode exibir uma mensagem de erro aqui, se quiser
-        }
-    }
+		confirmarBtn.setOnAction(e -> {
+			String inputOtp = input.getText().trim();
+			String otpCorreto = usuarioService.getOtpTemporario();
+
+			if (inputOtp.equals(otpCorreto)) {
+				try {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaRedefinirSenha.fxml"));
+					Parent redefinirSenhaRoot = loader.load();
+
+					Stage mainStage = (Stage) telaOTP.getScene().getWindow();
+					mainStage.setScene(new Scene(redefinirSenhaRoot, mainStage.getWidth(), mainStage.getHeight()));
+					mainStage.setTitle("Redefinir Senha");
+
+					dialog.close();
+				} catch (IOException ex) {
+					ex.printStackTrace();
+					new Alert(Alert.AlertType.ERROR, "Erro ao carregar a tela de redefinição.").show();
+				}
+			} else {
+				Alert erro = new Alert(Alert.AlertType.ERROR);
+				erro.setHeaderText(null);
+				erro.setContentText("Código incorreto.");
+				erro.showAndWait();
+			}
+		});
+
+		dialog.showAndWait();
+	}
+
+	@FXML
+	private void onBtnEntrar(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+			Parent root = loader.load();
+
+			Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+
+			// Herda o tamanho atual da janela
+			Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
+
+			stage.setScene(newScene);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Você pode exibir uma mensagem de erro aqui, se quiser
+		}
+	}
 }

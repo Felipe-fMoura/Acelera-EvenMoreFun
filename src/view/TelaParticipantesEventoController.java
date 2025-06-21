@@ -1,226 +1,242 @@
 package view;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Evento;
 import model.Usuario;
 import model.UsuarioPresenca;
-import service.EventoService;
 import service.ChatService;
-
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
+import service.EventoService;
 
 public class TelaParticipantesEventoController {
 
-    @FXML private TableView<UsuarioPresenca> tabelaParticipantes;
-    @FXML private TableColumn<UsuarioPresenca, String> colNome;
-    @FXML private TableColumn<UsuarioPresenca, String> colEmail;
-    @FXML private TableColumn<UsuarioPresenca, Boolean> colPresente;
-    @FXML private TableColumn<UsuarioPresenca, String> colPermissao;
-    @FXML private TableColumn<UsuarioPresenca, String> colTelefone;
-    @FXML private TableColumn<UsuarioPresenca, String> colCpf;
-    @FXML private TableColumn<UsuarioPresenca, String> colNascimento;
-    @FXML private TextField txtFiltro;
-    @FXML private Label lblContadorPresentes;
+	@FXML
+	private TableView<UsuarioPresenca> tabelaParticipantes;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colNome;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colEmail;
+	@FXML
+	private TableColumn<UsuarioPresenca, Boolean> colPresente;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colPermissao;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colTelefone;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colCpf;
+	@FXML
+	private TableColumn<UsuarioPresenca, String> colNascimento;
+	@FXML
+	private TextField txtFiltro;
+	@FXML
+	private Label lblContadorPresentes;
 
-    @FXML private ListView<String> rankingListView;
+	@FXML
+	private ListView<String> rankingListView;
 
-    private Evento evento;
-    private EventoService eventoService = EventoService.getInstance();
-    private ChatService chatService = ChatService.getInstancia();
+	private Evento evento;
+	private EventoService eventoService = EventoService.getInstance();
+	private ChatService chatService = ChatService.getInstancia();
 
-    private ObservableList<UsuarioPresenca> listaOriginal;
-    private FilteredList<UsuarioPresenca> listaFiltrada;
+	private ObservableList<UsuarioPresenca> listaOriginal;
+	private FilteredList<UsuarioPresenca> listaFiltrada;
 
-    public void setEvento(Evento evento) {
-        this.evento = evento;
+	public void setEvento(Evento evento) {
+		this.evento = evento;
 
-        listaOriginal = FXCollections.observableArrayList();
+		listaOriginal = FXCollections.observableArrayList();
 
-        // Adiciona organizador
-        Usuario organizador = evento.getOrganizador();
-        if (organizador != null) {
-            boolean presenteOrganizador = eventoService.getPresenca(evento.getId(), organizador.getId());
-            listaOriginal.add(new UsuarioPresenca(organizador, presenteOrganizador, "organizador"));
-        }
+		// Adiciona organizador
+		Usuario organizador = evento.getOrganizador();
+		if (organizador != null) {
+			boolean presenteOrganizador = eventoService.getPresenca(evento.getId(), organizador.getId());
+			listaOriginal.add(new UsuarioPresenca(organizador, presenteOrganizador, "organizador"));
+		}
 
-        // Adiciona participantes, exceto organizador
-        for (Usuario u : evento.getParticipantes()) {
-            if (organizador != null && u.getId() == organizador.getId()) {
-                continue;
-            }
-            boolean presente = eventoService.getPresenca(evento.getId(), u.getId());
-            String permissao = eventoService.getPermissao(evento.getId(), u.getId());
-            listaOriginal.add(new UsuarioPresenca(u, presente, permissao));
-        }
+		// Adiciona participantes, exceto organizador
+		for (Usuario u : evento.getParticipantes()) {
+			if (organizador != null && u.getId() == organizador.getId()) {
+				continue;
+			}
+			boolean presente = eventoService.getPresenca(evento.getId(), u.getId());
+			String permissao = eventoService.getPermissao(evento.getId(), u.getId());
+			listaOriginal.add(new UsuarioPresenca(u, presente, permissao));
+		}
 
-        listaFiltrada = new FilteredList<>(listaOriginal, p -> true);
-        SortedList<UsuarioPresenca> listaOrdenada = new SortedList<>(listaFiltrada);
-        listaOrdenada.comparatorProperty().bind(tabelaParticipantes.comparatorProperty());
+		listaFiltrada = new FilteredList<>(listaOriginal, p -> true);
+		SortedList<UsuarioPresenca> listaOrdenada = new SortedList<>(listaFiltrada);
+		listaOrdenada.comparatorProperty().bind(tabelaParticipantes.comparatorProperty());
 
-        colNome.setCellValueFactory(data -> data.getValue().nomeProperty());
-        colEmail.setCellValueFactory(data -> data.getValue().emailProperty());
-        colPresente.setCellValueFactory(data -> data.getValue().presenteProperty());
-        colPresente.setCellFactory(CheckBoxTableCell.forTableColumn(colPresente));
-        colPermissao.setCellValueFactory(data -> data.getValue().permissaoProperty());
-        colTelefone.setCellValueFactory(data -> data.getValue().telefoneProperty());
-        colCpf.setCellValueFactory(data -> data.getValue().cpfProperty());
-        colNascimento.setCellValueFactory(data -> data.getValue().dataNascimentoProperty());
+		colNome.setCellValueFactory(data -> data.getValue().nomeProperty());
+		colEmail.setCellValueFactory(data -> data.getValue().emailProperty());
+		colPresente.setCellValueFactory(data -> data.getValue().presenteProperty());
+		colPresente.setCellFactory(CheckBoxTableCell.forTableColumn(colPresente));
+		colPermissao.setCellValueFactory(data -> data.getValue().permissaoProperty());
+		colTelefone.setCellValueFactory(data -> data.getValue().telefoneProperty());
+		colCpf.setCellValueFactory(data -> data.getValue().cpfProperty());
+		colNascimento.setCellValueFactory(data -> data.getValue().dataNascimentoProperty());
 
-        tabelaParticipantes.setEditable(true);
-        colPresente.setEditable(true);
-        tabelaParticipantes.setItems(listaOrdenada);
+		tabelaParticipantes.setEditable(true);
+		colPresente.setEditable(true);
+		tabelaParticipantes.setItems(listaOrdenada);
 
-        // Atualiza contador sempre que presença muda
-        for (UsuarioPresenca up : listaOriginal) {
-            up.presenteProperty().addListener((obs, oldVal, newVal) -> atualizarContador());
-        }
+		// Atualiza contador sempre que presença muda
+		for (UsuarioPresenca up : listaOriginal) {
+			up.presenteProperty().addListener((obs, oldVal, newVal) -> atualizarContador());
+		}
 
-        atualizarContador();
-        atualizarRanking();
-    }
+		atualizarContador();
+		atualizarRanking();
+	}
 
-    private void atualizarRanking() {
-        if (evento == null || rankingListView == null) return;
+	private void atualizarRanking() {
+		if (evento == null || rankingListView == null) {
+			return;
+		}
 
-        // Ranking só por quantidade de mensagens (sem mãos levantadas ou total)
-        class RankingEntry {
-            String nome;
-            int mensagens;
-            public RankingEntry(String nome, int mensagens) {
-                this.nome = nome;
-                this.mensagens = mensagens;
-            }
-        }
+		// Ranking só por quantidade de mensagens (sem mãos levantadas ou total)
+		class RankingEntry {
+			String nome;
+			int mensagens;
 
-        List<RankingEntry> ranking = new ArrayList<>();
+			public RankingEntry(String nome, int mensagens) {
+				this.nome = nome;
+				this.mensagens = mensagens;
+			}
+		}
 
-        for (UsuarioPresenca up : listaOriginal) {
-            Usuario u = up.getUsuario();
-            int msgs = chatService.getQuantidadeMensagens(evento.getId(), u.getId());
-            ranking.add(new RankingEntry(u.getNome(), msgs));
-        }
+		List<RankingEntry> ranking = new ArrayList<>();
 
-        // Ordena decrescente por mensagens
-        ranking.sort(Comparator.comparingInt((RankingEntry r) -> r.mensagens).reversed());
+		for (UsuarioPresenca up : listaOriginal) {
+			Usuario u = up.getUsuario();
+			int msgs = chatService.getQuantidadeMensagens(evento.getId(), u.getId());
+			ranking.add(new RankingEntry(u.getNome(), msgs));
+		}
 
-        List<String> rankingStrings = new ArrayList<>();
-        int pos = 1;
-        for (RankingEntry r : ranking) {
-            rankingStrings.add(String.format("%d. %s (Mensagens: %d)", pos++, r.nome, r.mensagens));
-        }
+		// Ordena decrescente por mensagens
+		ranking.sort(Comparator.comparingInt((RankingEntry r) -> r.mensagens).reversed());
 
-        rankingListView.setItems(FXCollections.observableArrayList(rankingStrings));
-    }
+		List<String> rankingStrings = new ArrayList<>();
+		int pos = 1;
+		for (RankingEntry r : ranking) {
+			rankingStrings.add(String.format("%d. %s (Mensagens: %d)", pos++, r.nome, r.mensagens));
+		}
 
-    @FXML
-    private void salvarPresencas() {
-        for (UsuarioPresenca up : listaOriginal) {
-            eventoService.setPresenca(evento.getId(), up.getUsuario().getId(), up.isPresente());
-        }
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Presenças salvas com sucesso.");
-        alerta.showAndWait();
-        ((Stage) tabelaParticipantes.getScene().getWindow()).close();
-    }
+		rankingListView.setItems(FXCollections.observableArrayList(rankingStrings));
+	}
 
-    @FXML
-    private void filtrarParticipantes() {
-        String filtro = txtFiltro.getText().toLowerCase();
-        listaFiltrada.setPredicate(participante -> {
-            if (filtro == null || filtro.isEmpty()) {
-                return true;
-            }
-            return participante.getUsuario().getNome().toLowerCase().contains(filtro)
-                    || participante.getUsuario().getEmail().toLowerCase().contains(filtro);
-        });
-    }
+	@FXML
+	private void salvarPresencas() {
+		for (UsuarioPresenca up : listaOriginal) {
+			eventoService.setPresenca(evento.getId(), up.getUsuario().getId(), up.isPresente());
+		}
+		Alert alerta = new Alert(Alert.AlertType.INFORMATION, "Presenças salvas com sucesso.");
+		alerta.showAndWait();
+		((Stage) tabelaParticipantes.getScene().getWindow()).close();
+	}
 
-    @FXML
-    private void exportarCSV() {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Salvar CSV");
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
-        fileChooser.setInitialFileName("presencas.csv");
-        File file = fileChooser.showSaveDialog(tabelaParticipantes.getScene().getWindow());
+	@FXML
+	private void filtrarParticipantes() {
+		String filtro = txtFiltro.getText().toLowerCase();
+		listaFiltrada.setPredicate(participante -> {
+			if (filtro == null || filtro.isEmpty()) {
+				return true;
+			}
+			return participante.getUsuario().getNome().toLowerCase().contains(filtro)
+					|| participante.getUsuario().getEmail().toLowerCase().contains(filtro);
+		});
+	}
 
-        if (file != null) {
-            try (FileWriter writer = new FileWriter(file)) {
+	@FXML
+	private void exportarCSV() {
+		FileChooser fileChooser = new FileChooser();
+		fileChooser.setTitle("Salvar CSV");
+		fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("CSV Files", "*.csv"));
+		fileChooser.setInitialFileName("presencas.csv");
+		File file = fileChooser.showSaveDialog(tabelaParticipantes.getScene().getWindow());
 
-                writer.write("=== Lista de Participantes ===\n");
-                writer.write("Nome;E-mail;Telefone;CPF;Nascimento;Gênero;Presente?;Permissão\n");
+		if (file != null) {
+			try (FileWriter writer = new FileWriter(file)) {
 
-                for (UsuarioPresenca up : listaOriginal) {
-                    Usuario u = up.getUsuario();
-                    writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s\n",
-                            csvSafe(u.getNome()),
-                            csvSafe(u.getEmail()),
-                            csvSafe(u.getTelefone()),
-                            csvSafe(u.getCpf()),
-                            u.getDataNascimento() != null ? u.getDataNascimento().toString() : "",
-                            csvSafe(u.getGenero()),
-                            up.isPresente() ? "Sim" : "Não",
-                            csvSafe(up.getPermissao())
-                    ));
-                }
+				writer.write("=== Lista de Participantes ===\n");
+				writer.write("Nome;E-mail;Telefone;CPF;Nascimento;Gênero;Presente?;Permissão\n");
 
-                writer.write("\n=== Ranking de Participação (Mensagens no chat) ===\n");
-                writer.write("Posição;Nome;Mensagens\n");
+				for (UsuarioPresenca up : listaOriginal) {
+					Usuario u = up.getUsuario();
+					writer.write(String.format("%s;%s;%s;%s;%s;%s;%s;%s\n", csvSafe(u.getNome()), csvSafe(u.getEmail()),
+							csvSafe(u.getTelefone()), csvSafe(u.getCpf()),
+							u.getDataNascimento() != null ? u.getDataNascimento().toString() : "",
+							csvSafe(u.getGenero()), up.isPresente() ? "Sim" : "Não", csvSafe(up.getPermissao())));
+				}
 
-                List<UsuarioPresenca> participantesOrdenados = new ArrayList<>(listaOriginal);
-                participantesOrdenados.sort((a, b) -> {
-                    int msgsB = chatService.getQuantidadeMensagens(evento.getId(), b.getUsuario().getId());
-                    int msgsA = chatService.getQuantidadeMensagens(evento.getId(), a.getUsuario().getId());
-                    return Integer.compare(msgsB, msgsA); // ordem decrescente
-                });
+				writer.write("\n=== Ranking de Participação (Mensagens no chat) ===\n");
+				writer.write("Posição;Nome;Mensagens\n");
 
-                int pos = 1;
-                for (UsuarioPresenca up : participantesOrdenados) {
-                    int mensagens = chatService.getQuantidadeMensagens(evento.getId(), up.getUsuario().getId());
-                    writer.write(String.format("%d;%s;%d\n", pos++, csvSafe(up.getUsuario().getNome()), mensagens));
-                }
+				List<UsuarioPresenca> participantesOrdenados = new ArrayList<>(listaOriginal);
+				participantesOrdenados.sort((a, b) -> {
+					int msgsB = chatService.getQuantidadeMensagens(evento.getId(), b.getUsuario().getId());
+					int msgsA = chatService.getQuantidadeMensagens(evento.getId(), a.getUsuario().getId());
+					return Integer.compare(msgsB, msgsA); // ordem decrescente
+				});
 
-                Alert alerta = new Alert(Alert.AlertType.INFORMATION, "CSV exportado com sucesso.");
-                alerta.showAndWait();
+				int pos = 1;
+				for (UsuarioPresenca up : participantesOrdenados) {
+					int mensagens = chatService.getQuantidadeMensagens(evento.getId(), up.getUsuario().getId());
+					writer.write(String.format("%d;%s;%d\n", pos++, csvSafe(up.getUsuario().getNome()), mensagens));
+				}
 
-            } catch (IOException e) {
-                e.printStackTrace();
-                Alert alerta = new Alert(Alert.AlertType.ERROR, "Erro ao exportar CSV.");
-                alerta.showAndWait();
-            }
-        }
-    }
+				Alert alerta = new Alert(Alert.AlertType.INFORMATION, "CSV exportado com sucesso.");
+				alerta.showAndWait();
 
-    // Escapa campos com ; ou " para evitar quebra no CSV
-    private String csvSafe(String input) {
-        if (input == null) return "";
-        if (input.contains(";") || input.contains("\"")) {
-            return "\"" + input.replace("\"", "\"\"") + "\"";
-        }
-        return input;
-    }
+			} catch (IOException e) {
+				e.printStackTrace();
+				Alert alerta = new Alert(Alert.AlertType.ERROR, "Erro ao exportar CSV.");
+				alerta.showAndWait();
+			}
+		}
+	}
 
+	// Escapa campos com ; ou " para evitar quebra no CSV
+	private String csvSafe(String input) {
+		if (input == null) {
+			return "";
+		}
+		if (input.contains(";") || input.contains("\"")) {
+			return "\"" + input.replace("\"", "\"\"") + "\"";
+		}
+		return input;
+	}
 
-    @FXML
-    private void alternarTodosCheckBoxes() {
-        boolean marcarTodos = listaOriginal.stream().anyMatch(p -> !p.isPresente());
-        for (UsuarioPresenca up : listaOriginal) {
-            up.setPresente(marcarTodos);
-        }
-        atualizarContador();
-    }
+	@FXML
+	private void alternarTodosCheckBoxes() {
+		boolean marcarTodos = listaOriginal.stream().anyMatch(p -> !p.isPresente());
+		for (UsuarioPresenca up : listaOriginal) {
+			up.setPresente(marcarTodos);
+		}
+		atualizarContador();
+	}
 
-    private void atualizarContador() {
-        long total = listaOriginal.stream().filter(UsuarioPresenca::isPresente).count();
-        lblContadorPresentes.setText("Presentes: " + total);
-    }
+	private void atualizarContador() {
+		long total = listaOriginal.stream().filter(UsuarioPresenca::isPresente).count();
+		lblContadorPresentes.setText("Presentes: " + total);
+	}
 }
