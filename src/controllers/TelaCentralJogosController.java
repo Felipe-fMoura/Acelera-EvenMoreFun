@@ -1,3 +1,23 @@
+/*
+ * Controller responsável pela tela central de seleção de jogos.
+ * 
+ * Principais funcionalidades:
+ * - Navegação para diferentes telas de jogos
+ * - Gerenciamento básico de erros durante carregamento
+ * 
+ * Jogos disponíveis:
+ * - Jogo do Pontinho (TelaJogoPontinho)
+ * - Jogo da Tecla Certa (TelaJogoTeclaCerta)
+ * 
+ * Métodos principais:
+ * - handleBtnJogoPontinho(): Inicia o jogo de clique
+ * - handleBtnJogoTeclas(): Inicia o jogo de teclas
+ * - mostrarAlerta(): Exibe mensagens de erro
+ * 
+ * Padrões utilizados:
+ * - Singleton: Gerenciamento de telas
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -12,10 +32,9 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class TelaCentralJogosController {
-	@FXML
-	private Button btnJogoPontinho;
-	@FXML
-	private Button btnJogoTeclas;
+	
+	@FXML private Button btnJogoPontinho;
+	@FXML private Button btnJogoTeclas;
 
 	private void mostrarAlerta(String mensagem) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);

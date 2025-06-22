@@ -1,16 +1,62 @@
 /*
- * Métodos relevantes criados:
- * - Evento() (construtor padrão)
- * - Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador, String palestrante) (construtor com parâmetros)
- * - Getters e Setters para atributos principais (id, titulo, descricao, local, imagem, categoria, palestrante, data, dataCriacao, organizador)
- * - getParticipantes(), setParticipantes(List<Usuario>)
- * - adicionarParticipante(Usuario), removerParticipante(Usuario)
- * - getQuantidadeParticipantes()
- * - setPresenca(int usuarioId, boolean presente), getPresenca(int usuarioId)
- * - isPrivado(), setPrivado(boolean)
- * - getUrlVideo(), setUrlVideo(String)
- * - isAcessoLiberado(), setAcessoLiberado(boolean)
- * - toString()
+ * Classe Evento - modelo dos eventos criados.
+ * Métodos/Fluxos principais criados:
+ *
+ * - getParticipantes(), setParticipantes(List<Usuario>)  
+ *   Usa um ArrayList para armazenar os participantes do evento.
+ *
+ * - adicionarParticipante(Usuario), removerParticipante(Usuario)  
+ *   Manipula um ArrayList para adicionar ou remover participantes, evitando duplicação.
+ *
+ * - getQuantidadeParticipantes()  
+ *   Retorna o tamanho do ArrayList de participantes.
+ *
+ * - setPresenca(int usuarioId, boolean presente), getPresenca(int usuarioId)  
+ *   Utiliza um HashMap para mapear o ID do usuário à sua presença (true/false).
+ *
+ * - curtirEvento(Usuario), descurtirEvento(Usuario)  
+ *   Usa um HashSet para registrar os usuários que curtiram, garantindo que não curtam mais de uma vez.
+ *
+ * - getUsuariosQueCurtiram()  
+ *   Retorna o conjunto imutável de usuários que curtiram (HashSet).
+ *
+ * - getCurtidasPorImagem(), getComentariosPorImagem()  
+ *   Armazena curtidas (HashMap<String, Integer>) e comentários por imagem (HashMap<String, List<String>>).
+ *
+ * - getComentarios(), adicionarComentario(Comentario)  
+ *   Armazena comentários do evento em um ArrayList.
+ *
+ * - getGaleriaFotos()  
+ *   Retorna uma lista de imagens (ArrayList<String>) adicionadas ao evento.
+ *
+ * Métodos de construção e dados:
+ *
+ * - Evento()  
+ *   Construtor padrão que inicializa a data de criação do evento.
+ *
+ * - Evento(String titulo, String descricao, LocalDateTime data, String local, Usuario organizador, String palestrante)  
+ *   Construtor completo com os principais dados do evento.
+ *
+ * - Getters e Setters  
+ *   Permitem acessar e alterar os dados principais do evento: título, descrição, data, local, imagem, categoria, palestrante, tipo, etc.
+ *
+ * - isPrivado(), setPrivado(boolean)  
+ *   Verifica ou define se o evento é privado.
+ *
+ * - getUrlVideo(), setUrlVideo(String)  
+ *   Define ou retorna a URL do vídeo vinculado ao evento.
+ *
+ * - isAcessoLiberado(), setAcessoLiberado(boolean)  
+ *   Indica se o conteúdo do evento está liberado para os participantes.
+ *
+ * - getCurtidas(), curtir()  
+ *   Retorna ou incrementa o número total de curtidas do evento.
+ *
+ * - Builder (classe interna)  
+ *   Utiliza o padrão de projeto *Builder* para criação de eventos com métodos encadeados (ex: comImagem(), comCategoria(), build()).
+ *
+ * - toString()  
+ *   Representação textual do evento com os dados mais relevantes.
  */
 
 package model;
@@ -25,10 +71,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-/**
- * Representa um evento criado por um organizador, contendo título, descrição,
- * data, local, participantes e controle de presença, acesso e vídeo.
- */
 public class Evento {
 	private int id;
 	private Usuario organizador;

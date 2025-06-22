@@ -1,3 +1,34 @@
+/*
+ * Controller responsável pela tela de cadastro inicial de usuários.
+ * 
+ * Principais responsabilidades:
+ * - Validação dos dados básicos de cadastro (usuário, email, senha)
+ * - Integração com serviços de usuário e confirmação por email
+ * - Navegação entre telas de cadastro e login
+ * 
+ * Componentes principais:
+ * - Campos de formulário (nome, email, senha, confirmação de senha)
+ * - Validação de dados de entrada
+ * - Redimensionamento responsivo da interface
+ * 
+ * Serviços utilizados:
+ * - UsuarioService: Validações e persistência de usuários
+ * - EmailConfirmationService: Envio de confirmação por email
+ * - Alertas: Exibição de mensagens para o usuário
+ * - Redimensionamento: Ajuste de layout responsivo
+ * 
+ * Fluxos principais:
+ * - onBtCadastrarUsuario(): Processa e valida o cadastro inicial
+ * - onBtnEntrar(): Navegação para tela de login
+ * - initialize(): Configuração inicial dos componentes
+ * 
+ * Validações realizadas:
+ * - Força da senha (complexidade)
+ * - Correspondência entre senhas
+ * - Formato de email válido
+ * - Email já cadastrado
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -25,44 +56,19 @@ public class TelaCadastroController {
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 
-	@FXML
-	private TextField txtUsername;
-
-	@FXML
-	private TextField txtNome;
-
-	@FXML
-	private TextField txtSobrenome;
-
-	@FXML
-	private TextField txtEmail;
-
-	@FXML
-	private TextField txtSenha;
-
-	@FXML
-	private TextField txtVerificarSenha;
-
-	@FXML
-	private Button btnConfirma;
-
-	@FXML
-	private TextField txtRepitirSenha;
-
-	@FXML
-	private Button btnEntrar;
-
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private StackPane telaCadastro;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private Group grupoCampos;
+	@FXML private TextField txtUsername;
+	@FXML private TextField txtNome;
+	@FXML private TextField txtSobrenome;
+	@FXML private TextField txtEmail;
+	@FXML private TextField txtSenha;
+	@FXML private TextField txtVerificarSenha;
+	@FXML private Button btnConfirma;
+	@FXML private TextField txtRepitirSenha;
+	@FXML private Button btnEntrar;
+	@FXML private ImageView backgroundImage;
+	@FXML private StackPane telaCadastro;
+	@FXML private AnchorPane contentPane;
+	@FXML private Group grupoCampos;
 
 	@FXML
 	public void initialize() {

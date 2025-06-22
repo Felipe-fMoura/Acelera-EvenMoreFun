@@ -1,3 +1,35 @@
+/*
+ * Controller responsável pela tela de edição de eventos.
+ * 
+ * Principais responsabilidades:
+ * - Edição dos dados de eventos existentes
+ * - Validação e formatação de campos (especialmente data/hora)
+ * - Exclusão de eventos
+ * - Upload de imagens para o evento
+ * 
+ * Componentes principais:
+ * - Campos de formulário para edição (título, descrição, local, etc.)
+ * - Validação e formatação automática de horário
+ * - Diálogo para seleção de imagens
+ * 
+ * Serviços utilizados:
+ * - EventoService: Atualização e remoção de eventos
+ * - NotificacaoService: Registro de atividades
+ * 
+ * Validações implementadas:
+ * - Formato de horário (HHmm ou HH:mm)
+ * - Campos obrigatórios
+ * - Confirmação para exclusão
+ * 
+ * Fluxos principais:
+ * - handleEditarEvento(): Salva as alterações no evento
+ * - handleExcluirEvento(): Remove o evento com confirmação
+ * - handleSelecionarImagem(): Abre diálogo para seleção de imagem
+ * 
+ * Padrões utilizados:
+ * - Observer: Atualização de notificações
+ */
+
 package controllers;
 
 import java.io.File;
@@ -21,26 +53,17 @@ import service.EventoService;
 import service.NotificacaoService;
 
 public class TelaEditarEventoController {
-	@FXML
-	private TextField txtTitulo;
-	@FXML
-	private TextArea txtDescricao;
-	@FXML
-	private DatePicker dateData;
-	@FXML
-	private TextField txtHora;
-	@FXML
-	private TextField txtLocal;
-	@FXML
-	private TextField txtImagem;
-	@FXML
-	private ComboBox<String> cbCategoria;
-	@FXML
-	private CheckBox checkPrivado;
-	@FXML
-	private TextField txtPalestrante;
-	@FXML
-	private ComboBox<String> cbTipo;
+	
+	@FXML private TextField txtTitulo;
+	@FXML private TextArea txtDescricao;
+	@FXML private DatePicker dateData;
+	@FXML private TextField txtHora;
+	@FXML private TextField txtLocal;
+	@FXML private TextField txtImagem;
+	@FXML private ComboBox<String> cbCategoria;
+	@FXML private CheckBox checkPrivado;
+	@FXML private TextField txtPalestrante;
+	@FXML private ComboBox<String> cbTipo;
 
 	private Usuario usuarioLogado;
 	private EventoService eventoService = EventoService.getInstance();

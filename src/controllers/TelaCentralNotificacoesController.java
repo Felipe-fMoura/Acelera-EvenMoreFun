@@ -1,3 +1,28 @@
+/*
+ * Controller responsável pela tela de gerenciamento de notificações do usuário.
+ * 
+ * Principais funcionalidades:
+ * - Exibição de notificações organizadas por tipo (histórico e alertas)
+ * - Integração com o serviço de notificações
+ * - Navegação básica de retorno
+ * 
+ * Componentes principais:
+ * - TabPane: Organização por abas (histórico/alertas)
+ * - ListViews: Exibição das notificações
+ * 
+ * Serviços utilizados:
+ * - NotificacaoService: Obtenção das notificações do usuário
+ * - SessaoUsuario: Acesso ao usuário logado
+ * 
+ * Métodos principais:
+ * - initialize(): Carrega as notificações ao iniciar
+ * - handleVoltar(): Fecha a janela atual
+ * 
+ * Estruturas de dados:
+ * - ListView<String>: Para exibição das notificações
+ * - List<Notificacao>: Armazenamento temporário dos dados
+ */
+
 package controllers;
 
 import java.util.List;
@@ -14,14 +39,10 @@ import session.SessaoUsuario;
 
 public class TelaCentralNotificacoesController {
 
-	@FXML
-	private TabPane tabPane;
-	@FXML
-	private ListView<String> listHistorico;
-	@FXML
-	private ListView<String> listAlertas;
-	@FXML
-	private Button btnVoltar;
+	@FXML private TabPane tabPane;
+	@FXML private ListView<String> listHistorico;
+	@FXML private ListView<String> listAlertas;
+	@FXML private Button btnVoltar;
 
 	private Usuario usuarioLogado;
 

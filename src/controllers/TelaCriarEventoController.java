@@ -1,3 +1,34 @@
+/*
+ * Controller responsável pela tela de criação de eventos.
+ * 
+ * Principais responsabilidades:
+ * - Validação e coleta de dados para criação de eventos
+ * - Gerenciamento de upload de imagens
+ * - Integração com serviços de eventos e notificações
+ * 
+ * Componentes principais:
+ * - Campos de formulário (título, descrição, data, local, etc.)
+ * - Validação e formatação de dados (especialmente para horário)
+ * - Seleção de imagem via FileChooser
+ * 
+ * Serviços utilizados:
+ * - EventoService: Criação e gestão de eventos
+ * - NotificacaoService: Registro de atividades
+ * 
+ * Validações implementadas:
+ * - Formato de horário (HHmm ou HH:mm)
+ * - Campos obrigatórios
+ * - Tipos de arquivo para imagem
+ * 
+ * Fluxos principais:
+ * - handleCriarEvento(): Processa todos os dados e cria o evento
+ * - handleSelecionarImagem(): Abre diálogo para seleção de imagem
+ * - initialize(): Configura componentes iniciais e máscaras
+ * 
+ * Padrões utilizados:
+ * - Observer: Atualização de notificações
+ */
+
 package controllers;
 
 import java.io.File;
@@ -21,26 +52,17 @@ import service.NotificacaoService;
 import session.SessaoUsuario;
 
 public class TelaCriarEventoController {
-	@FXML
-	private TextField txtTitulo;
-	@FXML
-	private TextArea txtDescricao;
-	@FXML
-	private DatePicker dateData;
-	@FXML
-	private TextField txtHora;
-	@FXML
-	private TextField txtLocal;
-	@FXML
-	private TextField txtImagem;
-	@FXML
-	private ComboBox<String> cbCategoria;
-	@FXML
-	private CheckBox checkPrivado;
-	@FXML
-	private TextField txtPalestrante;
-	@FXML
-	private ComboBox<String> cbTipoEvento;
+	
+	@FXML private TextField txtTitulo;
+	@FXML private TextArea txtDescricao;
+	@FXML private DatePicker dateData;
+	@FXML private TextField txtHora;
+	@FXML private TextField txtLocal;
+	@FXML private TextField txtImagem;
+	@FXML private ComboBox<String> cbCategoria;
+	@FXML private CheckBox checkPrivado;
+	@FXML private TextField txtPalestrante;
+	@FXML private ComboBox<String> cbTipoEvento;
 
 	private Usuario usuarioLogado;
 	private EventoService eventoService = EventoService.getInstance();

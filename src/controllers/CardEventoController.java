@@ -1,3 +1,65 @@
+/*
+ * Controller responsável pela exibição e interações com cards de eventos.
+ * 
+ * Métodos/Fluxos principais:
+ * 
+ * - setEvento(Evento, Usuario)
+ *   Configura todos os componentes visuais do card e lógica de exibição condicional.
+ *   Usa ArrayList para participantes e HashMap para presenças (via EventoService).
+ * 
+ * - handleParticipar()
+ *   Gerencia participação no evento com EventoService, incluindo geração de QRCode
+ *   (QRCodeGenerator) e envio de e-mail (EmailSender).
+ * 
+ * - handleCompartilhar(ActionEvent)
+ *   Implementa compartilhamento em redes sociais com ContextMenu e MenuItems customizados.
+ *   Registra ações via NotificacaoService.
+ * 
+ * - handleEntrar(ActionEvent)
+ *   Controla acesso à sala do evento online, com validações de permissão e presença.
+ * 
+ * - handleCurtir(ActionEvent)
+ *   Gerencia curtidas usando HashSet para evitar duplicações e atualiza interface.
+ * 
+ * - recarregarComentarios(), carregarComentarios()
+ *   Exibe comentários usando ArrayList e padrão ComentarioComUsuario para associação
+ *   texto-usuário. Implementa scroll automático para novos comentários.
+ * 
+ * - handleEnviarComentario()
+ *   Adiciona novos comentários ao evento via EventoService e atualiza a UI.
+ * 
+ * Estruturas de dados principais:
+ * 
+ * - ArrayList<ComentarioComUsuario> comentarios
+ *   Armazena comentários exibidos no card.
+ * 
+ * - HashMap (implícito via EventoService)
+ *   Gerencia presenças e curtidas de usuários.
+ * 
+ * Componentes de UI:
+ * 
+ * - ImageView (imgEvento, imgPerfilOrganizador)
+ *   Exibe imagens com tratamento de fallback para recursos padrão.
+ * 
+ * - ContextMenu
+ *   Menu dinâmico para compartilhamento em redes sociais.
+ * 
+ * - ScrollPane + VBox
+ *   Container scrollável para exibição de comentários.
+ * 
+ * Serviços integrados:
+ * 
+ * - EventoService: Gerencia dados do evento
+ * - NotificacaoService: Registra ações do usuário
+ * - UsuarioService: Validações de cadastro
+ * - EmailSender + QRCodeGenerator: Funcionalidade de QR Code
+ * 
+ * Padrões utilizados:
+ * 
+ * - Observer: Atualização automática da UI quando dados mudam
+ * - Builder: Para construção de objetos complexos (notificações)
+ */
+
 package controllers;
 
 import java.awt.Desktop;
@@ -47,50 +109,28 @@ import session.SessaoUsuario;
 
 public class CardEventoController {
 
-	@FXML
-	private VBox paneComentarios;
-	@FXML
-	private VBox vboxComentarios;
-	@FXML
-	private ScrollPane scrollComentarios;
-	@FXML
-	private TextField txtNovoComentario;
-	@FXML
-	private Button btnEnviarComentario;
-	@FXML
-	private Text txtTituloEvento;
-	@FXML
-	private Text txtDescricaoEvento;
-	@FXML
-	private Text txtNomeOrganizador;
-	@FXML
-	private Text txtDataEvento;
-	@FXML
-	private Label lblParticipantes;
-	@FXML
-	private Label lblLocal;
-	@FXML
-	private ImageView imgEvento;
-	@FXML
-	private Label lblPalestrante;
-	@FXML
-	private Button btnEntrar;
-	@FXML
-	private Button btnParticipar;
-	@FXML
-	private Button btnLista;
-	@FXML
-	private Button btnEditar;
-	@FXML
-	private Button btnGaleria;
-	@FXML
-	private Button btnNotificacao;
-	@FXML
-	private Button btnCurtir;
-	@FXML
-	private ImageView imgPerfilOrganizador;
-	@FXML
-	private Text txtUserNameOrganizador;
+	@FXML private VBox paneComentarios;
+	@FXML private VBox vboxComentarios;
+	@FXML private ScrollPane scrollComentarios;
+	@FXML private TextField txtNovoComentario;
+	@FXML private Button btnEnviarComentario;
+	@FXML private Text txtTituloEvento;
+	@FXML private Text txtDescricaoEvento;
+	@FXML private Text txtNomeOrganizador;
+	@FXML private Text txtDataEvento;
+	@FXML private Label lblParticipantes;
+	@FXML private Label lblLocal;
+	@FXML private ImageView imgEvento;
+    @FXML private Label lblPalestrante;
+	@FXML private Button btnEntrar;
+	@FXML private Button btnParticipar;
+	@FXML private Button btnLista;
+	@FXML private Button btnEditar;
+	@FXML private Button btnGaleria;
+	@FXML private Button btnNotificacao;
+	@FXML private Button btnCurtir;
+	@FXML private ImageView imgPerfilOrganizador;
+	@FXML private Text txtUserNameOrganizador;
 
 	private Evento evento;
 	private Usuario usuarioLogado;

@@ -1,10 +1,29 @@
 /*
- * Métodos relevantes criados:
- * - getUsuario(): retorna o usuário associado ao ranking de participação.
- * - getMensagens(): retorna o número de mensagens do usuário.
- * - getPontuacao(): retorna a pontuação (neste caso, o número de mensagens).
- * - compareTo(ParticipacaoRanking outro): compara rankings para ordenar em ordem decrescente.
- * - toString(): representação textual do ranking.
+ * Classe ParticipacaoRanking – representa o desempenho de um usuário com base no número de mensagens enviadas.
+ *
+ * Estruturas e conceitos utilizados:
+ * - Armazena o usuário (objeto Usuario) e sua quantidade de mensagens (int).
+ * - Implementa a interface Comparable para permitir ordenação personalizada (ranking).
+ *
+ * Métodos principais:
+ *
+ * - ParticipacaoRanking(Usuario usuario, int mensagens)  
+ *   Construtor que inicializa o usuário e o total de mensagens enviadas.
+ *
+ * - getUsuario()  
+ *   Retorna o usuário associado à participação.
+ *
+ * - getMensagens()  
+ *   Retorna o número total de mensagens do usuário.
+ *
+ * - getPontuacao()  
+ *   Retorna a pontuação do usuário (neste caso, igual ao número de mensagens).
+ *
+ * - compareTo(ParticipacaoRanking outro)  
+ *   Compara dois rankings para ordenação decrescente com base na pontuação (mais mensagens no topo).
+ *
+ * - toString()  
+ *   Gera uma string com o nome do usuário e a quantidade de mensagens, usada para exibição.
  */
 
 package model;

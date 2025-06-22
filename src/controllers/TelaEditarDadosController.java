@@ -1,3 +1,35 @@
+/*
+ * Controller responsável pela tela de edição de dados do usuário.
+ * 
+ * Principais responsabilidades:
+ * - Edição dos dados cadastrais do usuário
+ * - Validação dos campos de entrada
+ * - Atualização dos dados no sistema
+ * 
+ * Componentes principais:
+ * - Campos de formulário (nome, email, telefone, etc.)
+ * - Validação de dados de entrada
+ * - Controle de visibilidade condicional de campos
+ * 
+ * Serviços utilizados:
+ * - UsuarioService: Validações e persistência
+ * - NotificacaoService: Registro de atividades
+ * - SessaoUsuario: Acesso ao usuário logado
+ * 
+ * Validações implementadas:
+ * - Campos obrigatórios
+ * - Formato de email válido
+ * - Formato de telefone válido
+ * - Idade mínima (14 anos)
+ * 
+ * Fluxos principais:
+ * - initialize(): Carrega e exibe os dados atuais do usuário
+ * - handleSalvar(): Processa e valida as alterações
+ * 
+ * Padrões utilizados:
+ * - Singleton: Acesso a serviços compartilhados
+ */
+
 package controllers;
 
 import java.time.LocalDate;
@@ -18,20 +50,13 @@ import session.SessaoUsuario;
 
 public class TelaEditarDadosController {
 
-	@FXML
-	private TextField txtEmail;
-	@FXML
-	private TextField txtNome;
-	@FXML
-	private TextField txtNomeUsuario;
-	@FXML
-	private DatePicker datePickerDataNascimento;
-	@FXML
-	private ComboBox<String> cbGenero;
-	@FXML
-	private TextField txtTelefone;
-	@FXML
-	private Button btnSalvar;
+	@FXML private TextField txtEmail;
+	@FXML private TextField txtNome;
+	@FXML private TextField txtNomeUsuario;
+	@FXML private DatePicker datePickerDataNascimento;
+	@FXML private ComboBox<String> cbGenero;
+	@FXML private TextField txtTelefone;
+	@FXML private Button btnSalvar;
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 	private Usuario usuarioLogado;

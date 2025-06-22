@@ -1,20 +1,36 @@
 /*
- * Métodos relevantes criados:
- * - criarEvento(Evento evento): cria e adiciona novo evento com ID incremental.
- * - atualizarEvento(Evento eventoAtualizado): atualiza evento existente pelo ID.
- * - removerEvento(int id): remove evento pelo ID.
- * - buscarEventoPorId(int id): busca evento pelo ID.
- * - listarTodosEventos(): retorna todos os eventos cadastrados (sem filtro), ordenados por data.
- * - listarEventosPublicos(): lista eventos públicos ordenados por data.
- * - listarProximosEventos(): lista eventos futuros ordenados por data.
- * - listarEventosPorCurtidas(): lista todos os eventos ordenados por número de curtidas (mais curtidos primeiro).
- * - pesquisarEventos(String termo, Usuario usuarioLogado): busca eventos por termo visíveis ao usuário.
- * - adicionarParticipante(int eventoId, int usuarioId): adiciona participante a evento.
- * - removerParticipante(int eventoId, int usuarioId): remove participante do evento.
- * - contarEventosOrganizadosPorUsuario(int usuarioId): conta eventos organizados por usuário.
- * - contarParticipacoesUsuario(int usuarioId): conta eventos que usuário participa.
- * - setPresenca(int eventoId, int usuarioId, boolean presente): marca presença do participante.
- * - getPermissao(int eventoId, int usuarioId): retorna permissão do usuário para o evento ("organizador", "participante", "nenhuma").
+ * Serviço responsável pelo gerenciamento completo de eventos.
+ * 
+ * Implementa o padrão Singleton para garantir uma única instância.
+ * 
+ * Principais funcionalidades:
+ * - CRUD completo de eventos
+ * - Gerenciamento de participantes e presenças
+ * - Pesquisa e filtragem de eventos
+ * - Controle de permissões e acessos
+ * - Integração com serviços de usuário
+ * 
+ * Estruturas de dados principais:
+ * - ArrayList<Evento>: Armazenamento dos eventos
+ * - HashMap (implícito): Controle de presenças e permissões
+ * 
+ * Métodos principais:
+ * - criarEvento(), atualizarEvento(), removerEvento(): Operações básicas CRUD
+ * - listarEventos*(): Diversos métodos de listagem com filtros
+ * - pesquisarEventos*(): Buscas por termo, data e categoria
+ * - adicionar/removerParticipante(): Gestão de participantes
+ * - getPermissao(): Controle de acesso a eventos
+ * - getComentariosDoEvento(): Gestão de comentários
+ * 
+ * Validações implementadas:
+ * - Visibilidade de eventos (públicos/privados)
+ * - Permissões de acesso (organizador/participante)
+ * - Verificação de participação
+ * 
+ * Padrões utilizados:
+ * - Singleton: Controle de instância única
+ * - Builder: Para criação de eventos (via classe Evento.Builder)
+ * - Strategy: Diferentes algoritmos de filtragem/pesquisa
  */
 
 package service;
@@ -67,7 +83,7 @@ public class EventoService {
 
 		criarEvento(new Evento.Builder("Acelera Fatec", "Venha prestigiar!", LocalDateTime.now().plusDays(5),
 				"Fatec Cruzeiro Prof. Waldomiro May", org1, "Enari")
-				.comImagem(getClass().getResource("/resources/event/eventoSemFoto.png").toExternalForm()).build());
+				.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/fatec_cruzeiro.jpg").toExternalForm()).build());
 
 		criarEvento(new Evento.Builder("WorkShop de JavaFx", "Aprenda a criar interfaces incriveis!",
 				LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", org2, "Feichas")

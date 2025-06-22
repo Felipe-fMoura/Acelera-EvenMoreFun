@@ -1,3 +1,33 @@
+/*
+ * Controller responsável pelo envio de notificações para participantes de eventos.
+ * 
+ * Principais funcionalidades:
+ * - Composição e envio de mensagens para participantes
+ * - Opção de envio por e-mail
+ * - Integração com serviços de notificação e e-mail
+ * 
+ * Componentes principais:
+ * - Área de texto para composição da mensagem
+ * - Checkbox para opção de envio por e-mail
+ * - Controles de envio e cancelamento
+ * 
+ * Serviços utilizados:
+ * - NotificacaoService: Registro e envio de notificações
+ * - EmailSender: Envio de e-mails (quando habilitado)
+ * 
+ * Fluxos principais:
+ * - handleEnviar(): Processa e envia a notificação
+ * - handleFechar(): Fecha a janela sem enviar
+ * 
+ * Validações:
+ * - Mensagem não pode estar vazia
+ * - Tratamento de erros no envio por e-mail
+ * 
+ * Padrões utilizados:
+ * - MVC: Separação entre view e controller
+ * - Observer: Atualização de notificações
+ */
+
 package controllers;
 
 import java.time.LocalDateTime;
@@ -16,14 +46,10 @@ import service.NotificacaoService;
 
 public class TelaEnviarNotificacaoController {
 
-	@FXML
-	private TextArea txtMensagem;
-	@FXML
-	private CheckBox chkEmail;
-	@FXML
-	private Button btnFechar;
-	@FXML
-	private Button btnEnviar;
+	@FXML private TextArea txtMensagem;
+	@FXML private CheckBox chkEmail;
+	@FXML private Button btnFechar;
+	@FXML private Button btnEnviar;
 
 	private Evento evento;
 	private Usuario organizador;

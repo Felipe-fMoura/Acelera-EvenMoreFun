@@ -1,3 +1,45 @@
+/*
+ * Classe Usuario – representa um usuário do sistema com seus dados pessoais,
+ * informações de login e eventos que organiza ou participa.
+ *
+ * Estruturas e conceitos utilizados:
+ * - Armazena atributos como nome, email, senha, telefone, CPF, gênero e data de nascimento.
+ * - Utiliza listas do tipo ArrayList para gerenciar eventos organizados e eventos participados.
+ * - Usa Collections.unmodifiableList() para proteger a integridade das listas retornadas.
+ *
+ * Métodos principais:
+ *
+ * - Usuario()  
+ *   Construtor padrão que inicializa as listas de eventos organizados e participando.
+ *
+ * - Usuario(String nome, String sobrenome, String username, String email, String senha)  
+ *   Construtor com campos obrigatórios, valida dados essenciais e define imagem padrão de perfil.
+ *
+ * - Getters e Setters  
+ *   Acessam e modificam os dados pessoais do usuário como nome, email, senha, telefone, CPF, etc.
+ *
+ * - getEventosParticipando(), getEventosOrganizados()  
+ *   Retornam listas imutáveis com os eventos em que o usuário participa ou organiza.
+ *
+ * - participarEvento(Evento), cancelarParticipacao(Evento)  
+ *   Adiciona ou remove um evento da lista de participações do usuário.
+ *
+ * - organizarEvento(Evento)  
+ *   Registra um evento como organizado pelo usuário e define o organizador no evento.
+ *
+ * - getNomeCompleto()  
+ *   Retorna nome completo concatenando nome e sobrenome.
+ *
+ * - equals(Object), hashCode()  
+ *   Comparam usuários com base no ID e no email, e geram hash correspondente.
+ *
+ * - toString()  
+ *   Gera uma string com as principais informações do usuário para exibição ou debug.
+ *
+ * - getCaminhoFotoPerfil(), setCaminhoFotoPerfil(String)  
+ *   Retorna ou define o caminho da imagem de perfil, com fallback para imagem padrão.
+ */
+
 package model;
 
 import java.time.LocalDate;
@@ -6,10 +48,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Representa um usuário do sistema com seus dados pessoais e relacionamento com
- * eventos. Permite gerenciar eventos organizados e participações em eventos.
- */
 public class Usuario {
 
 	private int id;
@@ -26,25 +64,11 @@ public class Usuario {
 	private final List<Evento> eventosOrganizados;
 	private String caminhoFotoPerfil;
 
-	/**
-	 * Construtor padrão que inicializa as listas de eventos. As listas são
-	 * inicializadas vazias e imutáveis quanto à instância (final). As referências a
-	 * essas listas não podem ser trocadas após a construção do objeto.
-	 */
 	public Usuario() {
 		this.eventosParticipando = new ArrayList<>();
 		this.eventosOrganizados = new ArrayList<>();
 	}
 
-	/**
-	 * Construtor para criação básica de usuário com validação de campos
-	 * obrigatórios, para a primeira parte do cadastro.
-	 *
-	 * @param username Identificador único do usuário (não pode ser nulo)
-	 * @param email    Email do usuário (não pode ser nulo)
-	 * @param senha    Senha do usuário (não pode ser nula)
-	 * @throws NullPointerException se qualquer parâmetro obrigatório for nulo
-	 */
 	public Usuario(String nome, String sobrenome, String username, String email, String senha) {
 		this();
 
@@ -141,70 +165,17 @@ public class Usuario {
 
 	// Métodos para gerenciamento de eventos
 
-	/**
-	 * Retorna uma visão imutável da lista de eventos que o usuário está
-	 * participando.
-	 *
-	 * <p>
-	 * A lista retornada é um "wrapper" imutável ao redor da lista original. Isso
-	 * significa que:
-	 * </p>
-	 * <ul>
-	 * <li><b>Não é possível modificar</b> a lista retornada (add/remove/set lançam
-	 * UnsupportedOperationException)</li>
-	 * <li><b>Reflete automaticamente</b> alterações feitas na lista interna do
-	 * usuário</li>
-	 * </ul>
-	 *
-	 * <p>
-	 * Exemplo de uso:
-	 * </p>
-	 * 
-	 * <pre>{@code
-	 * for (Evento evento : usuario.getEventosParticipando()) {
-	 * 	System.out.println(evento.getTitulo());
-	 * }
-	 * }</pre>
-	 *
-	 * @return Lista <b>não-modificável</b> (mas sempre atualizada) dos eventos
-	 *         participados
-	 * @see Collections#unmodifiableList(List)
-	 */
+	
 	public List<Evento> getEventosParticipando() {
 		return Collections.unmodifiableList(eventosParticipando);
 	}
 
-	/**
-	 * Retorna uma visão imutável da lista de eventos que o usuário está
-	 * organizando.
-	 *
-	 * <p>
-	 * Características importantes:
-	 * </p>
-	 * <ul>
-	 * <li><b>Protege o encapsulamento</b>: previne que listas internas sejam
-	 * modificadas externamente</li>
-	 * <li><b>Thread-safe</b>: a lista imutável pode ser compartilhada entre threads
-	 * sem risco de concorrência</li>
-	 * <li><b>Eficiente</b>: não cria cópia dos dados, apenas uma "view"
-	 * imutável</li>
-	 * </ul>
-	 *
-	 * @return Lista <b>somente-leitura</b> dos eventos organizados
-	 * @see #getEventosParticipando()
-	 */
+	
 	public List<Evento> getEventosOrganizados() {
 		return Collections.unmodifiableList(eventosOrganizados);
 	}
 
-	/**
-	 * Adiciona um evento à lista de participações do usuário.
-	 * 
-	 * @param evento Evento a ser participado (não pode ser nulo)
-	 * @return true se a participação foi registrada com sucesso, false se já
-	 *         participava
-	 * @throws IllegalArgumentException se o evento for nulo
-	 */
+	
 	public boolean participarEvento(Evento evento) {
 		if (evento == null) {
 			throw new IllegalArgumentException("Evento não pode ser nulo");
@@ -216,14 +187,7 @@ public class Usuario {
 		return false;
 	}
 
-	/**
-	 * Remove uma participação em evento.
-	 * 
-	 * @param evento Evento a ser removido (não pode ser nulo)
-	 * @return true se a participação foi cancelada, false se não estava
-	 *         participando
-	 * @throws IllegalArgumentException se o evento for nulo
-	 */
+	
 	public boolean cancelarParticipacao(Evento evento) {
 		if (evento == null) {
 			throw new IllegalArgumentException("Evento não pode ser nulo");
@@ -235,13 +199,7 @@ public class Usuario {
 		return removido;
 	}
 
-	/**
-	 * Registra um evento como organizado pelo usuário.
-	 * 
-	 * @param evento Evento a ser organizado (não pode ser nulo)
-	 * @return true se o evento foi registrado, false se já era organizador
-	 * @throws IllegalArgumentException se o evento for nulo
-	 */
+	
 	public boolean organizarEvento(Evento evento) {
 		if (evento == null) {
 			throw new IllegalArgumentException("Evento não pode ser nulo");
@@ -256,21 +214,12 @@ public class Usuario {
 		return false;
 	}
 
-	/**
-	 * Retorna o nome completo concatenando nome e sobrenome.
-	 * 
-	 * @return String formatada "Nome Sobrenome" ou "Nome" se sobrenome for nulo
-	 */
+	
 	public String getNomeCompleto() {
 		return (nome != null ? nome : "") + (sobrenome != null ? " " + sobrenome : "");
 	}
 
-	/**
-	 * Compara usuários por ID e email.
-	 * 
-	 * @param o Objeto a ser comparado
-	 * @return true se os usuários forem equivalentes
-	 */
+	
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) {
@@ -283,22 +232,13 @@ public class Usuario {
 		return id == usuario.id && Objects.equals(email, usuario.email);
 	}
 
-	/**
-	 * Gera hash code baseado em ID e email.
-	 * 
-	 * @return Valor hash para o usuário
-	 */
+	
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, email);
 	}
 
-	/**
-	 * Retorna representação string do usuário (teste).
-	 * 
-	 * @return String no formato: Usuario{id=1, username='john',
-	 *         email='john@example.com', nomeCompleto='John Doe'}
-	 */
+	
 	@Override
 	public String toString() {
 		return "Usuario{" + "id=" + id + ", username='" + username + '\'' + ", email='" + email + '\''

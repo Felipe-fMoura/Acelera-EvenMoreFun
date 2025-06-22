@@ -1,3 +1,30 @@
+/*
+ * Controller responsável pela segunda etapa do cadastro de usuários.
+ * 
+ * Principais responsabilidades:
+ * - Validação e coleta de dados complementares do usuário
+ * - Integração com serviços de usuário e notificação
+ * - Navegação entre telas
+ * 
+ * Componentes principais:
+ * - Campos de formulário (CPF, telefone, data nascimento, gênero)
+ * - Validação de dados de entrada
+ * - Redimensionamento responsivo
+ * 
+ * Serviços utilizados:
+ * - UsuarioService: Validações e persistência
+ * - NotificacaoService: Registro de atividades
+ * - Alertas: Exibição de mensagens
+ * - Redimensionamento: Ajuste de layout
+ * 
+ * Fluxos principais:
+ * - finalizarCadastro(): Processa e valida todos os dados
+ * - initialize(): Configura componentes iniciais
+ * 
+ * Padrões utilizados:
+ * - Singleton: Acesso a serviços compartilhados
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -31,32 +58,16 @@ public class TelaCadastro2Controller {
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 	Alertas a = new Alertas();
 
-	@FXML
-	private ComboBox<String> comboBoxGenero;
-
-	@FXML
-	private TextField txtCPF;
-
-	@FXML
-	private TextField txtTelefone;
-
-	@FXML
-	private DatePicker dataNasc;
-
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private StackPane telaCadastro2;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private Group grupoCampos;
-
-	@FXML
-	private void initialize() {
+	@FXML private ComboBox<String> comboBoxGenero;
+	@FXML private TextField txtCPF;
+	@FXML private TextField txtTelefone;
+	@FXML private DatePicker dataNasc;
+	@FXML private ImageView backgroundImage;
+	@FXML private StackPane telaCadastro2;
+	@FXML private AnchorPane contentPane;
+	@FXML private Group grupoCampos;
+	@FXML private void initialize() {
+		
 		// Redimensionar imagem de fundo
 		Redimensionamento.aplicarRedimensionamento(telaCadastro2, backgroundImage, grupoCampos);
 
@@ -113,7 +124,6 @@ public class TelaCadastro2Controller {
 				System.out.println("Genêro: " + usuario.getGenero());
 				System.out.println("Id: " + usuario.getId());
 
-				// usuarioService.cadastrar(usuario);
 
 				try {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaMenu.fxml"));

@@ -1,3 +1,16 @@
+/*
+ * Célula personalizada para exibição de itens de Evento em componentes ListView do JavaFX.
+ * 
+ * Responsabilidades principais:
+ * - Renderização customizada de itens de Evento em listas
+ * - Controle do layout e aparência dos itens
+ * - Gerenciamento do estado de células vazias
+ * 
+ * Padrões utilizados:
+ * - Custom Cell Factory (padrão do JavaFX)
+ * - Lazy loading de componentes
+ */
+
 package controllers;
 
 import java.time.format.DateTimeFormatter;

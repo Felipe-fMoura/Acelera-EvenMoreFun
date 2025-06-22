@@ -1,9 +1,30 @@
 /*
+ * Classe UsuarioPresenca – representa a presença de um usuário em um evento,
+ * com dados pessoais e controle via propriedades reativas do JavaFX.
+ *
+ * Estruturas e conceitos utilizados:
+ * - Usa propriedades do JavaFX (StringProperty, BooleanProperty) para facilitar binding com a interface gráfica.
+ * - Armazena dados do usuário como nome, email, telefone, CPF, data de nascimento e presença.
+ *
  * Métodos relevantes criados:
- * - UsuarioPresenca(Usuario usuario, boolean presente, String permissao) (construtor com permissão)
- * - UsuarioPresenca(Usuario usuario, boolean presente) (construtor padrão com permissão "participante")
- * - Getters e setters para propriedades: presente, nome, email, permissao
- * - propriedades JavaFX: BooleanProperty presente, StringProperty nome, email, permissao
+ *
+ * - UsuarioPresenca(Usuario usuario, boolean presente, String permissao)  
+ *   Construtor que inicializa os dados e define a permissão explicitamente.
+ *
+ * - UsuarioPresenca(Usuario usuario, boolean presente)  
+ *   Construtor alternativo que define permissão padrão como "participante".
+ *
+ * - getUsuario()  
+ *   Retorna o objeto Usuario associado.
+ *
+ * - isPresente(), setPresente(boolean), presenteProperty()  
+ *   Verifica, altera ou expõe a propriedade booleana de presença.
+ *
+ * - nomeProperty(), emailProperty(), telefoneProperty(), cpfProperty(), dataNascimentoProperty()  
+ *   Expõem propriedades reativas com os dados do usuário para uso em telas JavaFX.
+ *
+ * - getPermissao(), setPermissao(String), permissaoProperty()  
+ *   Permite acesso e modificação à permissão do usuário no evento (ex: participante, organizador).
  */
 
 package model;
