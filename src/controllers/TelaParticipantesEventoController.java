@@ -1,3 +1,47 @@
+/*
+ * setEvento(Evento)
+ * - Inicializa a lista de participantes do evento, incluindo o organizador.
+ * - Obtém status de presença e permissões de cada usuário via EventoService.
+ * - Prepara lista observável com propriedades para uso na tabela.
+ * - Configura colunas da tabela com propriedades dos participantes.
+ * - Configura listener para atualização do contador de presentes ao alterar presença.
+ * - Atualiza ranking de participação no chat.
+ * 
+ * atualizarRanking()
+ * - Calcula ranking dos participantes baseado na quantidade de mensagens no chat via ChatService.
+ * - Ordena ranking decrescente.
+ * - Atualiza ListView com posições e nomes.
+ *
+ * salvarPresencas()
+ * - Persiste no EventoService o estado atualizado de presença para cada participante.
+ * - Exibe alerta de confirmação.
+ * - Fecha a janela atual.
+ *
+ * filtrarParticipantes()
+ * - Filtra a lista exibida na tabela pelo nome ou e-mail conforme texto no campo de filtro.
+ *
+ * exportarCSV()
+ * - Abre diálogo para salvar arquivo CSV.
+ * - Exporta dados dos participantes e ranking em formato CSV, tratando adequadamente campos com caracteres especiais.
+ * - Exibe alertas de sucesso ou erro.
+ *
+ * alternarTodosCheckBoxes()
+ * - Marca ou desmarca todos os participantes como presentes baseado no estado atual (se algum não está marcado, marca todos).
+ * - Atualiza contador de presentes.
+ *
+ * atualizarContador()
+ * - Atualiza label que mostra quantidade de participantes marcados como presentes.
+ *
+ * Técnicas e estruturas utilizadas:
+ * - Uso extensivo de propriedades observáveis do JavaFX (`ObservableList`, `FilteredList`, `SortedList`) para tabela dinâmica.
+ * - Listener para atualizações reativas na UI.
+ * - Ordenação customizada para ranking.
+ * - Manipulação segura de CSV para evitar quebras de linha e campos especiais.
+ * - Interação com serviços singleton (`EventoService`, `ChatService`) para lógica de negócio.
+ * - UI com `TableView` configurada para edição de checkbox, `TextField` para filtro, `ListView` para ranking.
+ * - Diálogos para salvar arquivos e exibição de alertas.
+ */
+
 package controllers;
 
 import java.io.File;
@@ -29,26 +73,16 @@ import service.EventoService;
 
 public class TelaParticipantesEventoController {
 
-	@FXML
-	private TableView<UsuarioPresenca> tabelaParticipantes;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colNome;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colEmail;
-	@FXML
-	private TableColumn<UsuarioPresenca, Boolean> colPresente;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colPermissao;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colTelefone;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colCpf;
-	@FXML
-	private TableColumn<UsuarioPresenca, String> colNascimento;
-	@FXML
-	private TextField txtFiltro;
-	@FXML
-	private Label lblContadorPresentes;
+	@FXML private TableView<UsuarioPresenca> tabelaParticipantes;
+	@FXML private TableColumn<UsuarioPresenca, String> colNome;
+	@FXML private TableColumn<UsuarioPresenca, String> colEmail;
+	@FXML private TableColumn<UsuarioPresenca, Boolean> colPresente;
+	@FXML private TableColumn<UsuarioPresenca, String> colPermissao;
+	@FXML private TableColumn<UsuarioPresenca, String> colTelefone;
+	@FXML private TableColumn<UsuarioPresenca, String> colCpf;
+	@FXML private TableColumn<UsuarioPresenca, String> colNascimento;
+	@FXML private TextField txtFiltro;
+	@FXML private Label lblContadorPresentes;
 
 	@FXML
 	private ListView<String> rankingListView;

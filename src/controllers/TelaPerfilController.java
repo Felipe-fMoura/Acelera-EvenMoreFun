@@ -1,3 +1,56 @@
+/*
+ * carregarUsuario()
+ * - Carrega dados do usuário logado da sessão.
+ * - Atualiza campos de texto com informações básicas e dados pessoais.
+ * - Preenche listas de eventos organizados e participados pelo usuário.
+ * - Ajusta o texto de status do cadastro (completo/incompleto).
+ * - Chama método para carregar a foto de perfil.
+ * 
+ * configurarCelulasListView()
+ * - Configura as células customizadas para as ListViews de eventos usando EventoListCell.
+ *
+ * handleFecharPerfil(ActionEvent)
+ * - Solicita ao controller da tela menu o fechamento da sub-tela de perfil.
+ *
+ * handleCompletarCadastro(MouseEvent)
+ * - Se cadastro incompleto, carrega a tela de cadastro complementar (`TelaCadastro2.fxml`).
+ * - Passa o usuário logado para a próxima tela.
+ * - Troca a cena na janela atual para a tela complementar.
+ *
+ * handleAbrirNotificacoes(ActionEvent)
+ * - Abre uma nova janela popup para mostrar as notificações do usuário.
+ * - Carrega tela `TelaCentralNotificacoes.fxml` em modal não bloqueante.
+ *
+ * handleSelecionarFoto()
+ * - Abre diálogo para seleção de imagem de perfil.
+ * - Atualiza o caminho da foto no objeto usuário e na sessão.
+ * - Atualiza a imagem mostrada na interface.
+ * - Registra notificação sobre a alteração de foto via NotificacaoService.
+ *
+ * carregarFotoPerfil()
+ * - Carrega a imagem do perfil a partir do caminho salvo no usuário.
+ * - Trata caminhos locais absolutos, caminhos com prefixo file:, e recursos internos.
+ * - Usa imagem padrão caso o caminho seja nulo ou inválido.
+ * - Atualiza também a miniatura do perfil no menu principal, se o controller estiver disponível.
+ *
+ * setUsuario(Usuario)
+ * - Define o usuário do controller e carrega os dados e foto associados.
+ *
+ * setTelaMenuController(TelaMenuController)
+ * - Injeta a referência do controller principal para permitir comunicação entre telas.
+ *
+ * handleEditarDados(ActionEvent)
+ * - Abre uma nova janela para edição dos dados do usuário, carregando `TelaEditarDados.fxml`.
+ *
+ * Técnicas e estruturas utilizadas:
+ * - Navegação entre telas e modais usando FXMLLoader e Stage.
+ * - Manipulação de imagens com ImageView, incluindo tratamento de caminhos e fallback.
+ * - Interação com sessão singleton (`SessaoUsuario`) para dados do usuário.
+ * - Uso de ListView com células customizadas para eventos.
+ * - Uso de serviços singleton (`UsuarioService`, `NotificacaoService`) para lógica de negócio.
+ * - Eventos e listeners JavaFX para manipulação de cliques e ações do usuário.
+ */
+
 package controllers;
 
 import java.io.File;
@@ -27,34 +80,20 @@ import service.UsuarioService;
 import session.SessaoUsuario;
 
 public class TelaPerfilController {
-	@FXML
-	private Text lblNome;
-	@FXML
-	private Text lblUsername;
-	@FXML
-	private Text lblEmail;
-	@FXML
-	private Text lblCpf;
-	@FXML
-	private Text lblGenero;
-	@FXML
-	private Text lblTelefone;
-	@FXML
-	private Text lblDataNascimento;
-	@FXML
-	private Text lblId;
-	@FXML
-	private ImageView imgPerfil;
-	@FXML
-	private ListView<Evento> listEventosParticipando;
-	@FXML
-	private ListView<Evento> listEventosOrganizados;
-	@FXML
-	private Button btnFechar;
-	@FXML
-	private Label txtCompletarCadastro;
-	@FXML
-	private Button btnEditarFoto;
+	@FXML private Text lblNome;
+	@FXML private Text lblUsername;
+	@FXML private Text lblEmail;
+	@FXML private Text lblCpf;
+	@FXML private Text lblGenero;
+	@FXML private Text lblTelefone;
+	@FXML private Text lblDataNascimento;
+	@FXML private Text lblId;
+	@FXML private ImageView imgPerfil;
+	@FXML private ListView<Evento> listEventosParticipando;
+	@FXML private ListView<Evento> listEventosOrganizados;
+	@FXML private Button btnFechar;
+	@FXML private Label txtCompletarCadastro;
+	@FXML private Button btnEditarFoto;
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 	Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();

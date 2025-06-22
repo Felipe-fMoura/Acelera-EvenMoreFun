@@ -1,8 +1,26 @@
 /*
- * Métodos relevantes criados:
- * - sendOTP(String toEmail, String otp): envia e-mail com código OTP no corpo.
- * - sendEmail(String toEmail, String subject, String body): envia e-mail simples com assunto e texto.
- * - sendEmailWithAttachment(String toEmail, String subject, String body, byte[] attachmentBytes, String filename): envia e-mail com anexo.
+ * - Responsável pelo envio de e-mails SMTP usando Jakarta Mail.
+ * - Suporta envio simples de e-mails (texto) e envio com anexos (bytes).
+ *
+ * Métodos principais:
+ * - sendOTP(toEmail, otp):
+ *    Envia um e-mail com código OTP para o destinatário.
+ *
+ * - sendEmail(toEmail, subject, body):
+ *    Envia e-mail simples com assunto e corpo em texto.
+ *
+ * - sendEmailWithAttachment(toEmail, subject, body, attachmentBytes, filename):
+ *    Envia e-mail com texto e anexo binário (ex: imagem, PDF).
+ *
+ * Configurações SMTP:
+ * - Servidor SMTP do Gmail (smtp.gmail.com)
+ * - Porta 587 com STARTTLS habilitado e protocolo TLSv1.2
+ * - Autenticação com e-mail e senha (definidos internamente)
+ *
+ * Classe interna ByteArrayDataSourceCustom:
+ * - Implementa DataSource para encapsular array de bytes como fonte de dados.
+ * - Usado para anexos em e-mails.
+ * - Suporta somente InputStream, sem suporte a OutputStream.
  */
 
 package otp;

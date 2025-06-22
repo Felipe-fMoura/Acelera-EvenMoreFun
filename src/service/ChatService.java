@@ -1,14 +1,46 @@
 /*
- * Métodos relevantes criados:
- * - getInstancia() : ChatService (Singleton para obter instância)
- * - adicionarMensagem(Evento evento, int usuarioId, String mensagem) : void (adiciona mensagem a evento)
- * - getMensagens(Evento evento) : List<MensagemChat> (retorna lista de mensagens de evento)
- * - removerMensagem(Evento evento, MensagemChat mensagem) : void (remove mensagem do evento)
- * - registrarMaoLevantada(Evento evento, int usuarioId) : void (registra mão levantada do usuário no evento)
- * - getQuantidadeMensagens(int eventoId, int usuarioId) : int (quantidade de mensagens do usuário no evento)
- *
- * Classes internas:
- * - MensagemChat (representa uma mensagem com remetente e texto)
+ * ChatService
+ * 
+ * Descrição geral:
+ * - Serviço singleton responsável por gerenciar o chat dos eventos.
+ * - Armazena as mensagens e informações de "mãos levantadas" por evento.
+ * 
+ * Estruturas principais:
+ * - mensagensPorEvento: mapeia cada Evento para uma lista de mensagens enviadas nele.
+ * - maosLevantadasPorEvento: mapeia cada Evento para um mapa que associa usuárioId à quantidade de vezes que levantou a mão.
+ * 
+ * Métodos e funcionalidades:
+ * 
+ * getInstancia()
+ * - Retorna a instância única (singleton) do ChatService, criando-a se necessário.
+ * 
+ * Classe interna MensagemChat
+ * - Representa uma mensagem do chat, com o id do usuário remetente e o texto da mensagem.
+ * 
+ * adicionarMensagem(Evento evento, int usuarioId, String mensagem)
+ * - Adiciona uma nova mensagem para o evento especificado.
+ * - Cria a lista de mensagens para o evento caso não exista.
+ * 
+ * getMensagens(Evento evento)
+ * - Retorna a lista de mensagens associadas ao evento.
+ * - Retorna uma lista vazia caso o evento não tenha mensagens.
+ * 
+ * removerMensagem(Evento evento, MensagemChat mensagem)
+ * - Remove uma mensagem específica da lista do evento, se existir.
+ * 
+ * registrarMaoLevantada(Evento evento, int usuarioId)
+ * - Registra que um usuário levantou a mão no evento.
+ * - Incrementa o contador de vezes que o usuário levantou a mão naquele evento.
+ * - Cria o mapa de usuários para o evento caso não exista.
+ * 
+ * getQuantidadeMensagens(int eventoId, int usuarioId)
+ * - Retorna a quantidade total de mensagens enviadas pelo usuário em um evento identificado pelo id.
+ * - Busca o evento pelo id e conta as mensagens do usuário.
+ * 
+ * Técnicas utilizadas:
+ * - Singleton para garantir uma única instância de serviço.
+ * - Uso de Mapas e Listas para armazenamento em memória.
+ * - Uso de computeIfAbsent e merge para manipulação eficiente de coleções.
  */
 
 package service;

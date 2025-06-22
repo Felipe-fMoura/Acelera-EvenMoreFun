@@ -1,3 +1,74 @@
+/*
+ * initialize()
+ * - Inicializa elementos da tela, como:
+ *   - Ação do botão de easter egg com contador de cliques.
+ *   - Carregamento de frase aleatória do arquivo "Frases.txt".
+ *   - Configuração do campo de pesquisa para buscar ao pressionar Enter.
+ * 
+ * setUsuarioLogado(Usuario)
+ * - Define o usuário logado no sistema.
+ * - Atualiza a interface com nome e imagem de perfil.
+ * - Carrega eventos disponíveis para o usuário.
+ * 
+ * carregarEventos()
+ * - Recupera a lista de eventos via `EventoService` com base no usuário logado.
+ * - Para cada evento, gera dinamicamente um card visual com `criarCardEvento()`.
+ * - Exibe mensagem informativa se nenhum evento for encontrado.
+ *
+ * criarCardEvento(Evento)
+ * - Carrega visual do evento via `CardEvento.fxml`.
+ * - Injeta o controller com o evento e o usuário logado.
+ * - Em caso de erro, mostra um card com mensagem de falha.
+ *
+ * handleCriarEvento(ActionEvent)
+ * - Verifica se o cadastro do usuário está completo.
+ * - Abre nova janela com a tela de criação de evento (`TelaCriarEvento.fxml`).
+ * - Ao fechar a janela de criação, recarrega eventos e imagem de perfil.
+ *
+ * handleAbrirPerfil(ActionEvent)
+ * - Carrega e exibe a tela de perfil (`TelaPerfil.fxml`) dentro da área `testeVbox`.
+ * - Injeta o controller do perfil com a referência da tela menu e o usuário logado.
+ *
+ * handlePesquisarEventos()
+ * - Pesquisa eventos com base no termo digitado no campo.
+ * - Exibe resultado filtrado ou mensagem se nenhum for encontrado.
+ *
+ * handleListarPor()
+ * - Exibe um diálogo de confirmação perguntando como o usuário deseja listar os eventos (por curtidas ou por data).
+ * - Dispara métodos de listagem conforme a opção escolhida.
+ *
+ * listarEventosPorCurtidas()
+ * - Lista eventos ordenados por quantidade de curtidas.
+ *
+ * listarTodosEventos()
+ * - Lista todos os eventos sem filtro, ordenados por data (padrão).
+ *
+ * handleRefresh(ActionEvent)
+ * - Recarrega manualmente os eventos e atualiza imagem do perfil.
+ *
+ * onBtnLogout(ActionEvent)
+ * - Retorna o usuário para a tela de login (`TelaLogin.fxml`), encerrando a sessão.
+ *
+ * handleBtnJogo(ActionEvent)
+ * - Abre uma nova janela com a central de jogos (`TelaCentralJogos.fxml`).
+ *
+ * atualizarFotoPerfilOrganizador(String)
+ * - Atualiza a imagem do perfil nos botões e imagem principal.
+ * - Usa imagem padrão se ocorrer erro de carregamento ou caminho for inválido.
+ *
+ * fecharPerfil()
+ * - Remove a subview de perfil carregada no `testeVbox`.
+ *
+ * Estruturas e técnicas utilizadas:
+ * - Leitura de arquivos de texto via `InputStream` para frases aleatórias.
+ * - Navegação e carregamento dinâmico de FXMLs (`FXMLLoader`) com injeção de controller.
+ * - Controle de sessão com `SessaoUsuario`.
+ * - Comunicação entre controllers via injeção de referência (`setTelaMenuController()`).
+ * - Manipulação de interface com componentes JavaFX (`VBox`, `TextField`, `ImageView`, `ScrollPane`, etc.).
+ * - Tratamento de exceções com `try/catch` para garantir robustez.
+ * - Utilização de `Alert`, `ButtonType` e `Dialog` para interações com o usuário.
+ */
+
 package controllers;
 
 import java.io.BufferedReader;
@@ -38,44 +109,19 @@ public class TelaMenuController {
 	private Usuario usuarioLogado;
 	private int contadorCliques = 0;
 
-	@FXML
-	private Text txtUserName;
-
-	@FXML
-	private Button btnCriarEvento;
-
-	@FXML
-	private Button btnPerfil;
-
-	@FXML
-	private VBox containerEventos;
-
-	@FXML
-	private TextField campoPesquisa;
-
-	@FXML
-	private VBox testeVbox;
-
-	@FXML
-	private ScrollPane scrollPane;
-
-	@FXML
-	private Text txtRandom;
-
-	@FXML
-	private Button btnLogout;
-
-	@FXML
-	private Button btnListarPor;
-
-	@FXML
-	private ImageView imgFotoPerfilMenu;
-
-	@FXML
-	private Button btnEasterEgg;
-
-	@FXML
-	private Button btnJogo;
+	@FXML private Text txtUserName;
+	@FXML private Button btnCriarEvento;
+	@FXML private Button btnPerfil;
+	@FXML private VBox containerEventos;
+	@FXML private TextField campoPesquisa;
+	@FXML private VBox testeVbox;
+	@FXML private ScrollPane scrollPane;
+	@FXML private Text txtRandom;
+	@FXML private Button btnLogout;
+	@FXML private Button btnListarPor;
+	@FXML private ImageView imgFotoPerfilMenu;
+	@FXML private Button btnEasterEgg;
+	@FXML private Button btnJogo;
 
 	@FXML
 	public void initialize() {

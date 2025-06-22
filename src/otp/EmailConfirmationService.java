@@ -1,6 +1,14 @@
 /*
- * Método relevante criado:
- * - iniciarConfirmacaoEmail(String email, String nome): gera token, salva, cria link e envia e-mail de confirmação.
+ * - Responsável por iniciar o fluxo de confirmação de e-mail do usuário.
+ * - Gera um token único via UUID.
+ * - Salva o token associado ao e-mail no EmailTokenStore.
+ * - Monta o link de confirmação contendo o token como parâmetro URL codificado.
+ * - Envia um e-mail para o usuário com o link de confirmação.
+ * - Em caso de erro no envio, imprime stack trace (pode ser melhorado com logging ou tratamento adequado).
+ *
+ * Fluxo principal:
+ * - Chamar iniciarConfirmacaoEmail(email, nome) para disparar o e-mail de confirmação.
+ * - O usuário recebe o link e, ao clicar, acessa endpoint que valida o token.
  */
 
 package otp;

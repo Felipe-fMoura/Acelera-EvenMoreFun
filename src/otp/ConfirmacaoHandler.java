@@ -1,6 +1,19 @@
-/*FYI
- *Métodos:
- * - handle(HttpExchange exchange): trata a requisição HTTP e responde ao cliente se o token é válido ou não.
+/*
+ * - Implementa HttpHandler para tratar requisições HTTP GET no caminho /confirmar.
+ * - Recebe um parâmetro "token" via query string da URL.
+ * - Valida o token consumindo-o da store (EmailTokenStore).
+ * - Retorna uma resposta textual simples para o usuário:
+ *   - Confirmação de e-mail validado com sucesso.
+ *   - Mensagem de token inválido ou já utilizado.
+ * - Responde com HTTP 400 caso o parâmetro "token" esteja ausente.
+ * - Responde com HTTP 405 para métodos HTTP diferentes de GET.
+ *
+ * Fluxo principal:
+ * - Recebe requisição GET /confirmar?token=xxxx
+ * - Extrai e decodifica token da query string
+ * - Consulta EmailTokenStore.consumeToken(token) para validar e consumir o token
+ * - Envia resposta texto com status 200 e mensagem adequada
+ *
  */
 
 package otp;

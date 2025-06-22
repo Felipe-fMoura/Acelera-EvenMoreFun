@@ -1,3 +1,39 @@
+/*
+ * NotificacaoService
+ *
+ * Descrição geral:
+ * - Serviço singleton responsável por gerenciar notificações dos usuários.
+ * - Armazena as notificações em memória, organizadas por ID de usuário.
+ *
+ * Estruturas principais:
+ * - notificacoesPorUsuario: Map que relaciona o ID do usuário a uma lista de notificações.
+ *
+ * Métodos e funcionalidades:
+ *
+ * getInstance()
+ * - Retorna a instância única (singleton) do serviço.
+ * - Cria a instância caso ainda não exista.
+ *
+ * registrarNotificacao(int userId, Notificacao notificacao)
+ * - Adiciona uma nova notificação para o usuário especificado pelo userId.
+ * - Se o usuário ainda não tem notificações registradas, cria a lista.
+ *
+ * enviarNotificacaoParaParticipantes(int eventoId, String mensagem, boolean porEmail, String remetente)
+ * - Obtém os participantes de um evento pelo eventoId.
+ * - Para cada participante, cria uma notificação do tipo ALERTA, usando a mensagem e remetente fornecidos.
+ * - Registra essa notificação para cada participante.
+ *
+ * getNotificacoes(int userId, Notificacao.Tipo tipo)
+ * - Retorna a lista de notificações de um usuário filtradas por tipo (ex: ALERTA, HISTORICO).
+ * - Ordena as notificações por data/hora da mais recente para a mais antiga.
+ * - Retorna lista vazia caso não haja notificações para o usuário.
+ *
+ * Técnicas utilizadas:
+ * - Singleton para garantir uma única instância do serviço.
+ * - Uso de Mapas e Listas para armazenamento e agrupamento.
+ * - Uso de streams Java para filtro, ordenação e retorno eficiente dos dados.
+ */
+
 package service;
 
 import java.time.LocalDateTime;

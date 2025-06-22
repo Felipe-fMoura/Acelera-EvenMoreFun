@@ -1,3 +1,38 @@
+/*
+ * initialize()
+ * Método padrão do JavaFX chamado na inicialização da tela.
+ * - Gera a primeira letra aleatória.
+ * - Inicia o cronômetro regressivo (30s).
+ * 
+ * iniciarTemporizador()
+ * Cria e executa uma `Timeline` que reduz `tempoRestante` a cada segundo.
+ * - Atualiza o texto do tempo na tela.
+ * - Encerra o jogo quando o tempo chega a zero.
+ * 
+ * gerarNovaLetra()
+ * Sorteia uma letra aleatória de A a Z utilizando `Random`.
+ * - Exibe a letra na tela (`txtLetra`).
+ * 
+ * verificarTecla(KeyEvent)
+ * Executado a cada tecla pressionada:
+ * - Compara a tecla pressionada com a letra exibida.
+ * - Se correta:
+ *     - Incrementa a pontuação.
+ *     - Atualiza o texto de pontos e gera nova letra.
+ * - Se incorreta:
+ *     - Mostra mensagem de erro com a letra correta.
+ * 
+ * setScene(Scene)
+ * Método auxiliar para registrar manualmente o ouvinte de tecla na `Scene` principal do JavaFX.
+ * - Permite que o `verificarTecla` funcione mesmo sem um campo de texto em foco.
+ * 
+ * Estruturas e técnicas utilizadas:
+ * - Random: para gerar letras aleatórias.
+ * - Timeline: para controle do tempo (30 segundos).
+ * - Eventos de teclado: utilizando `KeyEvent`.
+ * - String e char: manipulação de letras e verificação de entrada.
+ */
+
 package controllers;
 
 import java.util.Random;
@@ -12,14 +47,10 @@ import javafx.util.Duration;
 
 public class TelaJogoTeclaCertaController {
 
-	@FXML
-	private Text txtLetra;
-	@FXML
-	private Text txtPontuacao;
-	@FXML
-	private Text txtTempo;
-	@FXML
-	private Text txtFeedback;
+	@FXML private Text txtLetra;
+	@FXML private Text txtPontuacao;
+	@FXML private Text txtTempo;
+	@FXML private Text txtFeedback;
 
 	private final Random random = new Random();
 	private char letraAtual;

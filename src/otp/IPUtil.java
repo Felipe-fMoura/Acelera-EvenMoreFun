@@ -1,3 +1,18 @@
+/*
+getLocalIPv4()
+Obtém o endereço IPv4 local ativo da máquina:
+Itera sobre todas as interfaces de rede disponíveis.
+Ignora interfaces que são loopback ou inativas.
+Busca o primeiro endereço IPv4 que não seja localhost (127.x.x.x) nem APIPA (169.x.x.x).
+Retorna o IP encontrado como String.
+Em caso de erro ou falha, retorna "localhost" como fallback.
+Estruturas e técnicas utilizadas:
+Uso de NetworkInterface para listar interfaces de rede.
+Uso de InetAddress para obter endereços IP.
+Filtragem de endereços IPv4 válidos excluindo endereços especiais.
+Tratamento de exceções para garantir robustez.
+*/
+
 package otp;
 
 import java.net.InetAddress;

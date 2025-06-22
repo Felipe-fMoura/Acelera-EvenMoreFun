@@ -1,3 +1,33 @@
+/*
+ * initialize()
+ * - Aplica redimensionamento dinâmico da imagem de fundo e layout usando utilitário `Redimensionamento`.
+ * 
+ * enviarOTP()
+ * - Recupera o e-mail digitado e verifica se o usuário existe via `UsuarioService`.
+ * - Gera um código OTP com `OTPGenerator`.
+ * - Envia o OTP por e-mail utilizando `EmailSender`.
+ * - Armazena temporariamente o usuário e o OTP para validação posterior.
+ * - Exibe um popup estilizado para o usuário digitar o código recebido.
+ *
+ * mostrarPopupValidacaoOTP()
+ * - Cria uma janela modal personalizada para inserção do código OTP.
+ * - Valida o código digitado com o OTP armazenado.
+ * - Em caso de sucesso, carrega a tela de redefinição de senha (`TelaRedefinirSenha.fxml`).
+ * - Em caso de erro, exibe alerta informando código incorreto.
+ * - Usa JavaFX `VBox`, `StackPane`, `Scene` e `Stage` para construção do popup.
+ *
+ * onBtnEntrar(ActionEvent)
+ * - Navega de volta para a tela de login (`TelaLogin.fxml`).
+ * - Mantém o tamanho da janela atual.
+ *
+ * Estruturas e técnicas utilizadas:
+ * - Tratamento de exceções para envio de e-mail e carregamento de telas.
+ * - Uso de `Modality.WINDOW_MODAL` para janela modal de validação OTP.
+ * - Separação clara dos fluxos de envio, validação e navegação.
+ * - Estilização via CSS para popup e controles.
+ * - Controle de UI com `TextField`, `Button`, `Label`, e `Alert`.
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -29,23 +59,12 @@ import service.UsuarioService;
 
 public class TelaOTPController {
 
-	@FXML
-	private TextField emailField;
-
-	@FXML
-	private Button enviarOTPButton;
-
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private StackPane telaOTP;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private Group grupoCampos;
+	@FXML private TextField emailField;
+	@FXML private Button enviarOTPButton;
+	@FXML private ImageView backgroundImage;
+	@FXML private StackPane telaOTP;
+	@FXML private AnchorPane contentPane;
+	@FXML private Group grupoCampos;
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 

@@ -1,3 +1,33 @@
+/*
+ * setEvento(Evento, Usuario)
+ * Define o evento e o usuário atual. Inicializa o carregamento das fotos da galeria do evento.
+ * 
+ * carregarFotos()
+ * Principal método da classe. Responsável por:
+ * - Carregar imagens da galeria (List<String> do evento).
+ * - Montar dinamicamente a interface (curtir, comentar, baixar, excluir).
+ * - Utiliza:
+ *   - Map<String, Integer> para armazenar curtidas por imagem.
+ *   - Map<String, List<String>> para associar comentários às imagens.
+ *   - Map<String, Set<Integer>> para rastrear quais usuários curtiram quais imagens.
+ *   - Estruturas como `VBox`, `HBox`, `Label`, `Button`, `ImageView` para montar dinamicamente a interface.
+ * 
+ * mostrarMensagem(String), mostrarErro(String)
+ * Métodos auxiliares que exibem alertas de sucesso ou erro usando `Alert` do JavaFX.
+ * 
+ * handleUploadFoto()
+ * Permite que o usuário selecione e adicione uma ou mais imagens à galeria.
+ * - Utiliza `FileChooser` e `List<File>` para carregar arquivos locais.
+ * - Adiciona os caminhos das imagens a um `List<String>` (galeriaFotos do evento).
+ * 
+ * Estruturas de dados utilizadas:
+ * - List<String>: para a lista de imagens da galeria.
+ * - Map<String, Integer>: para armazenar e atualizar o número de curtidas por imagem.
+ * - Map<String, List<String>>: para armazenar comentários por imagem.
+ * - Map<String, Set<Integer>>: para evitar múltiplas curtidas do mesmo usuário.
+ * - Set<Integer>: usada por imagem para controlar usuários que curtiram.
+ */
+
 package controllers;
 
 import java.io.File;
@@ -34,11 +64,8 @@ import service.NotificacaoService;
 
 public class TelaGaleriaController {
 
-	@FXML
-	private FlowPane galeriaFotos;
-
-	@FXML
-	private Button btnUploadFoto;
+	@FXML private FlowPane galeriaFotos;
+	@FXML private Button btnUploadFoto;
 
 	private Evento evento;
 	private Usuario usuarioLogado;

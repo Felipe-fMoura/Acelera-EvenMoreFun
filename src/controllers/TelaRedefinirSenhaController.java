@@ -1,3 +1,28 @@
+/*
+ * initialize()
+ * - Aplica redimensionamento dinâmico da imagem de fundo para a tela usando serviço `Redimensionamento`.
+ *
+ * redefinirSenha()
+ * - Valida se as senhas digitadas nos campos coincidem.
+ * - Verifica força da nova senha via `UsuarioService.validarSenha()`.
+ * - Obtém o usuário temporário que solicitou a redefinição de senha.
+ * - Atualiza a senha no sistema via `UsuarioService.atualizarSenha(email, novaSenha)`.
+ * - Em caso de sucesso:
+ *   - Exibe alerta de confirmação.
+ *   - Registra notificação do evento de redefinição via `NotificacaoService`.
+ *   - Limpa o usuário temporário armazenado no serviço.
+ *   - Redireciona o usuário para a tela de login (`TelaLogin.fxml`).
+ * - Em caso de erro:
+ *   - Exibe alerta com mensagem de erro apropriada.
+ *
+ * Técnicas e estruturas utilizadas:
+ * - Validação de dados de formulário (senhas) antes de ação de persistência.
+ * - Uso de singleton para serviços (`UsuarioService`, `NotificacaoService`).
+ * - Navegação entre telas com FXMLLoader e troca de cena.
+ * - Controle visual via JavaFX (`Alert`, `PasswordField`, `ImageView`, `StackPane`).
+ * - Tratamento básico de exceções na troca de tela.
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -23,26 +48,16 @@ import session.SessaoUsuario;
 
 public class TelaRedefinirSenhaController {
 
-	@FXML
-	private PasswordField novaSenhaField;
-
-	@FXML
-	private PasswordField repetirSenhaField;
+	@FXML private PasswordField novaSenhaField;
+	@FXML private PasswordField repetirSenhaField;
 
 	private final UsuarioService usuarioService = UsuarioService.getInstance();
 	Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
 
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private StackPane telaRedefinirSenha;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private Group grupoCampos;
+	@FXML private ImageView backgroundImage;
+	@FXML private StackPane telaRedefinirSenha;
+	@FXML private AnchorPane contentPane;
+	@FXML private Group grupoCampos;
 
 	@FXML
 	public void initialize() {

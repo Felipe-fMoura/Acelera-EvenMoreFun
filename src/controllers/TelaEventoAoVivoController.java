@@ -1,3 +1,54 @@
+/*
+ * initialize()
+ * Inicializa o WebEngine do WebView. Preparação básica da interface.
+ * 
+ * setEvento(Evento)
+ * Define o evento atual e o usuário logado. Carrega o histórico de mensagens com base no evento. Utiliza List<MensagemChat>, Map<String, Boolean> e Set<String>.
+ * 
+ * handleToggleAcesso()
+ * Alterna o estado de acesso (liberado/trancado) para o evento e atualiza visualmente o botão correspondente.
+ * 
+ * atualizarBotaoAcesso()
+ * Altera o texto e estilo do botão de acordo com o estado atual do acesso do evento.
+ * 
+ * startChatAutoRefresh()
+ * Cria um Timeline (JavaFX) que atualiza o chat automaticamente a cada 3 segundos. Utiliza List e iteração para preencher o chat.
+ * 
+ * mostrarSemVideo()
+ * Exibe uma mensagem de "Vídeo indisponível" no WebView, com HTML personalizado.
+ * 
+ * handleCarregarVideo()
+ * Permite ao organizador carregar vídeos do YouTube ou arquivos locais (.mp4). Detecta automaticamente o tipo e adapta o player.
+ * 
+ * carregarVideo(String url)
+ * Renderiza o vídeo no WebView, seja YouTube embed ou player HTML5 nativo. Trata múltiplos formatos.
+ * 
+ * extrairVideoIdYouTube(String url)
+ * Extrai o ID do vídeo do YouTube de diferentes tipos de URL. Uso de manipulação de `String`.
+ * 
+ * handleEnviarMensagem()
+ * Envia a mensagem digitada para o chat usando ChatService e atualiza a interface.
+ * 
+ * refreshMensagens()
+ * Atualiza a exibição das mensagens no VBox de mensagens. Utiliza List.
+ * 
+ * adicionarMensagemNaInterface(MensagemChat)
+ * Interpreta e exibe diferentes tipos de mensagens (mão levantada, ACK, texto comum). Uso de estruturas:
+ * - `Set<String>` para armazenar nomes de quem recebeu ACK.
+ * - `Map<String, Boolean>` para destacar mensagens de usuários aguardando resposta.
+ * 
+ * handleSairEvento()
+ * Encerra o evento ao vivo. Para o refresh automático e fecha a janela.
+ * 
+ * handleLevantarMao()
+ * Envia uma mensagem especial "[HAND_RAISE]" para o organizador. Exibe alerta para o participante.
+ *
+ * Estruturas de dados utilizadas:
+ * - List<MensagemChat>: para armazenar e percorrer o histórico de mensagens.
+ * - Set<String>: para armazenar nomes que já receberam ACK (evita duplicação).
+ * - Map<String, Boolean>: para controlar o destaque de mensagens aguardando resposta.
+ */
+
 package controllers;
 
 import java.io.File;
@@ -37,26 +88,15 @@ import session.SessaoUsuario;
 
 public class TelaEventoAoVivoController {
 
-	@FXML
-	private WebView webView;
-	@FXML
-	private Text lblSemVideo;
-	@FXML
-	private VBox mensagensContainer;
-	@FXML
-	private TextField campoMensagem;
-	@FXML
-	private Text nomeUsuario;
-
-	@FXML
-	private HBox videoControlsPane;
-	@FXML
-	private TextField txtUrlVideo;
-
-	@FXML
-	private HBox acessoControlsPane;
-	@FXML
-	private Button btnToggleAcesso;
+	@FXML private WebView webView;
+	@FXML private Text lblSemVideo;
+	@FXML private VBox mensagensContainer;
+	@FXML private TextField campoMensagem;
+	@FXML private Text nomeUsuario;
+	@FXML private HBox videoControlsPane;
+	@FXML private TextField txtUrlVideo;
+    @FXML private HBox acessoControlsPane;
+	@FXML private Button btnToggleAcesso;
 
 	private Evento evento;
 	private Usuario usuario;
