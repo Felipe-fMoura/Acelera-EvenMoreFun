@@ -1,7 +1,21 @@
 /*
- * Métodos relevantes criados:
- * - getInputStream(): retorna os dados como InputStream (para anexos em e-mails).
- * - getContentType(): retorna o tipo MIME dos dados.
+ * - Implementa a interface `DataSource` para fornecer dados baseados em um array de bytes.
+ * - Utilizada para enviar anexos por e-mail, especialmente em contextos que requerem DataSource para conteúdo binário.
+ *
+ * Principais métodos:
+ * - getInputStream()
+ *   - Retorna um `InputStream` a partir do array de bytes.
+ *   - Lança IOException caso os dados sejam nulos.
+ *
+ * - getOutputStream()
+ *   - Não suportado; lança IOException ao ser chamado.
+ *
+ * - getContentType()
+ *   - Retorna o tipo MIME da carga útil (ex: "image/png", "application/pdf").
+ *
+ * - getName()
+ *   - Retorna o nome da fonte de dados, fixo como "ByteArrayDataSourceCustom".
+ *
  */
 
 package otp;

@@ -1,3 +1,35 @@
+/*
+ * initialize()
+ * Redimensiona dinamicamente a imagem de fundo conforme a tela usando utilitário `Redimensionamento`.
+ * 
+ * onBtnLogar(ActionEvent)
+ * Fluxo principal de login do usuário:
+ * - Recupera e valida credenciais (usuário/senha) via `UsuarioService`.
+ * - Verifica se o e-mail está confirmado via `EmailTokenStore`.
+ * - Em caso de sucesso:
+ *   - Recupera o usuário completo.
+ *   - Salva o usuário na sessão (`SessaoUsuario`).
+ *   - Carrega a `TelaMenu.fxml` e inicia nova cena com os dados do usuário.
+ * - Em caso de falha:
+ *   - Exibe alerta de erro com feedback ao usuário.
+ * 
+ * onBtnCadastro(ActionEvent)
+ * Altera a cena atual para a tela de cadastro (`TelaCadastro.fxml`).
+ *
+ * onBtnEsqueciSenha(ActionEvent)
+ * Redireciona para a tela de recuperação de senha via OTP (`TelaOTP.fxml`).
+ * 
+ * onBtnNovaSessao(ActionEvent)
+ * Abre uma nova janela da aplicação com a tela de login.
+ *
+ * Estruturas e técnicas utilizadas:
+ * - Injeção de dependência via Singleton (`UsuarioService`, `SessaoUsuario`).
+ * - Navegação entre telas com `FXMLLoader`.
+ * - Controle de fluxo baseado em estados do usuário (login e confirmação de e-mail).
+ * - `try/catch` para controle de exceções durante carregamento de FXML.
+ * - Manipulação de UI via `TextField`, `Button`, `ImageView`, `StackPane`, `AnchorPane`, etc.
+ */
+
 package controllers;
 
 import java.io.IOException;
@@ -26,32 +58,15 @@ public class TelaLoginController {
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 
-	@FXML
-	private TextField txtUsuarioLogin;
-
-	@FXML
-	private TextField txtSenhaLogin;
-
-	@FXML
-	private Button btnLogar;
-
-	@FXML
-	private Button btnCadastro;
-
-	@FXML
-	private Button btnEsqueciSenha;
-
-	@FXML
-	private ImageView backgroundImage;
-
-	@FXML
-	private StackPane telaLogin;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private Group grupoCampos;
+	@FXML private TextField txtUsuarioLogin;
+	@FXML private TextField txtSenhaLogin;
+	@FXML private Button btnLogar;
+	@FXML private Button btnCadastro;
+	@FXML private Button btnEsqueciSenha;
+	@FXML private ImageView backgroundImage;
+	@FXML private StackPane telaLogin;
+	@FXML private AnchorPane contentPane;
+	@FXML private Group grupoCampos;
 
 	@FXML
 	public void initialize() {

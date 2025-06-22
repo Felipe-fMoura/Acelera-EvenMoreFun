@@ -1,5 +1,5 @@
 /*
- * Método relevante criado:
+ * Método criado:
  * - generateQRCode(String text, int size): gera um QR Code em formato PNG retornando o array de bytes.
  */
 

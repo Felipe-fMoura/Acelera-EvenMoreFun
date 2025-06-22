@@ -1,3 +1,27 @@
+/*
+ * startGame()
+ * Inicializa o jogo de clicar nos "pontinhos":
+ * - Zera a pontuação.
+ * - Esconde o botão de início.
+ * - Inicia uma Timeline que gera círculos (pontinhos) aleatoriamente a cada 1 segundo.
+ * 
+ * spawnCircle()
+ * Método central do jogo:
+ * - Cria círculos com tamanho, cor e posição aleatória dentro do `AnchorPane`.
+ * - Associa um evento de clique ao círculo que:
+ *     - Incrementa a pontuação.
+ *     - Atualiza o texto de pontuação.
+ *     - Remove o círculo da tela.
+ * - Caso o círculo não seja clicado, é removido após 2 segundos automaticamente usando outra Timeline.
+ * 
+ * Estruturas e técnicas utilizadas:
+ * - Random: para geração de tamanhos, posições e cores aleatórias.
+ * - Timeline (JavaFX): usada para animação contínua (gerar e remover círculos).
+ * - Event Handling: detecção e resposta ao clique do usuário no círculo.
+ * - AnchorPane como container dinâmico dos elementos gráficos do jogo.
+ * - Encapsulamento do loop principal de jogo no método `spawnCircle`.
+ */
+
 package controllers;
 
 import java.util.Random;
@@ -14,12 +38,9 @@ import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class TelaJogoPontinhoController {
-	@FXML
-	private AnchorPane root;
-	@FXML
-	private Text scoreText;
-	@FXML
-	private Button startBtn;
+	@FXML private AnchorPane root;
+	@FXML private Text scoreText;
+	@FXML private Button startBtn;
 
 	private int score = 0;
 	private Timeline timeline;

@@ -1,8 +1,52 @@
 /*
- * Métodos/Fluxos principais criados:
- * - main(): fluxo de validação OTP via console, envio de código por e-mail,
- *   verificação de tentativas, validação e atualização da senha do usuário.
+ * OTPValidation (classe com método main)
+
+ *    - usuarioService.carregarUsuariosDeTeste()
+ *      Preenche a lista de usuários para teste, permitindo simular o processo.
+ *
+ * 2 Validação do e-mail informado:
+ *    - Loop que solicita o e-mail até que seja encontrado na lista de usuários cadastrados.
+ *    - Percorre a lista de usuários com getUsuarios() para comparar o e-mail digitado.
+ *    - Caso e-mail não seja encontrado, exibe mensagem de erro e repete o pedido.
+ *
+ * 3 Geração e envio do código OTP:
+ *    - OTPGenerator.generateOTP()
+ *      Gera um código OTP aleatório para validação temporária.
+ *    - EmailSender.sendOTP(email, otp)
+ *      Envia o código OTP para o e-mail do usuário usando o serviço SMTP configurado.
+ *    - Em caso de erro no envio, o programa encerra com mensagem de falha.
+ *
+ * 4 Validação do código OTP recebido:
+ *    - Permite até 3 tentativas para o usuário digitar o código correto.
+ *    - Cada entrada do usuário é comparada com o código OTP gerado.
+ *    - Se o código está incorreto, informa tentativas restantes.
+ *    - Se o limite de tentativas for excedido, encerra o programa.
+ *
+ * 5 Solicitação e validação da nova senha:
+ *    - Após confirmação do OTP, solicita ao usuário a nova senha.
+ *    - Usa usuarioService.validarSenha(String senha) para checar regras de força da senha:
+ *        - Pelo menos 8 caracteres.
+ *        - Contém letra maiúscula, minúscula, número e caractere especial.
+ *    - Se a senha não for válida, repete a solicitação até uma senha válida ser fornecida.
+ *
+ * 6 Criptografia e atualização da senha:
+ *    - Utiliza BasicPasswordEncryptor do Jasypt para criptografar a senha em hash seguro.
+ *    - Atualiza o objeto Usuario com a senha criptografada.
+ *    - Exibe mensagem de sucesso.
+ *
+ * 7 Finalização:
+ *    - Fecha o Scanner para liberar o recurso.
+ *
+ * Técnicas e bibliotecas usadas:
+ * - Scanner: para entrada de dados via console.
+ * - Laços while: para repetição de entrada e validação.
+ * - Comparação de Strings para validação de e-mail e OTP.
+ * - Geração de OTP para autenticação temporária.
+ * - Envio de e-mail com Jakarta Mail (via EmailSender).
+ * - Validação de senha com regras customizadas (implementadas em UsuarioService).
+ * - Criptografia com Jasypt (BasicPasswordEncryptor).
  */
+
 
 package otp;
 
