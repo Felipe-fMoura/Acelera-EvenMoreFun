@@ -10,6 +10,7 @@
  * - Campos de formulário (nome, email, senha, confirmação de senha)
  * - Validação de dados de entrada
  * - Redimensionamento responsivo da interface
+ * - Mostrar e ocultar senha nos campos de senha e confirmação
  * 
  * Serviços utilizados:
  * - UsuarioService: Validações e persistência de usuários
@@ -21,6 +22,8 @@
  * - onBtCadastrarUsuario(): Processa e valida o cadastro inicial
  * - onBtnEntrar(): Navegação para tela de login
  * - initialize(): Configuração inicial dos componentes
+ * - toggleSenhaVisibility(): Alterna a visibilidade do campo de senha principal
+ * - toggleRepitirSenhaVisibility(): Alterna a visibilidade do campo de repetir senha
  * 
  * Validações realizadas:
  * - Força da senha (complexidade)
@@ -32,7 +35,6 @@
 package controllers;
 
 import java.io.IOException;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -41,7 +43,9 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -60,19 +64,33 @@ public class TelaCadastroController {
 	@FXML private TextField txtNome;
 	@FXML private TextField txtSobrenome;
 	@FXML private TextField txtEmail;
-	@FXML private TextField txtSenha;
-	@FXML private TextField txtVerificarSenha;
+
+	@FXML private PasswordField txtSenha;
+	@FXML private TextField txtSenhaVisible;
+	@FXML private Button btnVerSenha;
+	@FXML private ImageView imgSenha;
+
+	@FXML private PasswordField txtRepitirSenha;
+	@FXML private TextField txtRepitirSenhaVisible;
+	@FXML private Button btnVerRepitirSenha;
+	@FXML private ImageView imgRepitirSenha;
+
 	@FXML private Button btnConfirma;
-	@FXML private TextField txtRepitirSenha;
 	@FXML private Button btnEntrar;
 	@FXML private ImageView backgroundImage;
 	@FXML private StackPane telaCadastro;
 	@FXML private AnchorPane contentPane;
 	@FXML private Group grupoCampos;
 
+	private final Image mostrarSenha = new Image(getClass().getResource("/resources/btnIcons/MostrarSenha.png").toExternalForm());
+	private final Image ocultarSenha = new Image(getClass().getResource("/resources/btnIcons/OcultarSenha.png").toExternalForm());
+
+
 	@FXML
 	public void initialize() {
 		Redimensionamento.aplicarRedimensionamento(telaCadastro, backgroundImage, grupoCampos);
+		imgSenha.setImage(ocultarSenha);
+		imgRepitirSenha.setImage(ocultarSenha);
 	}
 
 	@FXML
@@ -81,8 +99,9 @@ public class TelaCadastroController {
 		String sobrenome = txtSobrenome.getText();
 		String userName = txtUsername.getText();
 		String email = txtEmail.getText();
-		String senha = txtSenha.getText();
-		String confirmarSenha = txtRepitirSenha.getText();
+
+		String senha = txtSenha.isVisible() ? txtSenha.getText() : txtSenhaVisible.getText();
+		String confirmarSenha = txtRepitirSenha.isVisible() ? txtRepitirSenha.getText() : txtRepitirSenhaVisible.getText();
 
 		Alertas a = new Alertas();
 
@@ -113,18 +132,16 @@ public class TelaCadastroController {
 			a.mostrarAlerta("Erro", "Dados inválidos para cadastro");
 			return;
 		}
+
 		usuarioService.completarCadastro(novo);
 
-		// e-mail de confirmação
 		EmailConfirmationService.iniciarConfirmacaoEmail(email, nome);
 		a.mostrarAlerta("Cadastro efetuado", "Um e-mail de confirmação foi enviado para " + email
 				+ ". Por favor, confirme seu e-mail antes de acessar o sistema.");
 
-		// Voltar para tela de login após cadastro
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
 			Parent root = loader.load();
-
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
 			stage.show();
@@ -138,11 +155,8 @@ public class TelaCadastroController {
 		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
 			Parent root = loader.load();
-
 			Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
 			Scene newScene = new Scene(root, stage.getWidth(), stage.getHeight());
-
 			stage.setScene(newScene);
 			stage.show();
 		} catch (IOException e) {
@@ -155,6 +169,44 @@ public class TelaCadastroController {
 		for (Usuario u : usuarioService.getUsuarios()) {
 			System.out.println("Nome: " + u.getNome() + " | E-mail: " + u.getEmail() + " | Senha: " + u.getSenha()
 					+ " | Data de nascimento: " + u.getDataNascimento());
+		}
+	}
+
+	@FXML
+	private void toggleSenhaVisibility() {
+		if (txtSenhaVisible.isVisible()) {
+			txtSenha.setText(txtSenhaVisible.getText());
+			txtSenhaVisible.setVisible(false);
+			txtSenhaVisible.setManaged(false);
+			txtSenha.setVisible(true);
+			txtSenha.setManaged(true);
+			imgSenha.setImage(ocultarSenha);
+		} else {
+			txtSenhaVisible.setText(txtSenha.getText());
+			txtSenha.setVisible(false);
+			txtSenha.setManaged(false);
+			txtSenhaVisible.setVisible(true);
+			txtSenhaVisible.setManaged(true);
+			imgSenha.setImage(mostrarSenha);
+		}
+	}
+
+	@FXML
+	private void toggleRepitirSenhaVisibility() {
+		if (txtRepitirSenhaVisible.isVisible()) {
+			txtRepitirSenha.setText(txtRepitirSenhaVisible.getText());
+			txtRepitirSenhaVisible.setVisible(false);
+			txtRepitirSenhaVisible.setManaged(false);
+			txtRepitirSenha.setVisible(true);
+			txtRepitirSenha.setManaged(true);
+			imgRepitirSenha.setImage(ocultarSenha);
+		} else {
+			txtRepitirSenhaVisible.setText(txtRepitirSenha.getText());
+			txtRepitirSenha.setVisible(false);
+			txtRepitirSenha.setManaged(false);
+			txtRepitirSenhaVisible.setVisible(true);
+			txtRepitirSenhaVisible.setManaged(true);
+			imgRepitirSenha.setImage(mostrarSenha);
 		}
 	}
 }
