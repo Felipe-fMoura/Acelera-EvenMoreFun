@@ -1,4 +1,7 @@
 /*
+ * Componentes principais: 
+ * - Mostrar e ocultar senha nos campos de senha e confirmação
+ * 
  * initialize()
  * - Aplica redimensionamento dinâmico da imagem de fundo para a tela usando serviço `Redimensionamento`.
  *
@@ -35,6 +38,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -48,71 +54,117 @@ import session.SessaoUsuario;
 
 public class TelaRedefinirSenhaController {
 
-	@FXML private PasswordField novaSenhaField;
-	@FXML private PasswordField repetirSenhaField;
+    @FXML private PasswordField novaSenhaField;
+    @FXML private TextField novaSenhaVisible;
+    @FXML private ImageView imgNovaSenha;
+    @FXML private Button btnVerNovaSenha;
 
-	private final UsuarioService usuarioService = UsuarioService.getInstance();
-	Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+    @FXML private PasswordField repetirSenhaField;
+    @FXML private TextField repetirSenhaVisible;
+    @FXML private ImageView imgRepetirSenha;
+    @FXML private Button btnVerRepetirSenha;
 
-	@FXML private ImageView backgroundImage;
-	@FXML private StackPane telaRedefinirSenha;
-	@FXML private AnchorPane contentPane;
-	@FXML private Group grupoCampos;
+    @FXML private ImageView backgroundImage;
+    @FXML private StackPane telaRedefinirSenha;
+    @FXML private AnchorPane contentPane;
+    @FXML private Group grupoCampos;
 
-	@FXML
-	public void initialize() {
-		// Redimensionar imagem de fundo
-		Redimensionamento.aplicarRedimensionamento(telaRedefinirSenha, backgroundImage, grupoCampos);
-	}
+    private final UsuarioService usuarioService = UsuarioService.getInstance();
+    Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
 
-	@FXML
-	private void redefinirSenha() {
-		String novaSenha = novaSenhaField.getText().trim();
-		String repetirSenha = repetirSenhaField.getText().trim();
+    private final Image mostrarSenha = new Image(getClass().getResource("/resources/btnIcons/MostrarSenha.png").toExternalForm());
+    private final Image ocultarSenha = new Image(getClass().getResource("/resources/btnIcons/OcultarSenha.png").toExternalForm());
 
-		if (!novaSenha.equals(repetirSenha)) {
-			new Alert(Alert.AlertType.ERROR, "As senhas não coincidem.").show();
-			return;
-		}
+    @FXML
+    public void initialize() {
+        // Redimensionar imagem de fundo
+        Redimensionamento.aplicarRedimensionamento(telaRedefinirSenha, backgroundImage, grupoCampos);
+        imgNovaSenha.setImage(ocultarSenha);
+        imgRepetirSenha.setImage(ocultarSenha);
+    }
 
-		if (!usuarioService.validarSenha(novaSenha)) {
-			new Alert(Alert.AlertType.ERROR,
-					"Senha fraca. Use letras maiúsculas, minúsculas, número e caractere especial.").show();
-			return;
-		}
+    @FXML
+    private void toggleNovaSenhaVisibility() {
+        if (novaSenhaVisible.isVisible()) {
+            novaSenhaField.setText(novaSenhaVisible.getText());
+            novaSenhaVisible.setVisible(false);
+            novaSenhaVisible.setManaged(false);
+            novaSenhaField.setVisible(true);
+            novaSenhaField.setManaged(true);
+            imgNovaSenha.setImage(ocultarSenha);
+        } else {
+            novaSenhaVisible.setText(novaSenhaField.getText());
+            novaSenhaField.setVisible(false);
+            novaSenhaField.setManaged(false);
+            novaSenhaVisible.setVisible(true);
+            novaSenhaVisible.setManaged(true);
+            imgNovaSenha.setImage(mostrarSenha);
+        }
+    }
 
-		// Recupera o usuário temporário que solicitou redefinição
-		Usuario usuario = usuarioService.getUsuarioTemporario();
-		if (usuario == null) {
-			new Alert(Alert.AlertType.ERROR, "Usuário temporário não encontrado.").show();
-			return;
-		}
+    @FXML
+    private void toggleRepetirSenhaVisibility() {
+        if (repetirSenhaVisible.isVisible()) {
+            repetirSenhaField.setText(repetirSenhaVisible.getText());
+            repetirSenhaVisible.setVisible(false);
+            repetirSenhaVisible.setManaged(false);
+            repetirSenhaField.setVisible(true);
+            repetirSenhaField.setManaged(true);
+            imgRepetirSenha.setImage(ocultarSenha);
+        } else {
+            repetirSenhaVisible.setText(repetirSenhaField.getText());
+            repetirSenhaField.setVisible(false);
+            repetirSenhaField.setManaged(false);
+            repetirSenhaVisible.setVisible(true);
+            repetirSenhaVisible.setManaged(true);
+            imgRepetirSenha.setImage(mostrarSenha);
+        }
+    }
 
-		// Atualiza a senha no serviço
-		boolean sucesso = usuarioService.atualizarSenha(usuario.getEmail(), novaSenha);
-		if (sucesso) {
-			new Alert(Alert.AlertType.INFORMATION, "Senha atualizada com sucesso!").show();
+    @FXML
+    private void redefinirSenha() {
+        String novaSenha = novaSenhaField.isVisible() ? novaSenhaField.getText().trim() : novaSenhaVisible.getText().trim();
+        String repetirSenha = repetirSenhaField.isVisible() ? repetirSenhaField.getText().trim() : repetirSenhaVisible.getText().trim();
 
-			Notificacao notificacao = new Notificacao("Você redefiniu sua senha", LocalDateTime.now(), false,
-					Notificacao.Tipo.HISTORICO, "Sistema");
-			NotificacaoService.getInstance().registrarNotificacao(usuario.getId(), notificacao);
+        if (!novaSenha.equals(repetirSenha)) {
+            new Alert(Alert.AlertType.ERROR, "As senhas não coincidem.").show();
+            return;
+        }
 
-			// Limpa usuário temporário
-			usuarioService.setUsuarioTemporario(null);
+        if (!usuarioService.validarSenha(novaSenha)) {
+            new Alert(Alert.AlertType.ERROR,
+                    "Senha fraca. Use letras maiúsculas, minúsculas, número e caractere especial.").show();
+            return;
+        }
 
-			// Redireciona para tela de login
-			try {
-				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
-				Parent root = loader.load();
-				Stage stage = (Stage) telaRedefinirSenha.getScene().getWindow();
-				stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
-				stage.show();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+        Usuario usuario = usuarioService.getUsuarioTemporario();
+        if (usuario == null) {
+            new Alert(Alert.AlertType.ERROR, "Usuário temporário não encontrado.").show();
+            return;
+        }
 
-		} else {
-			new Alert(Alert.AlertType.ERROR, "Erro ao atualizar a senha.").show();
-		}
-	}
+        boolean sucesso = usuarioService.atualizarSenha(usuario.getEmail(), novaSenha);
+        if (sucesso) {
+            new Alert(Alert.AlertType.INFORMATION, "Senha atualizada com sucesso!").show();
+
+            Notificacao notificacao = new Notificacao("Você redefiniu sua senha", LocalDateTime.now(), false,
+                    Notificacao.Tipo.HISTORICO, "Sistema");
+            NotificacaoService.getInstance().registrarNotificacao(usuario.getId(), notificacao);
+
+            usuarioService.setUsuarioTemporario(null);
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaLogin.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) telaRedefinirSenha.getScene().getWindow();
+                stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else {
+            new Alert(Alert.AlertType.ERROR, "Erro ao atualizar a senha.").show();
+        }
+    }
 }
