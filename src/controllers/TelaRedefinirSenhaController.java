@@ -95,7 +95,7 @@ public class TelaRedefinirSenhaController {
 
 			Notificacao notificacao = new Notificacao("Você redefiniu sua senha", LocalDateTime.now(), false,
 					Notificacao.Tipo.HISTORICO, "Sistema");
-			NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
+			NotificacaoService.getInstance().registrarNotificacao(usuario.getId(), notificacao);
 
 			// Limpa usuário temporário
 			usuarioService.setUsuarioTemporario(null);

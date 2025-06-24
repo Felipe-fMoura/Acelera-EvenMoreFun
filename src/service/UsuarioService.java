@@ -307,7 +307,7 @@ public class UsuarioService {
 		Tester6.setNome("Felipe");
 		Tester6.setUsername("FeMoura");
 		Tester6.setSenha("Teste@123");
-		Tester6.setEmail("felipe@gmail.com");
+		Tester6.setEmail("fmoura.dev@gmail.com");
 		this.cadastrar(Tester6);
 
 		int maiorId = listaUsuarios.stream().mapToInt(Usuario::getId).max().orElse(0);
