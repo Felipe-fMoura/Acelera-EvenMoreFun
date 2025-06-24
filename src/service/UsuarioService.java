@@ -287,7 +287,7 @@ public class UsuarioService {
 		Tester4.setTelefone("11999998888");
 		Tester4.setCpf("123.456.777-00");
 		Tester4.setDataNascimento(LocalDate.of(1965, 1, 15));
-		Tester4.setGenero("Feminino");
+		Tester4.setGenero("Masculino");
 		this.cadastrar(Tester4);
 
 		Usuario Tester5 = new Usuario();
