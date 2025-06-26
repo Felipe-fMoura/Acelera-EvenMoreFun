@@ -345,6 +345,10 @@ public class TelaMenuController {
 		ButtonType buttonCancelar = new ButtonType("Cancelar", ButtonBar.ButtonData.CANCEL_CLOSE);
 
 		alert.getButtonTypes().setAll(buttonPorCurtidas, buttonPorData, buttonCancelar);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+
 
 		alert.showAndWait().ifPresent(response -> {
 			if (response == buttonPorCurtidas) {
@@ -440,6 +444,7 @@ public class TelaMenuController {
 			Stage stage = new Stage();
 			stage.setTitle("Central de Jogos");
 			stage.setScene(scene);
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 			stage.show();
 
 		} catch (IOException e) {
@@ -447,5 +452,34 @@ public class TelaMenuController {
 			mostrarAlerta("Erro ao carregar a central de jogos");
 		}
 	}
+	
+	@FXML
+	private void handleBtnamizade(ActionEvent event) {
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Amizade.fxml"));
+	        Parent root = loader.load();
+
+	        // Obtém o controller e passa os dados necessários
+	        controllers.AmizadeController controller = loader.getController();
+	        controller.setUsuarioLogado(usuarioLogado);
+	        controller.setMapaUsuarios(usuarioService.getUsuariosMapeados()); // método que você pode criar para retornar Map<String, Usuario>
+	        controller.carregarAmigos(usuarioService.listarAmigosDoUsuario(usuarioLogado)); // ex: amigos salvos na memória
+
+	        Stage stage = new Stage();
+	        stage.setTitle("Sistema de Amizade");
+	        stage.setScene(new Scene(root));
+	        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+	        stage.show();
+
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        Alert alert = new Alert(Alert.AlertType.ERROR);
+	        alert.setTitle("Erro");
+	        alert.setHeaderText("Erro ao abrir o sistema de amizades");
+	        alert.setContentText(e.getMessage());
+	        alert.showAndWait();
+	    }
+	}
+
 
 }

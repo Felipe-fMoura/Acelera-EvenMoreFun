@@ -1,6 +1,8 @@
 package controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -23,36 +25,48 @@ public class PerfilUsuarioController {
     @FXML private Label lblNascimento;
     @FXML private Label lblCriado;
     @FXML private Label lblTituloBadges;
+    @FXML private Button btnEnviarPedido;  // Botão para enviar pedido
+
+    private Usuario usuarioVisualizado; // usuário do perfil aberto
+    private Usuario usuarioLogado;      // usuário logado no sistema
 
     private static final String ICONE_PADRAO_PATH_1 = "/profile/badge.png";
     private static final String ICONE_PADRAO_PATH_2 = "/resources/profile/badge.png";
 
-    public void setUsuario(Usuario usuario) {
-        lblNomeUsuario.setText("📛 " + usuario.getNome());
-        lblUsername.setText("🧑‍💻 @" + usuario.getUsername());
-        lblEmail.setText("📧 " + usuario.getEmail());
+    /**
+     * Configura o perfil com o usuário visualizado e o usuário logado
+     */
+    public void setUsuarios(Usuario usuarioVisualizado, Usuario usuarioLogado) {
+        this.usuarioVisualizado = usuarioVisualizado;
+        this.usuarioLogado = usuarioLogado;
+        carregarDados();
+        atualizarBotaoPedido();
+    }
+
+    private void carregarDados() {
+        lblNomeUsuario.setText("📛 " + usuarioVisualizado.getNomeCompleto());
+        lblUsername.setText("🧑‍💻 @" + usuarioVisualizado.getUsername());
+        lblEmail.setText("📧 " + usuarioVisualizado.getEmail());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-        if (usuario.getDataNascimento() != null) {
-            lblNascimento.setText("🎂 " + usuario.getDataNascimento().format(formatter));
+        if (usuarioVisualizado.getDataNascimento() != null) {
+            lblNascimento.setText("🎂 " + usuarioVisualizado.getDataNascimento().format(formatter));
         } else {
             lblNascimento.setText("🎂 Não informado");
         }
 
-        if (usuario.getDataCriacao() != null) {
-            lblCriado.setText("📅 Conta criada em " + usuario.getDataCriacao().toLocalDate().format(formatter));
+        if (usuarioVisualizado.getDataCriacao() != null) {
+            lblCriado.setText("📅 Conta criada em " + usuarioVisualizado.getDataCriacao().toLocalDate().format(formatter));
         } else {
             lblCriado.setText("📅 Conta criada em —");
         }
 
-        // Contador de badges
-        int totalBadges = usuario.getBadges().size();
+        int totalBadges = usuarioVisualizado.getBadges().size();
         lblTituloBadges.setText("🏅 Badges conquistadas (" + totalBadges + "):");
 
-        // Preenche badges
         painelBadges.getChildren().clear();
-        for (Badge badge : usuario.getBadges()) {
+        for (Badge badge : usuarioVisualizado.getBadges()) {
             VBox box = new VBox();
             box.setAlignment(Pos.CENTER);
 
@@ -93,5 +107,44 @@ public class PerfilUsuarioController {
             System.out.println("Erro ao carregar badge: " + e.getMessage());
             return new ImageView();
         }
+    }
+
+    /**
+     * Atualiza o estado do botão de envio de pedido de amizade conforme status da relação
+     */
+    private void atualizarBotaoPedido() {
+        if (usuarioVisualizado.equals(usuarioLogado)) {
+            btnEnviarPedido.setDisable(true);
+            btnEnviarPedido.setText("Este é você");
+        } else if (usuarioLogado.getAmigos().contains(usuarioVisualizado)) {
+            btnEnviarPedido.setDisable(true);
+            btnEnviarPedido.setText("Já é seu amigo");
+        } else if (usuarioLogado.getPedidosEnviados().contains(usuarioVisualizado)) {
+            btnEnviarPedido.setDisable(true);
+            btnEnviarPedido.setText("Pedido enviado");
+        } else if (usuarioLogado.getPedidosRecebidos().contains(usuarioVisualizado)) {
+            btnEnviarPedido.setDisable(true);
+            btnEnviarPedido.setText("Pedido recebido");
+        } else {
+            btnEnviarPedido.setDisable(false);
+            btnEnviarPedido.setText("Enviar Pedido de Amizade");
+        }
+        btnEnviarPedido.setVisible(true);
+    }
+
+    @FXML
+    private void handleEnviarPedido() {
+        if (usuarioVisualizado == null || usuarioLogado == null) {
+            return;
+        }
+
+        usuarioLogado.enviarPedido(usuarioVisualizado);
+        atualizarBotaoPedido();
+
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Pedido de amizade");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Pedido de amizade enviado para @" + usuarioVisualizado.getUsername() + "!");
+        alerta.showAndWait();
     }
 }

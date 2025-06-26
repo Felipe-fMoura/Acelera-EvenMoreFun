@@ -46,7 +46,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 public class Usuario {
@@ -279,5 +281,55 @@ public class Usuario {
 	public void setDataCriacao(LocalDateTime dataCriacao) {
 	    this.dataCriacao = dataCriacao;
 	}
+	
+	//SISTEMA DE AMIZADE
+	private List<Usuario> amigos = new ArrayList<>();
+	private List<Usuario> pedidosEnviados = new ArrayList<>();
+	private List<Usuario> pedidosRecebidos = new ArrayList<>();
+
+	public List<Usuario> getAmigos() {
+	    return amigos;
+	}
+
+	public List<Usuario> getPedidosEnviados() {
+	    return pedidosEnviados;
+	}
+
+	public List<Usuario> getPedidosRecebidos() {
+	    return pedidosRecebidos;
+	}
+
+	public void enviarPedido(Usuario destino) {
+	    if (!pedidosEnviados.contains(destino) && !amigos.contains(destino)) {
+	        pedidosEnviados.add(destino);
+	        destino.pedidosRecebidos.add(this);
+	    }
+	}
+
+	public void aceitarPedido(Usuario remetente) {
+	    if (pedidosRecebidos.remove(remetente)) {
+	        amigos.add(remetente);
+	        remetente.getAmigos().add(this);
+	        remetente.getPedidosEnviados().remove(this);
+	    }
+	}
+	// Dentro de Usuario.java
+
+	// Mapa que guarda o histórico de mensagens por amigo (username)
+	private Map<String, List<String>> historicoMensagens = new HashMap<>();
+
+	public Map<String, List<String>> getHistoricoMensagens() {
+	    return historicoMensagens;
+	}
+
+	public void adicionarMensagem(String usernameAmigo, String mensagem) {
+	    historicoMensagens.computeIfAbsent(usernameAmigo, k -> new ArrayList<>()).add(mensagem);
+	}
+
+	public List<String> getMensagensCom(String usernameAmigo) {
+	    return historicoMensagens.getOrDefault(usernameAmigo, new ArrayList<>());
+	}
+
+
 
 }

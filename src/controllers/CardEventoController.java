@@ -747,8 +747,8 @@ public class CardEventoController {
 	}
 	
 	private void abrirPerfilUsuario(String nomeUsuario) {
-	    Usuario usuario = usuarioService.buscarPorUsername(nomeUsuario);
-	    if (usuario == null) {
+	    Usuario usuarioVisualizado = usuarioService.buscarPorUsername(nomeUsuario);
+	    if (usuarioVisualizado == null) {
 	        mostrarAlerta("Usuário não encontrado.");
 	        return;
 	    }
@@ -758,17 +758,22 @@ public class CardEventoController {
 	        Parent root = loader.load();
 
 	        PerfilUsuarioController controller = loader.getController();
-	        controller.setUsuario(usuario);
+
+	        Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+
+	        controller.setUsuarios(usuarioVisualizado, usuarioLogado);
 
 	        Stage stage = new Stage();
-	        stage.setTitle("Perfil de " + usuario.getNome());
+	        stage.setTitle("Perfil de " + usuarioVisualizado.getNomeCompleto());
 	        stage.setScene(new Scene(root));
+	        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 	        stage.setResizable(false);
 	        stage.show();
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	}
+
 
 
 

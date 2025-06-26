@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.AmizadeController"
+            style="-fx-background-color: #f3f0ff;">
+
+    <!-- Barra superior -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: #5e23b8; -fx-padding: 12;">
+            <Label text="🔍 Procurar pessoas:"
+                   style="-fx-text-fill: white; -fx-font-weight: bold;"/>
+            <TextField fx:id="txtBuscarUsuario" promptText="Digite o @username"
+                       style="-fx-background-radius: 6; -fx-padding: 6;"/>
+            <Button text="Buscar" onAction="#handleBuscarUsuario"
+                    style="-fx-background-color: white; -fx-text-fill: #5e23b8; -fx-font-weight: bold; -fx-background-radius: 6;"/>
+            <Button text="📬 Pedidos de Amizade" onAction="#abrirPopupPedidos"
+                    style="-fx-background-color: #ffffff; -fx-text-fill: #5e23b8; -fx-font-weight: bold; -fx-background-radius: 6;"/>
+        </HBox>
+    </top>
+
+    <!-- Lista lateral direita com os amigos -->
+    <right>
+        <VBox spacing="8" prefWidth="220" fx:id="boxAmigos"
+              style="-fx-background-color: #ece6ff; -fx-padding: 12;">
+            <Label text="👥 Seus Amigos"
+                   style="-fx-font-weight: bold; -fx-text-fill: #5e23b8; -fx-font-size: 14px;" />
+            <!-- Os amigos serão adicionados dinamicamente aqui -->
+        </VBox>
+    </right>
+
+    <!-- Janela principal com o chat -->
+    <center>
+        <VBox spacing="10" style="-fx-padding: 15;">
+            <Label fx:id="lblAmigoSelecionado"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5e23b8;" />
+            <TextArea fx:id="txtChat" editable="false" wrapText="true" prefHeight="300"
+                      style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-border-color: #ccc;" />
+            <HBox spacing="10">
+                <TextField fx:id="txtMensagem" promptText="Digite sua mensagem..." HBox.hgrow="ALWAYS"
+                           style="-fx-background-radius: 6; -fx-padding: 6;" />
+                <Button text="Enviar" onAction="#handleEnviarMensagem"
+                        style="-fx-background-color: #5e23b8; -fx-text-fill: white; -fx-font-weight: bold; -fx-background-radius: 6;" />
+            </HBox>
+        </VBox>
+    </center>
+
+</BorderPane>

@@ -41,6 +41,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.HashMap;
+
 
 import org.jasypt.util.password.BasicPasswordEncryptor;
 
@@ -466,5 +470,64 @@ public class UsuarioService {
 	        .findFirst()
 	        .orElse(null);
 	}
+	public Map<String, Usuario> getUsuariosMapeados() {
+	    return listaUsuarios.stream().collect(Collectors.toMap(
+	        u -> u.getUsername().toLowerCase(),
+	        u -> u,
+	        (u1, _) -> u1 // resolve duplicatas mantendo o primeiro
+	    ));
+	}
+	public List<Usuario> listarAmigosDoUsuario(Usuario usuario) {
+	    if (usuario != null) {
+	        return new ArrayList<>(usuario.getAmigos());
+	    }
+	    return new ArrayList<>();
+	}
+	
+	public boolean enviarPedidoDeAmizade(String usernameRemetente, String usernameDestino) {
+	    Usuario remetente = buscarPorUsername(usernameRemetente);
+	    Usuario destino = buscarPorUsername(usernameDestino);
+
+	    if (remetente == null || destino == null || remetente.equals(destino)) {
+	        return false;
+	    }
+
+	    if (remetente.getAmigos().contains(destino)) {
+	        return false; // já são amigos
+	    }
+
+	    if (!remetente.getPedidosEnviados().contains(destino)) {
+	        remetente.enviarPedido(destino);
+	        return true;
+	    }
+
+	    return false;
+	}
+
+	public boolean aceitarPedidoDeAmizade(String usernameRemetente, String usernameDestino) {
+	    Usuario remetente = buscarPorUsername(usernameRemetente);
+	    Usuario destino = buscarPorUsername(usernameDestino);
+
+	    if (remetente == null || destino == null) {
+	        return false;
+	    }
+
+	    if (destino.getPedidosRecebidos().contains(remetente)) {
+	        destino.aceitarPedido(remetente);
+	        return true;
+	    }
+
+	    return false;
+	}
+
+	public List<Usuario> listarPedidosRecebidos(String username) {
+	    Usuario usuario = buscarPorUsername(username);
+	    if (usuario != null) {
+	        return new ArrayList<>(usuario.getPedidosRecebidos());
+	    }
+	    return new ArrayList<>();
+	}
+
+
 
 }
