@@ -78,10 +78,13 @@
  <!-- AMIZADE -->
          <Button fx:id="btnamizade" layoutX="549.0" layoutY="23.0" onAction="#handleBtnamizade" style="-fx-background-color: transparent;">
     <graphic>
-        <ImageView fitHeight="32.0" fitWidth="30.0" preserveRatio="true">
+        <ImageView fitHeight="26.0" fitWidth="25.0" preserveRatio="true">
             <image>
-                <Image url="@../resources/logo/zap.png" />
+                <Image url="@../resources/btnIcons/iconBtnAmigos.png" />
             </image>
+                  <cursor>
+                     <Cursor fx:constant="HAND" />
+                  </cursor>
         </ImageView>
     </graphic>
     <cursor>

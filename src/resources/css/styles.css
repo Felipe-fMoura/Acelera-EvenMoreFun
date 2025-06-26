@@ -412,3 +412,18 @@
     -fx-background-color: linear-gradient(to bottom, #00ffcc, #000000);
 }
 
+.branco-btn {
+    -fx-background-color: white;
+    -fx-text-fill: #5e23b8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.08), 4, 0.0, 1, 1);
+    -fx-alignment: center;
+    -fx-background-radius: 6;
+}
+
+.branco-btn:hover {
+    -fx-background-color: #f2ebff; /* tom suave de roxo bem claro */
+    -fx-border-color: #5e23b8;
+}
+

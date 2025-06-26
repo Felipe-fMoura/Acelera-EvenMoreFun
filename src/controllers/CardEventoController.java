@@ -243,7 +243,11 @@ public class CardEventoController {
 				TextInputDialog dialog = new TextInputDialog(usuarioLogado.getEmail());
 				dialog.setTitle("Confirmação de Participação");
 				dialog.setHeaderText("Confirmação de E-mail");
-				dialog.setContentText("Digite seu e-mail para receber o QR Code:");
+				dialog.setContentText("Digite seu e-mail para receber o QR Code:");	
+				// Adiciona a logo ao diálogo
+				Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+				stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+				
 
 				dialog.showAndWait().ifPresent(email -> {
 					try {
@@ -403,7 +407,9 @@ public class CardEventoController {
 		alert.setTitle("Aviso");
 		alert.setHeaderText(null);
 		alert.setContentText(mensagem);
-		alert.showAndWait();
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+	    alert.showAndWait();
 	}
 
 	private TelaMenuController telaMenuController;
@@ -564,6 +570,9 @@ public class CardEventoController {
 			Stage stage = new Stage();
 			stage.setTitle("Enviar Notificação");
 			stage.setScene(new Scene(root));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+
+			
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();

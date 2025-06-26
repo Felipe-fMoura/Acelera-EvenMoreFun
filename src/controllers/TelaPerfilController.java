@@ -168,6 +168,8 @@ public class TelaPerfilController {
 				// Troca de tela
 				Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 				stage.setScene(new Scene(root, stage.getWidth(), stage.getHeight()));
+				stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+
 				stage.show();
 
 			} catch (IOException e) {
@@ -195,6 +197,7 @@ public class TelaPerfilController {
 			// Faz o popup ficar na frente da janela principal
 			Stage mainStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 			popupStage.initOwner(mainStage);
+			popupStage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 
 			popupStage.setScene(scene);
 			popupStage.show(); // Mostra o popup sem fechar a tela atual
@@ -289,6 +292,8 @@ public class TelaPerfilController {
 
 			stage.setTitle("Editar dados");
 			stage.setScene(new Scene(root));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+
 			stage.show();
 
 		} catch (IOException e) {

@@ -29,6 +29,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class TelaCentralJogosController {
@@ -41,7 +42,9 @@ public class TelaCentralJogosController {
 		alert.setTitle("Aviso");
 		alert.setHeaderText(null);
 		alert.setContentText(mensagem);
-		alert.showAndWait();
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+	    stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+	    alert.showAndWait();
 	}
 
 	@FXML
@@ -56,6 +59,7 @@ public class TelaCentralJogosController {
 			Stage stage = new Stage();
 			stage.setTitle("Joguinho do Clique!");
 			stage.setScene(scene);
+		    stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 			stage.show();
 
 		} catch (IOException e) {
@@ -80,6 +84,7 @@ public class TelaCentralJogosController {
 			Stage stage = new Stage();
 			stage.setTitle("Jogo da Tecla Certa!");
 			stage.setScene(scene);
+		    stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 			stage.show();
 
 		} catch (IOException e) {

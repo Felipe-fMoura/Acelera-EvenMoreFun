@@ -3,6 +3,7 @@ package controllers;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -118,7 +119,12 @@ public class AmizadeController {
         alert.setTitle("Pedido de Amizade");
         alert.setHeaderText("Deseja adicionar @" + user.getUsername() + " como amigo?");
         alert.setContentText("Nome: " + user.getNomeCompleto());
-
+        
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+        
+        
+        
         Optional<ButtonType> resultado = alert.showAndWait();
         if (resultado.isPresent() && resultado.get() == ButtonType.OK) {
             usuarioLogado.enviarPedido(user);
@@ -163,6 +169,7 @@ public class AmizadeController {
         }
 
         Stage popup = new Stage();
+		popup.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.setTitle("Pedidos de Amizade");
         popup.setScene(new Scene(boxPedidos, 350, 200));
@@ -173,6 +180,10 @@ public class AmizadeController {
         Alert alert = new Alert(tipo);
         alert.setHeaderText(null);
         alert.setContentText(msg);
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+
         alert.showAndWait();
+        
     }
 }
