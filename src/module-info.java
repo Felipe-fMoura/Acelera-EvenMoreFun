@@ -11,6 +11,8 @@ module evenMoreFun {
 	requires javafx.media;
 	requires javafx.web;
 	requires java.desktop;
+	requires jdk.internal.md;
+	requires itextpdf;
 
 	opens application to javafx.graphics, javafx.fxml;
 	opens controllers to javafx.fxml;

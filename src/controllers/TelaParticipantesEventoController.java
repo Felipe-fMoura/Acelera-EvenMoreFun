@@ -32,6 +32,10 @@
  * atualizarContador()
  * - Atualiza label que mostra quantidade de participantes marcados como presentes.
  *
+ * emitirCertificados()
+ *-  Para cada usuário presente na lista original de presenças, cria um certificado
+ * associando o usuário ao evento atual e solicita o envio por email através do serviço CertificadoService.
+ *
  * Técnicas e estruturas utilizadas:
  * - Uso extensivo de propriedades observáveis do JavaFX (`ObservableList`, `FilteredList`, `SortedList`) para tabela dinâmica.
  * - Listener para atualizações reativas na UI.
@@ -65,9 +69,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import model.Certificado;
 import model.Evento;
 import model.Usuario;
 import model.UsuarioPresenca;
+import service.CertificadoService;
 import service.ChatService;
 import service.EventoService;
 
@@ -273,4 +279,23 @@ public class TelaParticipantesEventoController {
 		long total = listaOriginal.stream().filter(UsuarioPresenca::isPresente).count();
 		lblContadorPresentes.setText("Presentes: " + total);
 	}
+	
+	@FXML
+	private void emitirCertificados() {
+	    CertificadoService certificadoService = CertificadoService.getInstance();
+
+	    for (UsuarioPresenca up : listaOriginal) {
+	        if (up.isPresente()) {
+	            Certificado certificado = new Certificado();
+	            certificado.setEvento(evento);
+	            certificado.setUsuario(up.getUsuario());
+
+	            certificadoService.enviarCertificadoPorEmail(certificado);
+	        }
+	    }
+
+	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Certificados enviados para os participantes presentes.");
+	    alert.showAndWait();
+	}
+
 }

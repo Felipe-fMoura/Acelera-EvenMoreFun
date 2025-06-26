@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="500" prefWidth="880" style="-fx-background-color: #fdfdfd;" stylesheets="@../resources/css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.TelaParticipantesEventoController">
+<AnchorPane prefHeight="500" prefWidth="880" style="-fx-background-color: #fdfdfd;" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaParticipantesEventoController">
 
     <children>
         <Label layoutX="20" layoutY="15" style="-fx-font-size: 18px; -fx-text-fill: #46295a; -fx-font-weight: bold;" text="Participantes do Evento" />
@@ -23,6 +23,8 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
+         <Button layoutX="160.0" layoutY="430.0" maxWidth="136.0" minHeight="20.0" onAction="#emitirCertificados" prefHeight="20.0" prefWidth="136.0" style="-fx-text-fill: white; -fx-max-width: 130; -fx-min-width: 130; -fx-pref-width: 120; -fx-max-height: 25; -fx-min-height: 25; -fx-pref-height: 25; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" text="Emitir Certificados" />
+         
 
         <!-- Tabela de participantes -->
         <TableView fx:id="tabelaParticipantes" layoutX="20" layoutY="95" prefHeight="300" prefWidth="610" style="-fx-border-color: #ccc; -fx-border-radius: 5;">
@@ -41,7 +43,7 @@
         <Label fx:id="lblContadorPresentes" layoutX="20" layoutY="405" style="-fx-font-size: 14px; -fx-text-fill: #46295a;" text="Presentes: 0" />
 
         <!-- Botão de marcar/desmarcar todos -->
-        <Button layoutX="170" layoutY="430" minHeight="25.0" onAction="#alternarTodosCheckBoxes" prefHeight="25.0" prefWidth="160.0" style="-fx-text-fill: white; -fx-min-height: 25; -fx-max-height: 25; -fx-max-width: 160; -fx-min-width: 160; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" text="Marcar/Desmarcar Todos">
+        <Button layoutX="300.0" layoutY="430.0" minHeight="25.0" onAction="#alternarTodosCheckBoxes" prefHeight="25.0" prefWidth="160.0" style="-fx-text-fill: white; -fx-min-height: 25; -fx-max-height: 25; -fx-max-width: 160; -fx-min-width: 160; -fx-font-weight: bold; -fx-background-radius: 5;" styleClass="galeria-btn" text="Marcar/Desmarcar Todos">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
