@@ -659,6 +659,11 @@ public class CardEventoController {
 						fotoUsuario.setImage(new Image(defaultImgStream));
 					}
 				}
+				
+				// Adiciona clique na foto para abrir perfil
+				fotoUsuario.setOnMouseClicked(event -> abrirPerfilUsuario(comentario.nomeUsuario));
+				fotoUsuario.setStyle("-fx-cursor: hand;");
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

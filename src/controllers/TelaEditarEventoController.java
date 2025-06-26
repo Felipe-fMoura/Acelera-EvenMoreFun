@@ -64,7 +64,8 @@ public class TelaEditarEventoController {
 	@FXML private CheckBox checkPrivado;
 	@FXML private TextField txtPalestrante;
 	@FXML private ComboBox<String> cbTipo;
-
+	@FXML private TextField txtBadge;
+	
 	private Usuario usuarioLogado;
 	private EventoService eventoService = EventoService.getInstance();
 	private Evento evento;
@@ -97,6 +98,7 @@ public class TelaEditarEventoController {
 		checkPrivado.setSelected(evento.isPrivado());
 		txtPalestrante.setText(evento.getPalestrante());
 		cbTipo.setValue(evento.getTipo());
+		txtBadge.setText(evento.getBadgePath());
 	}
 
 	@FXML
@@ -167,6 +169,8 @@ public class TelaEditarEventoController {
 			evento.setPrivado(checkPrivado.isSelected());
 			evento.setPalestrante(txtPalestrante.getText());
 			evento.setTipo(cbTipo.getValue());
+			evento.setBadgePath(txtBadge.getText());
+
 
 			eventoService.atualizarEvento(evento);
 
@@ -221,5 +225,19 @@ public class TelaEditarEventoController {
 			txtImagem.setText(arquivo.toURI().toString());
 		}
 	}
+	
+	@FXML
+	private void handleSelecionarBadge() {
+	    FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Selecionar badge do evento");
+	    fileChooser.getExtensionFilters()
+	            .addAll(new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif"));
+
+	    File arquivo = fileChooser.showOpenDialog(txtBadge.getScene().getWindow());
+	    if (arquivo != null) {
+	        txtBadge.setText(arquivo.toURI().toString());
+	    }
+	}
+
 
 }
