@@ -668,7 +668,9 @@ public class CardEventoController {
 
 			// Nome do usuário
 			Label nomeLabel = new Label(comentario.nomeUsuario);
-			nomeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px;");
+			nomeLabel.setOnMouseClicked(event -> abrirPerfilUsuario(comentario.nomeUsuario));
+			nomeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #3a6cd1; -fx-cursor: hand;");
+
 
 			// Texto do comentário
 			Label comentarioLabel = new Label(comentario.texto);
@@ -738,5 +740,31 @@ public class CardEventoController {
 		// Atualiza a interface
 		carregarComentarios();
 	}
+	
+	private void abrirPerfilUsuario(String nomeUsuario) {
+	    Usuario usuario = usuarioService.buscarPorUsername(nomeUsuario);
+	    if (usuario == null) {
+	        mostrarAlerta("Usuário não encontrado.");
+	        return;
+	    }
+
+	    try {
+	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PerfilUsuario.fxml"));
+	        Parent root = loader.load();
+
+	        PerfilUsuarioController controller = loader.getController();
+	        controller.setUsuario(usuario);
+
+	        Stage stage = new Stage();
+	        stage.setTitle("Perfil de " + usuario.getNome());
+	        stage.setScene(new Scene(root));
+	        stage.setResizable(false);
+	        stage.show();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+
+
 
 }

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.PerfilUsuarioController"
+            prefWidth="300" prefHeight="300">
+    <VBox alignment="TOP_CENTER" spacing="15" layoutX="10" layoutY="10" prefWidth="280">
+        <Label fx:id="lblNomeUsuario" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+        <FlowPane fx:id="painelBadges" hgap="10" vgap="10" />
+    </VBox>
+</AnchorPane>

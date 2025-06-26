@@ -82,8 +82,10 @@ public class Evento {
 	private String imagem;
 	private String categoria;
 	private String palestrante;
+	private String badgePath;
 	private LocalDateTime data;
 	private LocalDateTime dataCriacao;
+	
 
 	private Map<String, Integer> curtidasPorImagem = new HashMap<>();
 	private Map<String, List<String>> comentariosPorImagem = new HashMap<>();
@@ -376,5 +378,14 @@ public class Evento {
 	public void adicionarComentario(Comentario comentario) {
 		comentarios.add(comentario);
 	}
+	
+	public String getBadgePath() {
+	    return badgePath;
+	}
+
+	public void setBadgePath(String badgePath) {
+	    this.badgePath = badgePath;
+	}
+
 
 }

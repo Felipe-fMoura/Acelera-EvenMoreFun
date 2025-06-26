@@ -73,6 +73,7 @@ import model.Certificado;
 import model.Evento;
 import model.Usuario;
 import model.UsuarioPresenca;
+import model.Badge;
 import service.CertificadoService;
 import service.ChatService;
 import service.EventoService;
@@ -291,11 +292,24 @@ public class TelaParticipantesEventoController {
 	            certificado.setUsuario(up.getUsuario());
 
 	            certificadoService.enviarCertificadoPorEmail(certificado);
-	        }
+	         // ADICIONA BADGE no perfil do usuário presente
+	         // Adiciona apenas se ainda não tiver badge com mesmo path (evita duplicação)
+	            boolean jaTemBadge = up.getUsuario().getBadges().stream()
+	                .anyMatch(b -> b.getIconePath().equals(evento.getBadgePath()));
+
+	            if (!jaTemBadge) {
+	                Badge badgeDoEvento = new Badge(
+	                    "" + evento.getTitulo(),
+	                    evento.getBadgePath(),
+	                    "Participação no evento " + evento.getTitulo()
+	                );
+	                up.getUsuario().getBadges().add(badgeDoEvento);
+	            }
 	    }
 
 	    Alert alert = new Alert(Alert.AlertType.INFORMATION, "Certificados enviados para os participantes presentes.");
 	    alert.showAndWait();
-	}
+	    }
 
+	}
 }

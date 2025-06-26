@@ -459,4 +459,12 @@ public class UsuarioService {
 				&& usuario.getCpf() != null && !usuario.getCpf().isEmpty() && usuario.getTelefone() != null
 				&& !usuario.getTelefone().isEmpty();
 	}
+	
+	public Usuario buscarPorUsername(String username) {
+	    return listaUsuarios.stream()
+	        .filter(u -> u.getUsername().equalsIgnoreCase(username))
+	        .findFirst()
+	        .orElse(null);
+	}
+
 }

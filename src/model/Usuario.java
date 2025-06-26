@@ -256,5 +256,19 @@ public class Usuario {
 			this.caminhoFotoPerfil = caminhoFotoPerfil;
 		}
 	}
+	
+	//badge
+	private List<Badge> badges = new ArrayList<>();
+
+	public List<Badge> getBadges() {
+	    return badges;
+	}
+
+	public void adicionarBadge(Badge badge) {
+	    if (!badges.contains(badge)) {
+	        badges.add(badge);
+	    }
+	}
+
 
 }

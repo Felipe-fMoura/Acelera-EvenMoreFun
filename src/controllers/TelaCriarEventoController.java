@@ -32,6 +32,8 @@
 package controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.time.LocalDateTime;
 import java.util.function.UnaryOperator;
 
@@ -63,6 +65,8 @@ public class TelaCriarEventoController {
 	@FXML private CheckBox checkPrivado;
 	@FXML private TextField txtPalestrante;
 	@FXML private ComboBox<String> cbTipoEvento;
+	@FXML private TextField txtBadge;
+
 
 	private Usuario usuarioLogado;
 	private EventoService eventoService = EventoService.getInstance();
@@ -132,6 +136,7 @@ public class TelaCriarEventoController {
 			evento.setCategoria(cbCategoria.getValue());
 			evento.setPrivado(checkPrivado.isSelected());
 			evento.setImagem(txtImagem.getText());
+			evento.setBadgePath(txtBadge.getText());
 			evento.setTipo(cbTipoEvento.getValue());
 
 			eventoService.criarEvento(evento);
@@ -170,5 +175,20 @@ public class TelaCriarEventoController {
 			txtImagem.setText(arquivo.toURI().toString());
 		}
 	}
+	
+	@FXML
+	private void handleSelecionarBadge() {
+	    FileChooser fileChooser = new FileChooser();
+	    fileChooser.setTitle("Selecionar badge do evento");
+	    fileChooser.getExtensionFilters()
+	            .addAll(new FileChooser.ExtensionFilter("Imagens", "*.png", "*.jpg", "*.jpeg", "*.gif"));
 
+	    File arquivo = fileChooser.showOpenDialog(txtBadge.getScene().getWindow());
+	    if (arquivo != null) {
+	        txtBadge.setText(arquivo.toURI().toString()); // caminho file:/... completo
+	    }
+	}
 }
+
+
+

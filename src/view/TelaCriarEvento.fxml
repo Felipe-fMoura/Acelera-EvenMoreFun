@@ -32,14 +32,15 @@
             <RowConstraints minHeight="30" />
             <RowConstraints minHeight="30" />
             <RowConstraints minHeight="30" />
+         <RowConstraints minHeight="30.0" prefHeight="30.0" />
             <RowConstraints minHeight="30" />
             <RowConstraints minHeight="30" />
         </rowConstraints>
 
         <!-- Labels e Campos -->
 
-        <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Título:" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-        <TextField fx:id="txtTitulo" style="             -fx-background-radius: 6;             -fx-border-radius: 6;             -fx-border-color: #c4b8d9;             -fx-padding: 6 10;             -fx-prompt-text-fill: #bbb;         " GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Título:" GridPane.columnIndex="0" />
+        <TextField fx:id="txtTitulo" style="             -fx-background-radius: 6;             -fx-border-radius: 6;             -fx-border-color: #c4b8d9;             -fx-padding: 6 10;             -fx-prompt-text-fill: #bbb;         " GridPane.columnIndex="1" />
 
         <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Descrição:" GridPane.columnIndex="0" GridPane.rowIndex="1" />
         <TextArea fx:id="txtDescricao" prefRowCount="5" style="             -fx-background-radius: 6;             -fx-border-radius: 6;             -fx-border-color: #c4b8d9;             -fx-padding: 6 10;             -fx-prompt-text-fill: #bbb;             -fx-font-size: 13;         " GridPane.columnIndex="1" GridPane.rowIndex="1" />
@@ -64,11 +65,18 @@
             <TextField fx:id="txtImagem" editable="false" promptText="Selecione a imagem..." style="                 -fx-background-radius: 6;                 -fx-border-radius: 6;                 -fx-border-color: #c4b8d9;                 -fx-padding: 6 10;                 -fx-prompt-text-fill: #bbb;             " HBox.hgrow="ALWAYS" />
             <Button onAction="#handleSelecionarImagem" style="                 -fx-background-color: #46295a;                 -fx-text-fill: white;                 -fx-font-weight: bold;                 -fx-background-radius: 6;                 -fx-pref-width: 40;                 -fx-cursor: hand;             " text="📁" />
         </HBox>
+        
+        <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Badge do Evento:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
+<HBox spacing="10" GridPane.columnIndex="1" GridPane.rowIndex="7">
+    <TextField fx:id="txtBadge" editable="false" promptText="Selecione a badge..." style="         -fx-background-radius: 6;         -fx-border-radius: 6;         -fx-border-color: #c4b8d9;         -fx-padding: 6 10;         -fx-prompt-text-fill: #bbb;" HBox.hgrow="ALWAYS" />
+    <Button onAction="#handleSelecionarBadge" style="         -fx-background-color: #46295a;         -fx-text-fill: white;         -fx-font-weight: bold;         -fx-background-radius: 6;         -fx-pref-width: 40;         -fx-cursor: hand;" text="📁" />
+</HBox>
+        
 
-        <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Tipo de Evento:" GridPane.columnIndex="0" GridPane.rowIndex="7" />
-        <ComboBox fx:id="cbTipoEvento" style="             -fx-background-radius: 6;             -fx-border-radius: 6;             -fx-border-color: #c4b8d9;             -fx-padding: 6 10;         " GridPane.columnIndex="1" GridPane.rowIndex="7" />
+        <Label style="-fx-text-fill: #4a3f6a; -fx-font-weight: 600;" text="Tipo de Evento:" GridPane.columnIndex="0" GridPane.rowIndex="8" />
+        <ComboBox fx:id="cbTipoEvento" style="             -fx-background-radius: 6;             -fx-border-radius: 6;             -fx-border-color: #c4b8d9;             -fx-padding: 6 10;         " GridPane.columnIndex="1" GridPane.rowIndex="8" />
 
-        <CheckBox fx:id="checkPrivado" style="             -fx-text-fill: #555555;         " text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="8" />
+        <CheckBox fx:id="checkPrivado" style="             -fx-text-fill: #555555;         " text="Evento Privado" GridPane.columnIndex="1" GridPane.rowIndex="9" />
     </GridPane>
 
     <Button onAction="#handleCriarEvento" style="-fx-font-weight: bold; -fx-font-size: 15; -fx-padding: 10 25; -fx-cursor: hand;" styleClass="verde-btn" stylesheets="@../resources/css/styles.css" text="Criar Evento">

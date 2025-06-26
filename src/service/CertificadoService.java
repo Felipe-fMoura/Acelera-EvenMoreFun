@@ -31,6 +31,7 @@ package service;
 import model.Certificado;
 import model.Evento;
 import model.Usuario;
+import model.Badge;
 import otp.EmailSender;
 import java.io.ByteArrayOutputStream;
 
@@ -115,6 +116,17 @@ public class CertificadoService {
             String nomeArquivo = "certificado_" + cert.getUsuario().getNome().replaceAll(" ", "_") + ".pdf";
 
             EmailSender.sendEmailWithAttachment(cert.getUsuario().getEmail(), assunto, corpo, pdfBytes, nomeArquivo);
+            
+            /* Após envio, adiciona badge ao usuário
+            cert.getUsuario().adicionarBadge(
+                new Badge(
+                    "Participou de: " + cert.getEvento().getTitulo(),
+                    "/resources/icons/badge_evento.png", // Atualize com o caminho real do ícone
+                    "Certificado recebido por participação no evento \"" + cert.getEvento().getTitulo() + "\" em " + 
+                        cert.getEvento().getData().format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+                )
+            );
+            */
         } catch (Exception e) {
             e.printStackTrace();
         }
