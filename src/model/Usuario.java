@@ -43,6 +43,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -60,9 +61,11 @@ public class Usuario {
 	private String cpf;
 	private String genero;
 	private LocalDate dataNascimento;
+	private LocalDateTime dataCriacao;
 	private final List<Evento> eventosParticipando;
 	private final List<Evento> eventosOrganizados;
 	private String caminhoFotoPerfil;
+	
 
 	public Usuario() {
 		this.eventosParticipando = new ArrayList<>();
@@ -269,6 +272,12 @@ public class Usuario {
 	        badges.add(badge);
 	    }
 	}
+	public LocalDateTime getDataCriacao() {
+	    return dataCriacao;
+	}
 
+	public void setDataCriacao(LocalDateTime dataCriacao) {
+	    this.dataCriacao = dataCriacao;
+	}
 
 }

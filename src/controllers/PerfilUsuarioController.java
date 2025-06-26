@@ -13,17 +13,44 @@ import model.Usuario;
 import model.Badge;
 
 import java.io.InputStream;
+import java.time.format.DateTimeFormatter;
 
 public class PerfilUsuarioController {
     @FXML private Label lblNomeUsuario;
     @FXML private FlowPane painelBadges;
+    @FXML private Label lblUsername;
+    @FXML private Label lblEmail;
+    @FXML private Label lblNascimento;
+    @FXML private Label lblCriado;
+    @FXML private Label lblTituloBadges;
 
     private static final String ICONE_PADRAO_PATH_1 = "/profile/badge.png";
     private static final String ICONE_PADRAO_PATH_2 = "/resources/profile/badge.png";
 
     public void setUsuario(Usuario usuario) {
-        lblNomeUsuario.setText(usuario.getNome());
+        lblNomeUsuario.setText("📛 " + usuario.getNome());
+        lblUsername.setText("🧑‍💻 @" + usuario.getUsername());
+        lblEmail.setText("📧 " + usuario.getEmail());
 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        if (usuario.getDataNascimento() != null) {
+            lblNascimento.setText("🎂 " + usuario.getDataNascimento().format(formatter));
+        } else {
+            lblNascimento.setText("🎂 Não informado");
+        }
+
+        if (usuario.getDataCriacao() != null) {
+            lblCriado.setText("📅 Conta criada em " + usuario.getDataCriacao().toLocalDate().format(formatter));
+        } else {
+            lblCriado.setText("📅 Conta criada em —");
+        }
+
+        // Contador de badges
+        int totalBadges = usuario.getBadges().size();
+        lblTituloBadges.setText("🏅 Badges conquistadas (" + totalBadges + "):");
+
+        // Preenche badges
         painelBadges.getChildren().clear();
         for (Badge badge : usuario.getBadges()) {
             VBox box = new VBox();
@@ -47,19 +74,16 @@ public class PerfilUsuarioController {
     private ImageView criarImageViewIcone(String caminhoIcone) {
         try {
             if (caminhoIcone != null && !caminhoIcone.trim().isEmpty()) {
-                // Carrega imagem externa (file:/...)
                 if (caminhoIcone.startsWith("file:/")) {
                     return new ImageView(new Image(caminhoIcone));
                 }
 
-                // Carrega imagem interna do projeto
                 InputStream iconStream = getClass().getResourceAsStream(caminhoIcone);
                 if (iconStream != null) {
                     return new ImageView(new Image(iconStream));
                 }
             }
 
-            // Fallback: badge padrão
             InputStream fallback = getClass().getResourceAsStream(ICONE_PADRAO_PATH_1);
             if (fallback == null) fallback = getClass().getResourceAsStream(ICONE_PADRAO_PATH_2);
 
@@ -70,6 +94,4 @@ public class PerfilUsuarioController {
             return new ImageView();
         }
     }
-
-
 }
