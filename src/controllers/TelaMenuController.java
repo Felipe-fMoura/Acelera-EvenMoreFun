@@ -174,7 +174,9 @@ public class TelaMenuController {
 		atualizarInterfaceUsuario();
 		atualizarFotoPerfilOrganizador(usuarioLogado.getCaminhoFotoPerfil());
 		carregarEventos();
+		
 	}
+	
 
 	private void atualizarInterfaceUsuario() {
 		if (usuarioLogado != null) {

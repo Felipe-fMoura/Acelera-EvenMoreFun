@@ -55,20 +55,25 @@ package controllers;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -94,12 +99,15 @@ public class TelaPerfilController {
 	@FXML private Button btnFechar;
 	@FXML private Label txtCompletarCadastro;
 	@FXML private Button btnEditarFoto;
+	@FXML private FlowPane painelBadges;
+
 
 	private UsuarioService usuarioService = UsuarioService.getInstance();
 	Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
 	private Usuario usuario;
 
 	public void carregarUsuario() {
+		
 		Usuario usuario = SessaoUsuario.getInstance().getUsuario();
 
 		if (usuario != null) {
@@ -135,6 +143,7 @@ public class TelaPerfilController {
 			System.out.println("Caminho foto : " + usuarioLogado.getCaminhoFotoPerfil());
 			carregarFotoPerfil();
 		}
+		
 	}
 
 	private void configurarCelulasListView() {
@@ -271,6 +280,7 @@ public class TelaPerfilController {
 		this.usuario = usuario;
 		carregarUsuario();
 		carregarFotoPerfil();
+		carregarBadges();
 	}
 
 	// acesso ao TelaMenuController
@@ -300,5 +310,52 @@ public class TelaPerfilController {
 			e.printStackTrace();
 		}
 	}
+	
+	private void carregarBadges() {
+	    painelBadges.getChildren().clear();
+
+	    if (usuario == null || usuario.getBadges() == null) return;
+
+	    for (model.Badge badge : usuario.getBadges()) {
+	        VBox box = new VBox();
+	        box.setAlignment(Pos.CENTER);
+
+	        ImageView icone = criarImageViewIcone(badge.getIconePath());
+	        icone.setFitWidth(40);
+	        icone.setFitHeight(40);
+
+	        Label nome = new Label(badge.getNome());
+	        nome.setStyle("-fx-font-size: 10; -fx-text-fill: white;");
+
+	        Tooltip tooltip = new Tooltip(badge.getDescricao());
+	        Tooltip.install(icone, tooltip);
+
+	        box.getChildren().addAll(icone, nome);
+	        painelBadges.getChildren().add(box);
+	    }
+	}
+	
+	private ImageView criarImageViewIcone(String caminhoIcone) {
+	    try {
+	        if (caminhoIcone != null && !caminhoIcone.trim().isEmpty()) {
+	            if (caminhoIcone.startsWith("file:/")) {
+	                return new ImageView(new Image(caminhoIcone));
+	            }
+
+	            InputStream iconStream = getClass().getResourceAsStream(caminhoIcone);
+	            if (iconStream != null) {
+	                return new ImageView(new Image(iconStream));
+	            }
+	        }
+
+	        InputStream fallback = getClass().getResourceAsStream("/resources/profile/badge.png");
+	        return (fallback != null) ? new ImageView(new Image(fallback)) : new ImageView();
+
+	    } catch (Exception e) {
+	        System.out.println("Erro ao carregar badge: " + e.getMessage());
+	        return new ImageView();
+	    }
+	}
+
 
 }

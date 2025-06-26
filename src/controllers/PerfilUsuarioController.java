@@ -14,11 +14,13 @@ import javafx.geometry.Pos;
 import model.Usuario;
 import model.Badge;
 
+import java.io.File;
 import java.io.InputStream;
 import java.time.format.DateTimeFormatter;
 
 public class PerfilUsuarioController {
     @FXML private Label lblNomeUsuario;
+    @FXML private ImageView imgFotoPerfil;
     @FXML private FlowPane painelBadges;
     @FXML private Label lblUsername;
     @FXML private Label lblEmail;
@@ -43,47 +45,70 @@ public class PerfilUsuarioController {
         atualizarBotaoPedido();
     }
 
-    private void carregarDados() {
-        lblNomeUsuario.setText("📛 " + usuarioVisualizado.getNomeCompleto());
-        lblUsername.setText("🧑‍💻 @" + usuarioVisualizado.getUsername());
-        lblEmail.setText("📧 " + usuarioVisualizado.getEmail());
+   private void carregarDados() {
+    lblNomeUsuario.setText("📛 " + usuarioVisualizado.getNomeCompleto());
+    lblUsername.setText("🧑‍💻 @" + usuarioVisualizado.getUsername());
+    lblEmail.setText("📧 " + usuarioVisualizado.getEmail());
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    try {
+        String caminho = usuarioVisualizado.getCaminhoFotoPerfil();
 
-        if (usuarioVisualizado.getDataNascimento() != null) {
-            lblNascimento.setText("🎂 " + usuarioVisualizado.getDataNascimento().format(formatter));
+        if (caminho != null && !caminho.trim().isEmpty()) {
+            if (caminho.startsWith("file:/")) {
+                imgFotoPerfil.setImage(new Image(caminho));
+            } else {
+                File imagemArquivo = new File(caminho);
+                if (imagemArquivo.exists()) {
+                    imgFotoPerfil.setImage(new Image(imagemArquivo.toURI().toString()));
+                } else {
+                    carregarImagemPadrao();
+                }
+            }
         } else {
-            lblNascimento.setText("🎂 Não informado");
+            carregarImagemPadrao();
         }
-
-        if (usuarioVisualizado.getDataCriacao() != null) {
-            lblCriado.setText("📅 Conta criada em " + usuarioVisualizado.getDataCriacao().toLocalDate().format(formatter));
-        } else {
-            lblCriado.setText("📅 Conta criada em —");
-        }
-
-        int totalBadges = usuarioVisualizado.getBadges().size();
-        lblTituloBadges.setText("🏅 Badges conquistadas (" + totalBadges + "):");
-
-        painelBadges.getChildren().clear();
-        for (Badge badge : usuarioVisualizado.getBadges()) {
-            VBox box = new VBox();
-            box.setAlignment(Pos.CENTER);
-
-            ImageView icone = criarImageViewIcone(badge.getIconePath());
-            icone.setFitWidth(40);
-            icone.setFitHeight(40);
-
-            Label nome = new Label(badge.getNome());
-            nome.setStyle("-fx-font-size: 10;");
-
-            Tooltip tooltip = new Tooltip(badge.getDescricao());
-            Tooltip.install(icone, tooltip);
-
-            box.getChildren().addAll(icone, nome);
-            painelBadges.getChildren().add(box);
-        }
+    } catch (Exception e) {
+        System.out.println("Erro ao carregar imagem de perfil: " + e.getMessage());
+        carregarImagemPadrao();
     }
+
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+    if (usuarioVisualizado.getDataNascimento() != null) {
+        lblNascimento.setText("🎂 " + usuarioVisualizado.getDataNascimento().format(formatter));
+    } else {
+        lblNascimento.setText("🎂 Não informado");
+    }
+
+    if (usuarioVisualizado.getDataCriacao() != null) {
+        lblCriado.setText("📅 Conta criada em " + usuarioVisualizado.getDataCriacao().toLocalDate().format(formatter));
+    } else {
+        lblCriado.setText("📅 Conta criada em —");
+    }
+
+    int totalBadges = usuarioVisualizado.getBadges().size();
+    lblTituloBadges.setText("🏅 Badges conquistadas (" + totalBadges + "):");
+
+    painelBadges.getChildren().clear();
+    for (Badge badge : usuarioVisualizado.getBadges()) {
+        VBox box = new VBox();
+        box.setAlignment(Pos.CENTER);
+
+        ImageView icone = criarImageViewIcone(badge.getIconePath());
+        icone.setFitWidth(40);
+        icone.setFitHeight(40);
+
+        Label nome = new Label(badge.getNome());
+        nome.setStyle("-fx-font-size: 10;");
+
+        Tooltip tooltip = new Tooltip(badge.getDescricao());
+        Tooltip.install(icone, tooltip);
+
+        box.getChildren().addAll(icone, nome);
+        painelBadges.getChildren().add(box);
+    }
+}
 
     private ImageView criarImageViewIcone(String caminhoIcone) {
         try {
@@ -147,4 +172,16 @@ public class PerfilUsuarioController {
         alerta.setContentText("Pedido de amizade enviado para @" + usuarioVisualizado.getUsername() + "!");
         alerta.showAndWait();
     }
+    
+    private void carregarImagemPadrao() {
+        InputStream is = getClass().getResourceAsStream("/resources/profile/iconPadraoUser.png");
+        if (is != null) {
+            imgFotoPerfil.setImage(new Image(is));
+        } else {
+            System.out.println("Imagem padrão não encontrada.");
+            
+        }
+    }
+
 }
+

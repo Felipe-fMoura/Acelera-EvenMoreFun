@@ -2,35 +2,27 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml"
-            fx:controller="controllers.PerfilUsuarioController"
-            prefWidth="350" prefHeight="400"
-            style="-fx-background-color: #f5f0ff;">
-    <VBox alignment="TOP_CENTER" spacing="14" layoutX="10" layoutY="10" prefWidth="330" 
-          style="-fx-padding: 25; -fx-background-color: white; -fx-background-radius: 12; 
-                 -fx-effect: dropshadow(gaussian, rgba(190, 99, 249, 0.3), 15, 0.5, 0, 0);">
+<AnchorPane prefHeight="400" prefWidth="350" style="-fx-background-color: #f5f0ff;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.PerfilUsuarioController">
+    <VBox alignment="TOP_CENTER" layoutX="10" layoutY="10" prefWidth="330" spacing="14" style="-fx-padding: 25; -fx-background-color: white; -fx-background-radius: 12;                   -fx-effect: dropshadow(gaussian, rgba(190, 99, 249, 0.3), 15, 0.5, 0, 0);">
+      <ImageView fx:id="imgFotoPerfil" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
         
-        <Label fx:id="lblNomeUsuario" 
-               style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #be63f9;" />
+        <Label fx:id="lblNomeUsuario" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #be63f9;" text="nome" />
 
         <!-- Dados com emojis -->
-        <Label fx:id="lblUsername" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" />
-        <Label fx:id="lblEmail" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" />
-        <Label fx:id="lblNascimento" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" />
-        <Label fx:id="lblCriado" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" />
+        <Label fx:id="lblUsername" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" text="username" />
+        <Label fx:id="lblEmail" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" text="email@email.com" />
+        <Label fx:id="lblNascimento" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" text="data/de/nasc" />
+        <Label fx:id="lblCriado" style="-fx-font-size: 14px; -fx-text-fill: #6a47a6;" text="data/de/cria" />
 
         <!-- Botão para enviar pedido de amizade -->
-        <Button fx:id="btnEnviarPedido" text="Enviar Pedido de Amizade" onAction="#handleEnviarPedido"
-                visible="false"
-                style="-fx-background-color: #be63f9; -fx-text-fill: white; -fx-font-weight: bold; 
-                       -fx-background-radius: 8; -fx-cursor: hand;" />
+        <Button fx:id="btnEnviarPedido" onAction="#handleEnviarPedido" style="-fx-background-color: #be63f9; -fx-text-fill: white; -fx-font-weight: bold;                         -fx-background-radius: 8; -fx-cursor: hand;" text="Enviar Pedido de Amizade" visible="false" />
 
-        <Label fx:id="lblTituloBadges" 
-               style="-fx-font-weight: bold; -fx-padding: 15 0 8 0; -fx-text-fill: #be63f9;" />
+        <Label fx:id="lblTituloBadges" style="-fx-font-weight: bold; -fx-padding: 15 0 8 0; -fx-text-fill: #be63f9;" />
         <FlowPane fx:id="painelBadges" hgap="12" vgap="12" />
     </VBox>
 </AnchorPane>

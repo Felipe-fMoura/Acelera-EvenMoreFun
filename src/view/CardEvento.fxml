@@ -51,9 +51,9 @@
         </HBox>
 
         <!-- Organizador e Data -->
-        <HBox alignment="CENTER_LEFT" spacing="10">
+        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="12.0" spacing="10">
             <StackPane prefWidth="50.0">
-                <ImageView fx:id="imgPerfilOrganizador" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
+                <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" />
             </StackPane>
             <VBox spacing="2">
                 <Text fx:id="txtNomeOrganizador" fill="#1877f2" style="-fx-font-weight: bold; -fx-font-size: 14px;" text="Nome" />

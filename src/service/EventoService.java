@@ -77,20 +77,95 @@ public class EventoService {
 
 		Usuario org2 = new Usuario();
 		org2.setId(2);
-		org2.setNome("Prof. Feichas");
+		org2.setNome("Luiz Felipe");
 		org2.setCpf("32145698700");
 		org2.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
 
-		criarEvento(new Evento.Builder("Acelera Fatec", "Venha prestigiar!", LocalDateTime.now().plusDays(5),
-				"Fatec Cruzeiro Prof. Waldomiro May", org1, "Enari")
-				.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/fatec_cruzeiro.jpg").toExternalForm()).build());
+		Usuario org3 = new Usuario();
+		org3.setId(3);
+		org3.setNome("Joao Ramos");
+		org3.setCpf("98765432100");
+		org3.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
 
-		criarEvento(new Evento.Builder("WorkShop de JavaFx", "Aprenda a criar interfaces incriveis!",
-				LocalDateTime.now().plusDays(5), "Fatec Cruzeiro Prof. Waldomiro May", org2, "Feichas")
-				.comImagem(getClass().getResource("/resources/event/eventoSemFoto.png").toExternalForm()).build());
+		Usuario org4 = new Usuario();
+		org4.setId(4);
+		org4.setNome("Rafael Duarte");
+		org4.setCpf("45612378900");
+		org4.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
 
+		Usuario org5 = new Usuario();
+		org5.setId(5);
+		org5.setNome("Jéssica Pereira");
+		org5.setCpf("15975348600");
+		org5.setCaminhoFotoPerfil(getClass().getResource("/resources/profile/iconPadraoUser.png").toExternalForm());
+
+		// Evento 1 - Educação
+		criarEvento(new Evento.Builder(
+				"Acelera Fatec",
+				"Venha prestigiar!",
+				LocalDateTime.now().plusDays(5),
+				"Fatec Cruzeiro Prof. Waldomiro May",
+				org1,
+				"Enari")
+			.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/educacao.jpg").toExternalForm())
+			.comCategoria("Educacao")
+			.build()
+		);
+
+		// Evento 2 - Jogos
+		criarEvento(new Evento.Builder(
+				"Gameplay de Valorant",
+				"Campeonatinho!",
+				LocalDateTime.now().plusDays(5),
+				"Fatec Cruzeiro Prof. Waldomiro May",
+				org2,
+				"Luiz Felipe")
+			.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/jogos.jpg").toExternalForm())
+			.comCategoria("Jogos")
+			.build()
+		);
+
+		// Evento 3 - Negócios
+		criarEvento(new Evento.Builder(
+				"Feira de Startups",
+				"Conheça ideias inovadoras e oportunidades de investimento.",
+				LocalDateTime.now().plusDays(7),
+				"Centro de Inovação de São José",
+				org3,
+				"Camila Ramos")
+			.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/negocios.jpg").toExternalForm())
+			.comCategoria("Negócios")
+			.build()
+		);
+
+		// Evento 4 - Esportes
+		criarEvento(new Evento.Builder(
+				"Maratona Fatec 5K",
+				"Participe da nossa corrida anual!",
+				LocalDateTime.now().plusDays(10),
+				"Parque Municipal",
+				org4,
+				"Rafael Costa")
+			.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/esportes.jpeg").toExternalForm())
+			.comCategoria("Esportes")
+			.build()
+		);
+
+		// Evento 5 - Festas
+		criarEvento(new Evento.Builder(
+				"Arraiá da Fatec",
+				"Música, dança, comidas típicas e muita diversão!",
+				LocalDateTime.now().plusDays(15),
+				"Auditório da Fatec Cruzeiro",
+				org5,
+				"Jéssica Lima")
+			.comImagem(getClass().getResource("/resources/exemplos/fotoEvento/festa.jpg").toExternalForm())
+			.comCategoria("Festas")
+			.build()
+		);
 	}
-	// CRUD básico
+
+
 
 	public Evento criarEvento(Evento evento) {
 		evento.setId(++ultimoId);

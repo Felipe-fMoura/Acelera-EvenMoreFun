@@ -92,9 +92,11 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import model.Badge;
 import model.Comentario;
 import model.Evento;
 import model.Notificacao;
@@ -121,7 +123,7 @@ public class CardEventoController {
 	@FXML private Label lblParticipantes;
 	@FXML private Label lblLocal;
 	@FXML private ImageView imgEvento;
-    @FXML private Label lblPalestrante;
+	@FXML private Label lblPalestrante;
 	@FXML private Button btnEntrar;
 	@FXML private Button btnParticipar;
 	@FXML private Button btnLista;
@@ -131,6 +133,8 @@ public class CardEventoController {
 	@FXML private Button btnCurtir;
 	@FXML private ImageView imgPerfilOrganizador;
 	@FXML private Text txtUserNameOrganizador;
+
+
 
 	private Evento evento;
 	private Usuario usuarioLogado;
@@ -178,7 +182,7 @@ public class CardEventoController {
 
 			// Define nome de usuário (ou nome comum como fallback)
 			txtNomeOrganizador
-					.setText(organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome());
+			.setText(organizador.getUsername() != null ? organizador.getUsername() : organizador.getNome());
 		}
 
 		txtTituloEvento.setText(evento.getTitulo());
@@ -243,23 +247,26 @@ public class CardEventoController {
 				TextInputDialog dialog = new TextInputDialog(usuarioLogado.getEmail());
 				dialog.setTitle("Confirmação de Participação");
 				dialog.setHeaderText("Confirmação de E-mail");
-				dialog.setContentText("Digite seu e-mail para receber o QR Code:");	
-				// Adiciona a logo ao diálogo
+				dialog.setContentText("Digite seu e-mail para receber o QR Code:");
+
 				Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
 				stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
-				
 
 				dialog.showAndWait().ifPresent(email -> {
 					try {
 						String ip = IPUtil.getLocalIPv4();
-						String conteudoQR = "http://" + ip + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId="
-								+ usuarioLogado.getId();
+						String conteudoQR = "http://" + ip + ":8080/presenca?eventoId=" + evento.getId() + "&usuarioId=" + usuarioLogado.getId();
 
 						byte[] qrCodeBytes = QRCodeGenerator.generateQRCode(conteudoQR, 200);
-						EmailSender.sendEmailWithAttachment(email, "Confirmação de Participação",
-								"Olá, sua participação no evento '" + evento.getTitulo() + "' foi confirmada.\n"
-										+ "Apresente o QR Code em anexo na entrada do evento.",
-								qrCodeBytes, "qrcode.png");
+						EmailSender.sendEmailWithAttachment(
+								email,
+								"Confirmação de Participação",
+								"Olá, sua participação no evento '" + evento.getTitulo() + "' foi confirmada.\n" +
+										"Apresente o QR Code em anexo na entrada do evento.",
+										qrCodeBytes,
+										"qrcode.png"
+								);
+
 						mostrarAlerta("QR Code enviado com sucesso para: " + email);
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -269,12 +276,37 @@ public class CardEventoController {
 			}
 
 			atualizarEstadoParticipacao();
-			int userId = SessaoUsuario.getUsuarioLogado().getId();
-
-			Notificacao notificacao = new Notificacao("Você está participando do evento '" + evento.getTitulo() + "'",
-					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
-
+			int userId = usuarioLogado.getId();
+			Notificacao notificacao = new Notificacao(
+					"Você está participando do evento '" + evento.getTitulo() + "'",
+					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+					);
 			NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+
+			String categoria = evento.getCategoria(); 
+			Badge badge = null;
+
+			switch (categoria.toLowerCase()) {
+			case "negócios":
+				badge = new Badge("Executivo", "/resources/badges/badgeEventosNegocios.png", "Participou de um evento de negócios");
+				break;
+			case "jogos":
+				badge = new Badge("Gamer", "/resources/badges/badgeEventosJogos.png", "Participou de um evento de jogos");
+				break;
+			case "educacao":
+				badge = new Badge("Estudioso", "/resources/badges/badgeEventosEstudos.png", "Participou de um evento de estudos");
+				break;
+			case "festas":
+				badge = new Badge("Festeiro", "/resources/badges/badgeEventosFestas.png", "Participou de uma festa");
+				break;
+			case "esportes":
+				badge = new Badge("Jogador", "/resources/badges/badgeEventosEsportes.png", "Participou de evento de esportes");
+				break;
+			}
+
+			if (badge != null && !usuarioLogado.getBadges().contains(badge)) {
+				usuarioLogado.adicionarBadge(badge);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -316,13 +348,24 @@ public class CardEventoController {
 		abrirLinkNoNavegador(url);
 
 		int userId = SessaoUsuario.getUsuarioLogado().getId();
-		Notificacao notificacao = new Notificacao(
-				"Você compartilhou o evento '" + evento.getTitulo() + "'" + " no Facebook", LocalDateTime.now(), false,
-				Notificacao.Tipo.HISTORICO, "Sistema");
 
+		Notificacao notificacao = new Notificacao(
+				"Você compartilhou o evento '" + evento.getTitulo() + "' no Facebook",
+				LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+				);
 		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
 
+		Badge badge = new Badge(
+				"Facebook", 
+				"/resources/badges/badgeFacebook.png", 
+				"Compartilhou um evento no Facebook"
+				);
+
+		if (!usuarioLogado.getBadges().contains(badge)) {
+			usuarioLogado.adicionarBadge(badge);
+		}
 	}
+
 
 	private void compartilharWhatsApp() {
 		String texto = "Confira este evento incrível: ";
@@ -332,10 +375,20 @@ public class CardEventoController {
 		int userId = SessaoUsuario.getUsuarioLogado().getId();
 
 		Notificacao notificacao = new Notificacao(
-				"Você compartilhou o evento '" + evento.getTitulo() + "'" + " no Whatsapp", LocalDateTime.now(), false,
-				Notificacao.Tipo.HISTORICO, "Sistema");
-
+				"Você compartilhou o evento '" + evento.getTitulo() + "' no Whatsapp",
+				LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+				);
 		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+
+		Badge badge = new Badge(
+				"Whatsapp", 
+				"/resources/badges/badgeWhatsapp.png", 
+				"Compartilhou um evento no Whatsapp"
+				);
+
+		if (!usuarioLogado.getBadges().contains(badge)) {
+			usuarioLogado.adicionarBadge(badge);
+		}
 	}
 
 	private void compartilharTwitter() {
@@ -344,12 +397,24 @@ public class CardEventoController {
 			String textoEncode = URLEncoder.encode(texto + gerarLinkEvento(), StandardCharsets.UTF_8.toString());
 			String url = "https://twitter.com/intent/tweet?text=" + textoEncode;
 			abrirLinkNoNavegador(url);
-			int userId = SessaoUsuario.getUsuarioLogado().getId();
-			Notificacao notificacao = new Notificacao(
-					"Você compartilhou o evento '" + evento.getTitulo() + "'" + " no Twitter", LocalDateTime.now(),
-					false, Notificacao.Tipo.HISTORICO, "Sistema");
 
+			int userId = SessaoUsuario.getUsuarioLogado().getId();
+
+			Notificacao notificacao = new Notificacao(
+					"Você compartilhou o evento '" + evento.getTitulo() + "' no Twitter",
+					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+					);
 			NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+
+			Badge badgeTwitter = new Badge(
+					"Twitter", 
+					"/resources/badges/badgeTwitter.png", 
+					"Compartilhou um evento no twitter"
+					);
+
+			if (!usuarioLogado.getBadges().contains(badgeTwitter)) {
+				usuarioLogado.adicionarBadge(badgeTwitter);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -398,6 +463,8 @@ public class CardEventoController {
 		lblParticipantes.setText(evento.getParticipantes().size() + " participantes");
 	}
 
+
+
 	private String gerarLinkEvento() {
 		return "https://eventmorefun.com/eventos/" + evento.getId() + "?nome=" + evento.getTitulo().replace(" ", "+");
 	}
@@ -408,8 +475,8 @@ public class CardEventoController {
 		alert.setHeaderText(null);
 		alert.setContentText(mensagem);
 		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-	    stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
-	    alert.showAndWait();
+		stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+		alert.showAndWait();
 	}
 
 	private TelaMenuController telaMenuController;
@@ -493,11 +560,11 @@ public class CardEventoController {
 		if (!usuarioService.isCadastroCompleto(usuarioLogado)) {
 			mostrarAlerta("Seu cadastro está incompleto. Atualize seus dados antes de entrar no evento.");
 			return;
-
 		}
+
 		boolean isParticipante = eventoService.isParticipante(evento.getId(), usuarioLogado.getId());
-		boolean isOrganizador = evento.getOrganizador() != null
-				&& evento.getOrganizador().getId() == usuarioLogado.getId();
+		boolean isOrganizador = evento.getOrganizador() != null &&
+				evento.getOrganizador().getId() == usuarioLogado.getId();
 
 		if (!isParticipante && !isOrganizador) {
 			mostrarAlerta("Apenas participantes inscritos ou organizadores podem entrar na sala do evento.");
@@ -522,20 +589,31 @@ public class CardEventoController {
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 			stage.show();
 
-			// Marca a presença automaticamente
 			eventoService.marcarPresenca(evento.getId(), usuarioLogado.getId());
-			int userId = SessaoUsuario.getUsuarioLogado().getId();
 
-			Notificacao notificacao = new Notificacao("Você entrou ao-vivo no evento '" + evento.getTitulo() + "'",
-					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
-
+			int userId = usuarioLogado.getId();
+			Notificacao notificacao = new Notificacao(
+					"Você entrou ao-vivo no evento '" + evento.getTitulo() + "'",
+					LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+					);
 			NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+
+			Badge badge = new Badge(
+					"Live", 
+					"/resources/badges/badgeLive.png", 
+					"Entrou num evento ao vivo"
+					);
+
+			if (!usuarioLogado.getBadges().contains(badge)) {
+				usuarioLogado.adicionarBadge(badge);
+			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 			mostrarAlerta("Erro ao abrir a sala do evento.");
 		}
 	}
+
 
 	@FXML
 	private void handleGaleria(ActionEvent event) {
@@ -572,12 +650,13 @@ public class CardEventoController {
 			stage.setScene(new Scene(root));
 			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
 
-			
+
 			stage.show();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 
 	@FXML
 	private void handleCurtir(ActionEvent event) {
@@ -590,25 +669,34 @@ public class CardEventoController {
 
 		boolean sucesso;
 		if (jaCurtiu) {
-			// Tenta remover a curtida
 			sucesso = evento.descurtirEvento(usuarioLogado);
 			if (sucesso) {
 				jaCurtiu = false;
-				Notificacao notificacao = new Notificacao("Você descurtiu o evento '" + evento.getTitulo() + "'",
-						LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
+				Notificacao notificacao = new Notificacao(
+						"Você descurtiu o evento '" + evento.getTitulo() + "'",
+						LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+						);
 				NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
-
 			}
 		} else {
-			// Tenta curtir o evento
 			sucesso = evento.curtirEvento(usuarioLogado);
 			if (sucesso) {
-
-				Notificacao notificacao = new Notificacao("Você curtiu o evento '" + evento.getTitulo() + "'",
-						LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
+				Notificacao notificacao = new Notificacao(
+						"Você curtiu o evento '" + evento.getTitulo() + "'",
+						LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema"
+						);
 				NotificacaoService.getInstance().registrarNotificacao(usuarioLogado.getId(), notificacao);
-
 				jaCurtiu = true;
+
+				Badge badge = new Badge(
+						"Curtidor", 
+						"/resources/badges/badgeCurtir.png", 
+						"Curtiu um evento"
+						);
+
+				if (!usuarioLogado.getBadges().contains(badge)) {
+					usuarioLogado.adicionarBadge(badge);
+				}
 			}
 		}
 
@@ -619,12 +707,14 @@ public class CardEventoController {
 		}
 	}
 
+
 	private void atualizarBotaoCurtir() {
 		String textoBotao = jaCurtiu ? "Descurtir" : "Curtir";
 		btnCurtir.setText(textoBotao + " (" + evento.getCurtidas() + ")");
 	}
 
 	// Método para inicializar o estado de curtida ao carregar o evento
+
 	private void inicializarCurtida() {
 		if (usuarioLogado != null) {
 			jaCurtiu = evento.getUsuariosQueCurtiram().contains(usuarioLogado.getId());
@@ -668,11 +758,14 @@ public class CardEventoController {
 						fotoUsuario.setImage(new Image(defaultImgStream));
 					}
 				}
-				
+
 				// Adiciona clique na foto para abrir perfil
 				fotoUsuario.setOnMouseClicked(event -> abrirPerfilUsuario(comentario.nomeUsuario));
 				fotoUsuario.setStyle("-fx-cursor: hand;");
-				
+
+
+
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -754,33 +847,33 @@ public class CardEventoController {
 		// Atualiza a interface
 		carregarComentarios();
 	}
-	
+
 	private void abrirPerfilUsuario(String nomeUsuario) {
-	    Usuario usuarioVisualizado = usuarioService.buscarPorUsername(nomeUsuario);
-	    if (usuarioVisualizado == null) {
-	        mostrarAlerta("Usuário não encontrado.");
-	        return;
-	    }
+		Usuario usuarioVisualizado = usuarioService.buscarPorUsername(nomeUsuario);
+		if (usuarioVisualizado == null) {
+			mostrarAlerta("Usuário não encontrado.");
+			return;
+		}
 
-	    try {
-	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PerfilUsuario.fxml"));
-	        Parent root = loader.load();
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/PerfilUsuario.fxml"));
+			Parent root = loader.load();
 
-	        PerfilUsuarioController controller = loader.getController();
+			PerfilUsuarioController controller = loader.getController();
 
-	        Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
+			Usuario usuarioLogado = SessaoUsuario.getInstance().getUsuario();
 
-	        controller.setUsuarios(usuarioVisualizado, usuarioLogado);
+			controller.setUsuarios(usuarioVisualizado, usuarioLogado);
 
-	        Stage stage = new Stage();
-	        stage.setTitle("Perfil de " + usuarioVisualizado.getNomeCompleto());
-	        stage.setScene(new Scene(root));
-	        stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
-	        stage.setResizable(false);
-	        stage.show();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+			Stage stage = new Stage();
+			stage.setTitle("Perfil de " + usuarioVisualizado.getNomeCompleto());
+			stage.setScene(new Scene(root));
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+			stage.setResizable(false);
+			stage.show();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 

@@ -17,6 +17,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.FlowPane?>
+
 
 <ScrollPane fx:id="scrollPane" style="-fx-max-width: 500; -fx-min-width: 500; -fx-pref-width: 500;" styleClass="gradiente-roxo" stylesheets="@../resources/css/styles.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TelaPerfilController">
    <content>
@@ -114,6 +116,7 @@
                </children>
             </AnchorPane>
             <GridPane>
+            
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -176,6 +179,8 @@
       
           <!-- Botão para completar o perfil -->
           <Button fx:id="btnCompletarPerfil" style="-fx-background-color: #1976d2; -fx-text-fill: white; -fx-font-weight: bold;" text="Completar Perfil" textFill="RED" visible="false" />
+      <Label text="🏅 Minhas Badges:" style="-fx-font-size: 14px; -fx-text-fill: white;" />
+<FlowPane fx:id="painelBadges" hgap="10" vgap="10" prefWidth="400" />
       
           <HBox prefHeight="236.0" prefWidth="500.0" spacing="10">
               <children>

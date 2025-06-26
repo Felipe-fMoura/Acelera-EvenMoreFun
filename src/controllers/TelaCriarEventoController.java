@@ -46,6 +46,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextFormatter;
 import javafx.stage.FileChooser;
+import model.Badge;
 import model.Evento;
 import model.Notificacao;
 import model.Usuario;
@@ -77,7 +78,7 @@ public class TelaCriarEventoController {
 
 	@FXML
 	private void initialize() {
-		cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios", "Outros");
+		cbCategoria.getItems().addAll("Festas", "Esportes", "Educação", "Negócios","Jogos", "Outros");
 
 		cbTipoEvento.getItems().addAll("Presencial", "Online", "Híbrido");
 		cbTipoEvento.setValue("Presencial");
@@ -161,6 +162,17 @@ public class TelaCriarEventoController {
 				LocalDateTime.now(), false, Notificacao.Tipo.HISTORICO, "Sistema");
 
 		NotificacaoService.getInstance().registrarNotificacao(userId, notificacao);
+		
+		// Badge
+        Badge badge = new Badge(
+            "Organizador", 
+            "/resources/badges/badgeCriarEvento.png", 
+            "Criou seu primeiro evento"
+        );
+
+        if (!usuarioLogado.getBadges().contains(badge)) {
+            usuarioLogado.adicionarBadge(badge);
+        }
 	}
 
 	@FXML
