@@ -89,6 +89,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -228,6 +229,12 @@ public class CardEventoController {
 
 		atualizarEstadoParticipacao();
 		recarregarComentarios();
+		
+		if (organizador != null && organizador.getUsername() != null) {
+		    Tooltip.install(imgPerfilOrganizador, new Tooltip("Ver perfil do organizador"));
+		    imgPerfilOrganizador.setStyle("-fx-cursor: hand;");
+		    imgPerfilOrganizador.setOnMouseClicked(event -> abrirPerfilUsuario(organizador.getUsername()));
+		}
 	}
 
 	@FXML
