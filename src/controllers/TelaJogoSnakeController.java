@@ -7,19 +7,29 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
+import session.SessaoUsuario;  // seu pacote da sessão
+import model.Usuario;          // sua classe de usuário
 
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class TelaJogoSnakeController {
 
     @FXML private Canvas canvas;
     @FXML private Text lblScore;
     @FXML private Button btnReiniciar;
+
+    // Labels para o leaderboard (conectados no FXML)
+    @FXML private Label rank1;
+    @FXML private Label rank2;
+    @FXML private Label rank3;
+    @FXML private Label rank4;
+    @FXML private Label rank5;
 
     private GraphicsContext gc;
     private Timeline timeline;
@@ -39,6 +49,9 @@ public class TelaJogoSnakeController {
     private int speed = 200;
     private final int minSpeed = 60;
 
+    // leaderboard: username -> best score
+    private static final Map<String, Integer> leaderboard = new HashMap<>();
+
     @FXML
     public void initialize() {
         gc = canvas.getGraphicsContext2D();
@@ -47,6 +60,8 @@ public class TelaJogoSnakeController {
 
         // Garante que o canvas aceite entrada de teclado logo após a UI carregar
         Platform.runLater(() -> canvas.requestFocus());
+        
+        atualizarLeaderboard(); // Atualiza a leaderboard na inicialização
     }
 
     private void configurarTeclas() {
@@ -132,6 +147,7 @@ public class TelaJogoSnakeController {
 
         if (x < 0 || y < 0 || x >= width || y >= height || contem(newHead)) {
             gameOver = true;
+            salvarScoreSeMelhor();
             return;
         }
 
@@ -144,6 +160,15 @@ public class TelaJogoSnakeController {
             acelerarJogo();
         } else {
             snake.removeLast();
+        }
+    }
+
+    private void salvarScoreSeMelhor() {
+        Usuario user = SessaoUsuario.getUsuarioLogado();
+        if (user != null) {
+            String username = user.getUsername();
+            leaderboard.put(username, Math.max(score, leaderboard.getOrDefault(username, 0)));
+            atualizarLeaderboard();
         }
     }
 
@@ -161,17 +186,21 @@ public class TelaJogoSnakeController {
     }
 
     private void desenhar() {
+        // fundo e área do jogo (30x20 blocos)
         gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
+        gc.fillRect(0, 0, width * TAM, height * TAM);
 
+        // cobra
         gc.setFill(Color.LIMEGREEN);
         for (int[] p : snake) {
             gc.fillRect(p[0] * TAM, p[1] * TAM, TAM - 1, TAM - 1);
         }
 
+        // comida
         gc.setFill(Color.RED);
         gc.fillOval(food[0] * TAM, food[1] * TAM, TAM - 1, TAM - 1);
 
+        // texto Game Over
         if (gameOver) {
             gc.setFill(Color.WHITE);
             gc.fillText("Game Over! Pressione Reiniciar", 180, 150);
@@ -181,6 +210,34 @@ public class TelaJogoSnakeController {
     private void atualizarPontuacao() {
         if (lblScore != null) {
             lblScore.setText("Pontos: " + score);
+        }
+    }
+
+    private void atualizarLeaderboard() {
+        // limpa todos os labels
+        rank1.setText("1. -");
+        rank2.setText("2. -");
+        rank3.setText("3. -");
+        rank4.setText("4. -");
+        rank5.setText("5. -");
+
+        // ordena e pega top5
+        List<Map.Entry<String, Integer>> top5 = leaderboard.entrySet()
+            .stream()
+            .sorted((e1, e2) -> Integer.compare(e2.getValue(), e1.getValue()))
+            .limit(5)
+            .collect(Collectors.toList());
+
+        for (int i = 0; i < top5.size(); i++) {
+            Map.Entry<String, Integer> entry = top5.get(i);
+            String texto = String.format("%d. %s - %d", i + 1, entry.getKey(), entry.getValue());
+            switch (i) {
+                case 0 -> rank1.setText(texto);
+                case 1 -> rank2.setText(texto);
+                case 2 -> rank3.setText(texto);
+                case 3 -> rank4.setText(texto);
+                case 4 -> rank5.setText(texto);
+            }
         }
     }
 
