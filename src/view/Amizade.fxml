@@ -8,6 +8,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ScrollPane?>
+
 
 <BorderPane style="-fx-background-color: #f3f0ff;" stylesheets="@../resources/css/styles.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="controllers.AmizadeController">
 
@@ -28,18 +30,26 @@
     </top>
 
     <!-- Lista lateral direita com os amigos -->
-    <right>
-        <VBox fx:id="boxAmigos" prefWidth="220" spacing="8" style="-fx-background-color: #ece6ff; -fx-padding: 12;">
-            <Label style="-fx-font-weight: bold; -fx-text-fill: #5e23b8; -fx-font-size: 14px;" text="👥 Seus Amigos" />
-            <!-- Os amigos serão adicionados dinamicamente aqui -->
-        </VBox>
-    </right>
+   <right>
+    <ScrollPane fitToWidth="true" prefWidth="220" style="-fx-background-color: transparent;">
+        <content>
+            <VBox fx:id="boxAmigos" spacing="8" style="-fx-background-color: #ece6ff; -fx-padding: 12;">
+                <Label style="-fx-font-weight: bold; -fx-text-fill: #5e23b8; -fx-font-size: 14px;" text="👥 Seus Amigos" />
+                <!-- Os amigos serão adicionados dinamicamente aqui -->
+            </VBox>
+        </content>
+    </ScrollPane>
+</right>
 
     <!-- Janela principal com o chat -->
     <center>
         <VBox spacing="10" style="-fx-padding: 15;">
             <Label fx:id="lblAmigoSelecionado" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #5e23b8;" />
-            <TextArea fx:id="txtChat" editable="false" prefHeight="300" style="-fx-background-color: #ffffff; -fx-background-radius: 8; -fx-border-color: #ccc;" wrapText="true" />
+           <ScrollPane prefHeight="300" fitToWidth="true" style="-fx-background-color:transparent; -fx-border-color: #ccc; -fx-background-radius: 8;">
+            <content>
+                <VBox fx:id="chatContainer" spacing="6" style="-fx-padding: 10;" />
+            </content>
+        </ScrollPane>
             <HBox spacing="10">
                 <TextField fx:id="txtMensagem" prefHeight="30.0" prefWidth="348.0" promptText="Digite sua mensagem..." style="-fx-background-radius: 6; -fx-padding: 6;" HBox.hgrow="ALWAYS" />
                 <Button minWidth="59.0" onAction="#handleEnviarMensagem" prefWidth="59.0" style="-fx-text-fill: white; -fx-pref-width: 60; -fx-max-width: 60; -fx-min-width: 60; -fx-max-height: 30; -fx-min-height: 30; -fx-pref-height: 30; -fx-font-weight: bold; -fx-background-radius: 6;" styleClass="galeria-btn" text="Enviar" />

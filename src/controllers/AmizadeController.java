@@ -10,6 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
+import javafx.geometry.Pos;
+
 
 import model.Usuario;
 
@@ -22,6 +24,8 @@ public class AmizadeController {
     @FXML private Label lblAmigoSelecionado;
     @FXML private TextArea txtChat;
     @FXML private TextField txtMensagem;
+    @FXML private VBox chatContainer;
+
 
     private Usuario usuarioLogado;
 
@@ -47,11 +51,22 @@ public class AmizadeController {
         boxAmigos.getChildren().clear();
 
         for (Usuario amigo : amigos) {
-            Button btn = new Button(amigo.getNomeCompleto() + " (@" + amigo.getUsername() + ")");
-            btn.setMaxWidth(Double.MAX_VALUE);
-            btn.setOnMouseClicked(e -> selecionarAmigo(amigo));
-            VBox.setVgrow(btn, Priority.NEVER);
-            boxAmigos.getChildren().add(btn);
+        	HBox container = new HBox(8);
+        	container.setPadding(new Insets(6));
+        	container.setAlignment(Pos.CENTER_LEFT);
+        	container.setStyle("-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #d2c4f0; -fx-border-radius: 8;");
+        	container.setOnMouseClicked(e -> selecionarAmigo(amigo));
+
+        	Label lblNome = new Label(amigo.getNomeCompleto());
+        	lblNome.setStyle("-fx-font-weight: bold; -fx-text-fill: #5e23b8;");
+
+        	Label lblUser = new Label("@" + amigo.getUsername());
+        	lblUser.setStyle("-fx-text-fill: #7a7a7a; -fx-font-size: 11px;");
+
+        	VBox infoBox = new VBox(lblNome, lblUser);
+        	container.getChildren().add(infoBox);
+        	boxAmigos.getChildren().add(container);
+
         }
     }
 
@@ -59,11 +74,71 @@ public class AmizadeController {
         this.amigoSelecionado = amigo;
         lblAmigoSelecionado.setText("💬 Conversa com " + amigo.getNomeCompleto());
         atualizarChat(amigo);
+     // Remove o destaque dos outros amigos
+        for (javafx.scene.Node node : boxAmigos.getChildren()) {
+            node.setStyle(node.getStyle().replace("-fx-background-color: #d6baff;", "-fx-background-color: white;"));
+        }
+
+        // Encontra o HBox do amigo selecionado e aplica o destaque
+        javafx.scene.Node selecionado = boxAmigos.getChildren().stream()
+            .filter(n -> {
+                if (!(n instanceof HBox)) return false;
+                HBox hbox = (HBox) n;
+                if (hbox.getChildren().isEmpty()) return false;
+                if (!(hbox.getChildren().get(0) instanceof VBox)) return false;
+                VBox vbox = (VBox) hbox.getChildren().get(0);
+                if (vbox.getChildren().size() < 2) return false;
+                if (!(vbox.getChildren().get(1) instanceof Label)) return false;
+                Label label = (Label) vbox.getChildren().get(1);
+                return label.getText().equals("@" + amigo.getUsername());
+            })
+            .findFirst()
+            .orElse(null);
+
+        if (selecionado != null) {
+            selecionado.setStyle("-fx-background-color: #d6baff; -fx-background-radius: 8; -fx-border-color: #5e23b8;");
+        }
     }
 
     private void atualizarChat(Usuario amigo) {
-        List<String> historico = usuarioLogado.getMensagensCom(amigo.getUsername());
-        txtChat.setText(String.join("\n", historico));
+        chatContainer.getChildren().clear();
+
+        List<String> mensagens = usuarioLogado.getMensagensCom(amigo.getUsername());
+
+        for (String linha : mensagens) {
+            Label msgLabel = new Label(linha);
+            msgLabel.setWrapText(true);
+            msgLabel.setMaxWidth(300);
+            msgLabel.setStyle("-fx-padding: 8; -fx-background-radius: 10; -fx-font-size: 13px;");
+
+            HBox msgBox = new HBox();
+            msgBox.setPadding(new Insets(2));
+
+            if (linha.startsWith("Você:")) {
+                msgLabel.setStyle(msgLabel.getStyle() + "-fx-background-color: #ece6ff;");
+                msgBox.setAlignment(Pos.CENTER_RIGHT);
+            } else {
+                msgLabel.setStyle(msgLabel.getStyle() + "-fx-background-color: #ffffff;");
+                msgBox.setAlignment(Pos.CENTER_LEFT);
+            }
+
+            msgBox.getChildren().add(msgLabel);
+            chatContainer.getChildren().add(msgBox);
+        }
+    }
+    
+    @FXML
+    public void initialize() {
+        txtMensagem.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case ENTER:
+                    handleEnviarMensagem();
+                    event.consume(); 
+                    break;
+                default:
+                    break;
+            }
+        });
     }
 
     @FXML
@@ -138,6 +213,8 @@ public class AmizadeController {
 
         VBox boxPedidos = new VBox(10);
         boxPedidos.setPadding(new Insets(10));
+        
+        Stage popup = new Stage();
 
         if (pedidos.isEmpty()) {
             Label label = new Label("Nenhum pedido novo por enquanto 👀");
@@ -156,6 +233,7 @@ public class AmizadeController {
                     carregarAmigos(usuarioLogado.getAmigos());
                     boxPedidos.getChildren().remove(pedidoBox);
                     mostrarAlerta("Agora vocês são amigos!", Alert.AlertType.INFORMATION);
+                    popup.close();
                 });
 
                 btnRejeitar.setOnAction(e -> {
@@ -168,7 +246,6 @@ public class AmizadeController {
             }
         }
 
-        Stage popup = new Stage();
 		popup.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
         popup.initModality(Modality.APPLICATION_MODAL);
         popup.setTitle("Pedidos de Amizade");
