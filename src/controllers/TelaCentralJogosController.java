@@ -36,6 +36,7 @@ public class TelaCentralJogosController {
 	
 	@FXML private Button btnJogoPontinho;
 	@FXML private Button btnJogoTeclas;
+	@FXML private Button btnJogoSnake;
 
 	private void mostrarAlerta(String mensagem) {
 		Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -90,6 +91,26 @@ public class TelaCentralJogosController {
 		} catch (IOException e) {
 			e.printStackTrace();
 			mostrarAlerta("Erro ao carregar o joguinho!");
+		}
+	}
+	
+	@FXML
+	private void handleBtnJogoSnake(ActionEvent event) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/TelaJogoSnake.fxml"));
+			Parent root = loader.load();
+
+			Scene scene = new Scene(root);
+
+			Stage stage = new Stage();
+			stage.setTitle("Snake - Jogo da Cobrinha");
+			stage.setScene(scene);
+			stage.getIcons().add(new Image(getClass().getResourceAsStream("/resources/logo/LOGOROXA.png")));
+			stage.show();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			mostrarAlerta("Erro ao abrir o Snake!");
 		}
 	}
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="700.0"
+            style="-fx-background-color: linear-gradient(to bottom, #0f0f0f, #1a1a1a);"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.TelaJogoSnakeController">
+
+    <children>
+        <!-- Pontuação -->
+        <Text fx:id="lblScore" layoutX="20.0" layoutY="35.0" fill="WHITE" style="-fx-font-size: 18px; -fx-font-weight: bold;" text="Pontos: 0">
+            <font>
+                <Font name="Orbitron" size="18.0" />
+            </font>
+        </Text>
+
+        <!-- Área do jogo (30x20 blocos de 20px = 600x400) -->
+        <Canvas fx:id="canvas" layoutX="50.0" layoutY="60.0" width="600.0" height="400.0" />
+
+        <!-- Botão Reiniciar -->
+        <Button fx:id="btnReiniciar"
+                layoutX="300.0" layoutY="470.0"
+                onAction="#reiniciarJogo"
+                text="Reiniciar"
+                style="-fx-background-color: #00ffcc; -fx-font-weight: bold; -fx-cursor: hand;" />
+    </children>
+</AnchorPane>
