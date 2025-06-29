@@ -215,6 +215,9 @@ public class CardEventoController {
 
 		btnNotificacao.setVisible(isOrganizador);
 		btnNotificacao.setManaged(isOrganizador);
+		
+		btnParticipar.setVisible(!isOrganizador);
+		btnParticipar.setManaged(!isOrganizador);
 
 		if (btnEntrar != null && evento.getTipo() != null) {
 			boolean isOnline = !evento.getTipo().equalsIgnoreCase("Presencial");
