@@ -143,8 +143,10 @@ public class TelaCriarEventoController {
 			eventoService.criarEvento(evento);
 			usuarioLogado.organizarEvento(evento);
 
-			// Adiciona o organizador como participante com permissão "organizador"
-			eventoService.adicionarParticipanteComPermissao(evento.getId(), usuarioLogado.getId(), "organizador");
+			// Adiciona o organizador como participante com presença confirmada
+			evento.adicionarParticipante(usuarioLogado);
+			usuarioLogado.participarEvento(evento);
+			eventoService.marcarPresenca(evento.getId(), usuarioLogado.getId());
 
 			txtTitulo.getScene().getWindow().hide();
 
